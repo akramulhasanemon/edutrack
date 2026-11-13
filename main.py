@@ -131,6 +131,7 @@ class EduTrackApp(ctk.CTk):
         self.minsize(1100, 720)
         maximize_window(self)
         self.accent_theme = DEFAULT_ACCENT_THEME
+        self.signed_out = False
         self.COLORS = {
             **type(self).COLORS,
             **accent_theme_colors(self.accent_theme),
@@ -152,6 +153,7 @@ class EduTrackApp(ctk.CTk):
         self.current_cgpa: float | None = None
         self.gemini_api_key = ""
         self.enrollments: list[dict[str, Any]] = []
+        self.faculty_roster: list[dict[str, Any]] = []
         self.data_error: str | None = None
         self.current_page: str | None = None
         self.nav_buttons: dict[str, ctk.CTkButton] = {}
@@ -757,20 +759,8 @@ class EduTrackApp(ctk.CTk):
         self.profile_badge.grid_columnconfigure(1, weight=1)
 
     def sign_out(self) -> None:
-        """Return to the login window in a fresh process."""
-        login_path = os.path.join(os.path.dirname(__file__), "auth_ui.py")
-        try:
-            subprocess.Popen(
-                [sys.executable, login_path],
-                cwd=os.path.dirname(login_path),
-                env=os.environ.copy(),
-            )
-        except OSError as exc:
-            self.header_status.configure(
-                text=f"COULD NOT OPEN SIGN IN: {exc}",
-                text_color=self.COLORS["red"],
-            )
-            return
+        """Return to the login window."""
+        self.signed_out = True
         self.destroy()
 
     def _load_student_data(self) -> None:
@@ -3763,10 +3753,18 @@ class EduTrackApp(ctk.CTk):
 
 
 if __name__ == "__main__":
-    if os.environ.get("EDUTRACK_AUTHENTICATED") != "1":
-        from auth_ui import EduTrackLogin
+    while True:
+        if os.environ.get("EDUTRACK_AUTHENTICATED") != "1":
+            from auth_ui import EduTrackLogin
 
-        app = EduTrackLogin()
-    else:
+            login_app = EduTrackLogin()
+            login_app.mainloop()
+            if not getattr(login_app, "authenticated", False):
+                break
+
         app = EduTrackApp()
-    app.mainloop()
+        app.mainloop()
+        if getattr(app, "signed_out", False):
+            os.environ["EDUTRACK_AUTHENTICATED"] = "0"
+            continue
+        break

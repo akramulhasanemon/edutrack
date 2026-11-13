@@ -128,6 +128,7 @@ def _seed_demo_data(connection: sqlite3.Connection) -> None:
     demo_users = (
         (DEMO_STUDENT_ID, "student", "CSE Student"),
         ("FACULTY001", "faculty", "Faculty Member"),
+        ("FAC-2026-CSE", "faculty", "Faculty Member"),
     )
     demo_password_hash = hash_password(DEMO_PASSWORD)
     for user_id, role, display_name in demo_users:
@@ -223,15 +224,14 @@ def initialize_database(database_path: str | Path | None = None) -> Path:
             _migrate_student_profile(connection)
             _migrate_user_settings(connection)
             _seed_demo_data(connection)
-            if not faculty_sections_table_existed:
-                connection.execute(
-                    """
-                    INSERT OR IGNORE INTO faculty_sections
-                        (faculty_user_id, section)
-                    VALUES (?, ?)
-                    """,
-                    ("FACULTY001", "06"),
-                )
+            connection.executemany(
+                """
+                INSERT OR IGNORE INTO faculty_sections
+                    (faculty_user_id, section)
+                VALUES (?, ?)
+                """,
+                (("FACULTY001", "06"), ("FAC-2026-CSE", "06")),
+            )
             _normalize_grade_points(connection)
             connection.commit()
         except Exception:
