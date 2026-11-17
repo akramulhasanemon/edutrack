@@ -76,54 +76,50 @@ def app_font(
 
 
 def maximize_window(window: ctk.CTk) -> None:
-    """Open fullscreen; bind F11 to toggle and Escape to exit fullscreen."""
-    window.update_idletasks()
-    screen_geometry = (
-        f"{window.winfo_screenwidth()}x{window.winfo_screenheight()}+0+0"
-    )
-    windowed_geometry = window.geometry()
-    fullscreen_supported = True
-    is_fullscreen = True
-    try:
-        window.attributes("-fullscreen", True)
-    except tk.TclError:
-        fullscreen_supported = False
-        window.geometry(screen_geometry)
+    """Open window maximized across platforms (Windows 'zoomed', Linux/Mac fallback).
+    Also binds F11 to toggle borderless fullscreen and Escape to return to maximized mode.
+    """
+    is_fullscreen = False
+
+    def apply_maximize() -> None:
+        if is_fullscreen:
+            return
         try:
             window.state("zoomed")
         except tk.TclError:
-            pass
+            try:
+                window.attributes("-zoomed", True)
+            except tk.TclError:
+                screen_width = window.winfo_screenwidth()
+                screen_height = window.winfo_screenheight()
+                window.geometry(f"{screen_width}x{screen_height}+0+0")
+
+    # Apply immediately and after CustomTkinter finishes initial drawing/mapping
+    apply_maximize()
+    window.after(50, apply_maximize)
+    window.after(200, apply_maximize)
 
     def enter_fullscreen() -> None:
-        nonlocal fullscreen_supported, is_fullscreen
-        if fullscreen_supported:
-            try:
-                window.attributes("-fullscreen", True)
-                is_fullscreen = True
-                return
-            except tk.TclError:
-                fullscreen_supported = False
-        window.geometry(screen_geometry)
-        is_fullscreen = True
+        nonlocal is_fullscreen
+        try:
+            window.attributes("-fullscreen", True)
+            is_fullscreen = True
+        except tk.TclError:
+            screen_width = window.winfo_screenwidth()
+            screen_height = window.winfo_screenheight()
+            window.geometry(f"{screen_width}x{screen_height}+0+0")
+            is_fullscreen = True
 
     def exit_fullscreen() -> None:
-        nonlocal fullscreen_supported, is_fullscreen
-        if fullscreen_supported:
-            try:
-                window.attributes("-fullscreen", False)
-                is_fullscreen = False
-                try:
-                    window.state("zoomed")
-                except tk.TclError:
-                    window.geometry(windowed_geometry)
-                return
-            except tk.TclError:
-                fullscreen_supported = False
-        window.geometry(windowed_geometry)
+        nonlocal is_fullscreen
+        try:
+            window.attributes("-fullscreen", False)
+        except tk.TclError:
+            pass
         is_fullscreen = False
+        apply_maximize()
 
     def toggle_fullscreen(_event: tk.Event | None = None) -> str:
-        nonlocal fullscreen_supported, is_fullscreen
         if is_fullscreen:
             exit_fullscreen()
         else:
