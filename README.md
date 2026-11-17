@@ -105,13 +105,41 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 5. Run EduTrack
+### 5. Configure environment variables (Optional)
+
+```bash
+cp .env.example .env
+```
+
+If you plan to use the Gemini-powered AI Advisor, add your Gemini API key to `.env`. Otherwise, EduTrack uses its local guidance engine.
+
+### 6. Run tests
+
+```bash
+python run_tests.py
+```
+
+### 7. Run EduTrack
 
 ```bash
 python main.py
 ```
 
-To use Gemini-powered advice, configure a valid Gemini API key through the application's available settings. Do not commit API keys or other credentials to the repository.
+#### Demo Development Credentials:
+- **Student ID:** `20255103311`
+- **Password:** `EduTrack2026!`
+
+---
+
+## Contributing & Team Workflow
+
+Working on EduTrack as a team member? Please read our **[CONTRIBUTING.md](CONTRIBUTING.md)** for:
+- Branching conventions (`feature/*`, `fix/*`, etc.)
+- Commit message standards (Conventional Commits)
+- Pull Request & code review workflow
+- Security practices (avoiding committing secrets or local databases)
+
+---
 
 ## Project Structure
 

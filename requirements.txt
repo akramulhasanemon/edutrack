@@ -1,3 +1,13 @@
-customtkinter
-google-genai
-reportlab
+# Core Desktop GUI
+customtkinter>=6.0.0
+Pillow>=10.0.0
+
+# Reports & Visualizations
+reportlab>=4.0.0
+matplotlib>=3.8.0
+
+# AI Services
+google-genai>=2.0.0
+
+# Testing & Quality Assurance
+pytest>=8.0.0
