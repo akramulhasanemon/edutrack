@@ -108,19 +108,21 @@ class EduTrackApp(ctk.CTk):
     )
 
     COLORS = {
-        "window": "#0B1220",
-        "sidebar": "#0E1728",
-        "surface": "#111D30",
-        "surface_alt": "#16243A",
-        "border": "#23334A",
-        "text": "#F2F6FC",
-        "muted": "#91A2B9",
-        "blue": "#3B82F6",
-        "blue_hover": "#2563EB",
+        "window": "#050A13",
+        "sidebar": "#070E1B",
+        "surface": "#0C1729",
+        "surface_alt": "#101F37",
+        "border": "#1C3558",
+        "border_glow": "#2B4F83",
+        "text": "#F1F5F9",
+        "muted": "#94A3B8",
+        "blue": "#2563EB",
+        "blue_hover": "#1D4ED8",
+        "blue_glow": "#3B82F6",
         "cyan": "#38BDF8",
         "green": "#34D399",
         "amber": "#FBBF24",
-        "red": "#FB7185",
+        "red": "#F87171",
     }
 
     def __init__(self) -> None:
@@ -2098,33 +2100,60 @@ class EduTrackApp(ctk.CTk):
 
         banner = ctk.CTkFrame(
             parent,
-            fg_color="#102138",
-            corner_radius=18,
+            fg_color="#0C1729",
+            corner_radius=20,
             border_width=1,
-            border_color="#1E3E6B",
+            border_color="#1C3558",
         )
         banner.pack(fill="x", pady=(0, 22))
         banner.grid_columnconfigure(0, weight=1)
         banner.grid_columnconfigure(1, weight=0)
 
-        # Left Info Stack
+        # Left Info Stack with Avatar
         left_info = ctk.CTkFrame(banner, fg_color="transparent")
-        left_info.grid(row=0, column=0, sticky="nsew", padx=26, pady=20)
+        left_info.grid(row=0, column=0, sticky="nsew", padx=24, pady=22)
 
-        # Greeting row with Academic Standing badge
-        greeting_row = ctk.CTkFrame(left_info, fg_color="transparent")
-        greeting_row.pack(anchor="w", fill="x", pady=(0, 4))
+        header_split = ctk.CTkFrame(left_info, fg_color="transparent")
+        header_split.pack(anchor="w", fill="x")
+
+        # Student Initials Avatar
+        s_parts = self.student.get("name", "Student").split()
+        initials = (s_parts[0][0] + (s_parts[1][0] if len(s_parts) > 1 else "")).upper() if s_parts else "ST"
+        avatar = ctk.CTkFrame(
+            header_split,
+            width=54,
+            height=54,
+            corner_radius=16,
+            fg_color="#1D4ED8",
+            border_width=2,
+            border_color="#38BDF8",
+        )
+        avatar.pack(side="left", padx=(0, 16))
+        avatar.pack_propagate(False)
+        ctk.CTkLabel(
+            avatar,
+            text=initials,
+            font=app_font(family="Segoe UI", size=18, weight="bold"),
+            text_color="#FFFFFF",
+        ).place(relx=0.5, rely=0.5, anchor="center")
+
+        # Titles next to Avatar
+        titles_box = ctk.CTkFrame(header_split, fg_color="transparent")
+        titles_box.pack(side="left", fill="y")
+
+        greeting_row = ctk.CTkFrame(titles_box, fg_color="transparent")
+        greeting_row.pack(anchor="w", fill="x")
 
         ctk.CTkLabel(
             greeting_row,
-            text=f"GOOD TO SEE YOU, {self.student['name'].upper()}",
-            font=app_font(family="Segoe UI", size=10, weight="bold"),
-            text_color="#93C5FD",
+            text="STUDENT WORKSPACE  •  B.SC. IN CSE",
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=self.COLORS["cyan"],
         ).pack(side="left")
 
         standing_badge = ctk.CTkFrame(
             greeting_row,
-            fg_color="#0C1D36",
+            fg_color="#070E1B",
             corner_radius=10,
             border_width=1,
             border_color=standing_color,
@@ -2141,51 +2170,64 @@ class EduTrackApp(ctk.CTk):
         ).pack()
 
         ctk.CTkLabel(
-            left_info,
-            text="Make your next semester count.",
+            titles_box,
+            text=f"Welcome back, {self.student['name']}",
             font=app_font(family="Segoe UI", size=22, weight="bold"),
             text_color=self.COLORS["text"],
-        ).pack(anchor="w", pady=(2, 6))
+        ).pack(anchor="w", pady=(2, 4))
 
         degree_pct = (completed / self.program_credits * 100) if self.program_credits else 0.0
         sub_text = (
-            f"{self.student['semester']}  •  {self.student['role'].upper()} WORKSPACE  •  "
+            f"ID: {self.student['student_id']}  •  {self.student['semester']}  •  "
             f"{completed:g}/{self.program_credits:g} Credits ({degree_pct:.0f}% Completed)"
         )
         ctk.CTkLabel(
-            left_info,
+            titles_box,
             text=sub_text,
             font=app_font(family="Segoe UI", size=11),
-            text_color="#94A3B8",
+            text_color=self.COLORS["muted"],
         ).pack(anchor="w")
 
-        # Right Hub: Degree badge + PDF Transcript button
+        # Right Hub: Degree Progress Pill + PDF Transcript button
         right_hub = ctk.CTkFrame(banner, fg_color="transparent")
-        right_hub.grid(row=0, column=1, sticky="e", padx=(12, 24), pady=20)
+        right_hub.grid(row=0, column=1, sticky="e", padx=(12, 24), pady=22)
 
-        ctk.CTkLabel(
+        deg_card = ctk.CTkFrame(
             right_hub,
-            text=f"{self.program_credits:g} CR DEGREE\nCSE CURRICULUM",
+            fg_color="#101F37",
+            corner_radius=14,
+            border_width=1,
+            border_color="#1C3558",
+        )
+        deg_card.pack(side="left", padx=(0, 12))
+        ctk.CTkLabel(
+            deg_card,
+            text=f"{self.program_credits:g} CR DEGREE",
             font=app_font(family="Segoe UI", size=10, weight="bold"),
             text_color=self.COLORS["cyan"],
-            justify="center",
-            fg_color="#162D4D",
-            corner_radius=12,
-            padx=16,
-            pady=10,
-        ).pack(side="left", padx=(0, 10))
+        ).pack(padx=16, pady=(10, 2))
+        deg_bar = ctk.CTkProgressBar(
+            deg_card,
+            width=110,
+            height=6,
+            corner_radius=3,
+            progress_color=self.COLORS["cyan"],
+            fg_color="#070E1B",
+        )
+        deg_bar.pack(padx=16, pady=(0, 10))
+        deg_bar.set(min(completed / self.program_credits, 1.0) if self.program_credits else 0.0)
 
         pdf_btn = ctk.CTkButton(
             right_hub,
             text="📄 Export Transcript (PDF)",
             font=app_font(family="Segoe UI", size=11, weight="bold"),
             fg_color="#1D4ED8",
-            hover_color="#1E40AF",
+            hover_color="#2563EB",
             text_color="white",
-            corner_radius=12,
+            corner_radius=14,
             border_width=1,
-            border_color="#3B82F6",
-            height=44,
+            border_color="#38BDF8",
+            height=46,
             command=self._export_student_pdf_transcript,
         )
         pdf_btn.pack(side="left")
@@ -3390,151 +3432,281 @@ class EduTrackApp(ctk.CTk):
 
     def _build_advisor(self, parent: ctk.CTkFrame) -> None:
         summary = self._summary()
-        context = self._card(parent)
-        context.pack(fill="x", pady=(0, 14))
-        weak = ", ".join(
-            str(record.get("course_code", "Course"))
-            for record in summary["weak_courses"][:5]
-        ) or "None identified"
-        cgpa_text = (
-            f"{summary['cgpa']:.2f}"
-            if summary["cgpa"] is not None
-            else "No grades"
+        cgpa_text = f"{summary['cgpa']:.2f}" if summary["cgpa"] is not None else "No grades"
+        weak_cnt = len(summary["weak_courses"])
+
+        # 1. Header Card with AI Status & Avatar
+        header = self._card(parent)
+        header.pack(fill="x", pady=(0, 14))
+        header.grid_columnconfigure(0, weight=1)
+        header.grid_columnconfigure(1, weight=0)
+
+        hdr_left = ctk.CTkFrame(header, fg_color="transparent")
+        hdr_left.grid(row=0, column=0, sticky="w", padx=20, pady=16)
+
+        ai_avatar = ctk.CTkFrame(
+            hdr_left,
+            width=46,
+            height=46,
+            corner_radius=14,
+            fg_color="#1D4ED8",
+            border_width=2,
+            border_color="#38BDF8",
+        )
+        ai_avatar.pack(side="left", padx=(0, 14))
+        ai_avatar.pack_propagate(False)
+        ctk.CTkLabel(
+            ai_avatar,
+            text="✨",
+            font=app_font(family="Segoe UI", size=18),
+        ).place(relx=0.5, rely=0.5, anchor="center")
+
+        ai_titles = ctk.CTkFrame(hdr_left, fg_color="transparent")
+        ai_titles.pack(side="left")
+
+        ctk.CTkLabel(
+            ai_titles,
+            text="EduTrack AI Academic Copilot",
+            font=app_font(family="Segoe UI", size=15, weight="bold"),
+            text_color=self.COLORS["text"],
+        ).pack(anchor="w")
+
+        ctk.CTkLabel(
+            ai_titles,
+            text=f"Personalized Mentor for {self.student['name']} • Powered by Gemini AI & SQLite Knowledge Base",
+            font=app_font(family="Segoe UI", size=10),
+            text_color=self.COLORS["cyan"],
+        ).pack(anchor="w")
+
+        hdr_right = ctk.CTkFrame(header, fg_color="transparent")
+        hdr_right.grid(row=0, column=1, sticky="e", padx=20, pady=16)
+
+        status_pill = ctk.CTkFrame(
+            hdr_right,
+            fg_color="#070E1B",
+            corner_radius=10,
+            border_width=1,
+            border_color=self.COLORS["green"],
+        )
+        status_pill.pack(side="right")
+        ctk.CTkLabel(
+            status_pill,
+            text="● CONTEXT-AWARE • ACTIVE",
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=self.COLORS["green"],
+            padx=12,
+            pady=4,
+        ).pack()
+
+        # 2. Context Strip (Quick Academic Context)
+        context_strip = ctk.CTkFrame(
+            parent,
+            fg_color="#101F37",
+            corner_radius=12,
+            border_width=1,
+            border_color="#1C3558",
+        )
+        context_strip.pack(fill="x", pady=(0, 12))
+
+        ctx_text = (
+            f"📊 Current CGPA: {cgpa_text}  •  "
+            f"🎓 Graded Credits: {summary['completed_credits']:g}/{self.program_credits:g}  •  "
+            f"🎯 Target Goal: {self.target_cgpa:.2f}  •  "
+            f"⚠️ Focus Courses: {weak_cnt}"
         )
         ctk.CTkLabel(
-            context,
-            text="STUDENT CONTEXT",
+            context_strip,
+            text=ctx_text,
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
+            text_color=self.COLORS["muted"],
+        ).pack(anchor="w", padx=18, pady=8)
+
+        # 3. 1-Click Suggestion Prompt Chips
+        chips_frame = ctk.CTkFrame(parent, fg_color="transparent")
+        chips_frame.pack(fill="x", pady=(0, 12))
+
+        ctk.CTkLabel(
+            chips_frame,
+            text="QUICK PROMPTS:",
             font=app_font(family="Segoe UI", size=9, weight="bold"),
             text_color=self.COLORS["cyan"],
-        ).pack(anchor="w", padx=18, pady=(16, 7))
-        ctk.CTkLabel(
-            context,
-            text=(
-                f"CGPA: {cgpa_text}  |  "
-                f"Graded credits: {summary['completed_credits']:g}  |  "
-                f"Courses to watch: {weak}"
-            ),
-            font=app_font(family="Segoe UI", size=11),
-            text_color=self.COLORS["muted"],
-            wraplength=900,
-            justify="left",
-        ).pack(anchor="w", padx=18, pady=(0, 16))
+        ).pack(side="left", padx=(4, 10))
+
+        quick_prompts = [
+            ("🎯 How to reach my CGPA goal?", "How can I achieve my target CGPA from my current academic standing? Give me a realistic strategy."),
+            ("📅 7-Day Study Timetable", "Create a personalized 7-day study timetable based on my enrolled courses and credit load."),
+            ("🔄 Retake Strategy", "Which of my completed courses should I retake first to maximize my CGPA boost?"),
+            ("⚡ Exam Preparation Tips", "What revision techniques and active recall strategies should I use for midterms and finals?"),
+        ]
+
+        for chip_label, chip_query in quick_prompts:
+            chip_btn = ctk.CTkButton(
+                chips_frame,
+                text=chip_label,
+                font=app_font(family="Segoe UI", size=9, weight="bold"),
+                fg_color="#0C1729",
+                hover_color="#1D4ED8",
+                text_color=self.COLORS["text"],
+                border_width=1,
+                border_color="#1C3558",
+                corner_radius=12,
+                height=30,
+                command=lambda q=chip_query: self._send_quick_prompt(q),
+            )
+            chip_btn.pack(side="left", padx=4)
+
+        # 4. Main Chat Card
+        chat_card = self._card(parent)
+        chat_card.pack(fill="both", expand=True)
 
         self.advisor_history: list[dict[str, str]] = getattr(
             self, "advisor_history", []
         )
-        card = self._card(parent)
-        card.pack(fill="both", expand=True)
-        ctk.CTkLabel(
-            card,
-            text="Academic Trainer",
-            font=app_font(family="Segoe UI", size=14, weight="bold"),
-            text_color=self.COLORS["text"],
-        ).pack(anchor="w", padx=18, pady=(16, 3))
-        ctk.CTkLabel(
-            card,
-            text=(
-                "Ask about study plans, exams, or performance. Your course, "
-                "grade, attendance, and schedule records personalize the coaching."
-            ),
-            font=app_font(family="Segoe UI", size=10),
-            text_color=self.COLORS["muted"],
-            wraplength=850,
-            justify="left",
-        ).pack(anchor="w", padx=18, pady=(0, 10))
 
         self.advisor_chat = ctk.CTkScrollableFrame(
-            card,
-            height=390,
-            corner_radius=10,
-            fg_color=self.COLORS["window"],
+            chat_card,
+            height=370,
+            corner_radius=12,
+            fg_color="#050A13",
             scrollbar_button_color=self.COLORS["border"],
         )
-        self.advisor_chat.pack(fill="both", expand=True, padx=18, pady=(0, 12))
+        self.advisor_chat.pack(fill="both", expand=True, padx=16, pady=16)
+
         if self.advisor_history:
             for message in self.advisor_history:
                 self._append_advisor_message(
                     message["role"], message["text"], scroll=False
                 )
         else:
-            self._append_advisor_message(
-                "assistant",
-                "I’m ready to help you train for stronger academic results. "
-                "Tell me what you’re working toward.",
-                scroll=False,
+            welcome_msg = (
+                f"Hello {self.student['name']}! 👋 I am your EduTrack AI Academic Copilot.\n\n"
+                f"I have reviewed your academic trajectory: Current CGPA is {cgpa_text} with {summary['completed_credits']:g} credits completed. "
+                f"Your saved target is {self.target_cgpa:.2f}.\n\n"
+                "Ask me any question about your courses, exams, study routines, or click any of the Quick Prompts above to begin!"
             )
+            self._append_advisor_message("assistant", welcome_msg, scroll=False)
+
+        # 5. Modern Input Dock
+        dock = ctk.CTkFrame(
+            chat_card,
+            fg_color="#101F37",
+            corner_radius=14,
+            border_width=1,
+            border_color="#1C3558",
+        )
+        dock.pack(fill="x", padx=16, pady=(0, 16))
 
         self.advisor_input = ctk.CTkTextbox(
-            card,
-            height=82,
+            dock,
+            height=65,
             corner_radius=10,
-            border_width=1,
-            border_color=self.COLORS["border"],
+            fg_color="transparent",
+            border_width=0,
             font=app_font(family="Segoe UI", size=11),
             wrap="word",
+            text_color=self.COLORS["text"],
         )
-        self.advisor_input.pack(fill="x", padx=18)
-        self.advisor_input.bind(
-            "<Control-Return>", lambda _event: self._request_advice()
-        )
-        actions = ctk.CTkFrame(card, fg_color="transparent")
-        actions.pack(fill="x", padx=18, pady=(10, 15))
-        self.advisor_button = ctk.CTkButton(
-            actions,
-            text="Get academic guidance",
-            height=38,
-            corner_radius=9,
-            command=self._request_advice,
-        )
-        self._enable_button_transition(
-            self.advisor_button, self.COLORS["blue"], self.COLORS["blue_hover"]
-        )
-        self.advisor_button.pack(side="left")
+        self.advisor_input.pack(fill="x", padx=12, pady=(8, 4))
+        self.advisor_input.bind("<Control-Return>", lambda _event: self._request_advice())
+
+        dock_bottom = ctk.CTkFrame(dock, fg_color="transparent")
+        dock_bottom.pack(fill="x", padx=12, pady=(0, 8))
+
         self.advisor_status = ctk.CTkLabel(
-            actions,
-            text="Gemini coaching when configured; personalized local coaching otherwise.",
+            dock_bottom,
+            text="Tip: Press Ctrl+Enter to send. Powered by Gemini AI & SQLite Knowledge Base.",
             font=app_font(family="Segoe UI", size=9),
             text_color=self.COLORS["muted"],
-            wraplength=600,
         )
-        self.advisor_status.pack(side="left", padx=12)
+        self.advisor_status.pack(side="left")
+
+        clear_btn = ctk.CTkButton(
+            dock_bottom,
+            text="🗑️ Clear Chat",
+            width=80,
+            height=32,
+            corner_radius=8,
+            fg_color="transparent",
+            hover_color="#1C283F",
+            text_color=self.COLORS["muted"],
+            font=app_font(family="Segoe UI", size=9),
+            command=self._clear_advisor_chat,
+        )
+        clear_btn.pack(side="right", padx=(8, 0))
+
+        self.advisor_button = ctk.CTkButton(
+            dock_bottom,
+            text="✨ Ask Copilot",
+            height=34,
+            corner_radius=10,
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            fg_color="#2563EB",
+            hover_color="#1D4ED8",
+            command=self._request_advice,
+        )
+        self.advisor_button.pack(side="right")
 
     def _append_advisor_message(
         self, role: str, text: str, *, scroll: bool = True
     ) -> ctk.CTkLabel:
         is_user = role == "user"
         row = ctk.CTkFrame(self.advisor_chat, fg_color="transparent")
-        row.pack(fill="x", padx=8, pady=5)
+        row.pack(fill="x", padx=8, pady=6)
+
         bubble = ctk.CTkFrame(
             row,
-            corner_radius=12,
-            fg_color=(
-                self.COLORS["blue"] if is_user else self.COLORS["surface_alt"]
-            ),
+            corner_radius=14,
+            fg_color="#1D4ED8" if is_user else "#0C1729",
+            border_width=1,
+            border_color="#3B82F6" if is_user else "#1C3558",
         )
         bubble.pack(
             side="right" if is_user else "left",
-            padx=(70, 4) if is_user else (4, 70),
+            padx=(80, 4) if is_user else (4, 80),
         )
+
+        header_label = "👤 YOU" if is_user else "🤖 EDUTRACK AI COPILOT"
+        header_color = "#93C5FD" if is_user else "#38BDF8"
         ctk.CTkLabel(
             bubble,
-            text="YOU" if is_user else "ACADEMIC TRAINER",
-            font=app_font(family="Segoe UI", size=8, weight="bold"),
-            text_color="#DBEAFE" if is_user else self.COLORS["cyan"],
-        ).pack(anchor="w", padx=12, pady=(9, 2))
+            text=header_label,
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=header_color,
+        ).pack(anchor="w", padx=14, pady=(10, 3))
+
         message = ctk.CTkLabel(
             bubble,
             text=text,
             font=app_font(family="Segoe UI", size=11),
-            text_color=self.COLORS["text"],
-            wraplength=660,
+            text_color="#FFFFFF" if is_user else "#F1F5F9",
+            wraplength=680,
             justify="left",
             anchor="w",
         )
-        message.pack(anchor="w", padx=12, pady=(0, 10))
+        message.pack(anchor="w", padx=14, pady=(0, 12))
         if scroll:
             self._scroll_advisor_chat()
         return message
+
+    def _send_quick_prompt(self, query: str) -> None:
+        """Populate advisor textbox with a quick prompt and send it."""
+        self.advisor_input.delete("1.0", "end")
+        self.advisor_input.insert("1.0", query)
+        self._request_advice()
+
+    def _clear_advisor_chat(self) -> None:
+        """Clear conversation history and re-render welcome message."""
+        self.advisor_history.clear()
+        for child in self.advisor_chat.winfo_children():
+            child.destroy()
+        summary = self._summary()
+        cgpa_text = f"{summary['cgpa']:.2f}" if summary["cgpa"] is not None else "No grades"
+        welcome_msg = (
+            f"Hello {self.student['name']}! 👋 I am your EduTrack AI Academic Copilot.\n\n"
+            f"I have reloaded your academic records (CGPA: {cgpa_text}, Target: {self.target_cgpa:.2f}). "
+            "How can I help you excel today?"
+        )
+        self._append_advisor_message("assistant", welcome_msg, scroll=False)
 
     def _scroll_advisor_chat(self) -> None:
         self.advisor_chat.update_idletasks()
