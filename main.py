@@ -170,6 +170,12 @@ class EduTrackApp(ctk.CTk):
         self._page_render_job: str | None = None
         self._pending_page: str | None = None
         self.calculator_semesters: list[list[dict[str, str]]] = [[]]
+        self._nav_history: list[str] = []
+        self._history_index: int = -1
+        self._is_history_navigation: bool = False
+        self._faculty_showing_detail: bool = False
+        self._faculty_active_student_id: str | None = None
+        self._faculty_active_section_filter: str = "All"
         self.bind_all("<MouseWheel>", self._on_smooth_mousewheel, add="+")
         self.bind_all("<Button-4>", self._on_smooth_mousewheel, add="+")
         self.bind_all("<Button-5>", self._on_smooth_mousewheel, add="+")
@@ -323,25 +329,87 @@ class EduTrackApp(ctk.CTk):
 
         self.header = ctk.CTkFrame(self.main, fg_color="transparent")
         self.header.grid(row=0, column=0, sticky="ew", pady=(0, 18))
-        self.header.grid_columnconfigure(0, weight=1)
+        self.header.grid_columnconfigure(1, weight=1)
+
+        # Navigation History Buttons (Back / Forward)
+        nav_controls = ctk.CTkFrame(self.header, fg_color="transparent")
+        nav_controls.grid(row=0, column=0, rowspan=2, sticky="nw", padx=(0, 14), pady=(2, 0))
+
+        self.back_button = ctk.CTkButton(
+            nav_controls,
+            text="←",
+            width=36,
+            height=36,
+            corner_radius=10,
+            border_width=1,
+            border_color=self.COLORS["border"],
+            fg_color=self.COLORS["surface"],
+            hover_color=self.COLORS["surface_alt"],
+            text_color=self.COLORS["text"],
+            font=app_font(family="Segoe UI", size=14, weight="bold"),
+            command=self.go_back,
+        )
+        self.back_button.pack(side="left", padx=(0, 6))
+        self._enable_button_transition(
+            self.back_button, self.COLORS["surface"], self.COLORS["surface_alt"]
+        )
+
+        self.forward_button = ctk.CTkButton(
+            nav_controls,
+            text="→",
+            width=36,
+            height=36,
+            corner_radius=10,
+            border_width=1,
+            border_color=self.COLORS["border"],
+            fg_color=self.COLORS["surface"],
+            hover_color=self.COLORS["surface_alt"],
+            text_color=self.COLORS["text"],
+            font=app_font(family="Segoe UI", size=14, weight="bold"),
+            command=self.go_forward,
+        )
+        self.forward_button.pack(side="left")
+        self._enable_button_transition(
+            self.forward_button, self.COLORS["surface"], self.COLORS["surface_alt"]
+        )
+
+        # Title and Dynamic Breadcrumb Area
+        title_block = ctk.CTkFrame(self.header, fg_color="transparent")
+        title_block.grid(row=0, column=1, rowspan=2, sticky="ew")
+
+        self.breadcrumb_label = ctk.CTkLabel(
+            title_block,
+            text="EDUTRACK",
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=self.COLORS["cyan"],
+            anchor="w",
+        )
+        self.breadcrumb_label.pack(anchor="w", pady=(0, 2))
+
         self.page_title = ctk.CTkLabel(
-            self.header,
+            title_block,
             text="",
-            font=app_font(family="Segoe UI", size=25, weight="bold"),
+            font=app_font(family="Segoe UI", size=24, weight="bold"),
             text_color=self.COLORS["text"],
             anchor="w",
         )
-        self.page_title.grid(row=0, column=0, sticky="w")
+        self.page_title.pack(anchor="w")
+
         self.page_subtitle = ctk.CTkLabel(
-            self.header,
+            title_block,
             text="",
-            font=app_font(family="Segoe UI", size=12),
+            font=app_font(family="Segoe UI", size=11),
             text_color=self.COLORS["muted"],
             anchor="w",
         )
-        self.page_subtitle.grid(row=1, column=0, sticky="w", pady=(4, 0))
+        self.page_subtitle.pack(anchor="w", pady=(2, 0))
+
+        # Actions & Status Area
+        actions_block = ctk.CTkFrame(self.header, fg_color="transparent")
+        actions_block.grid(row=0, column=2, rowspan=2, sticky="e")
+
         self.header_status = ctk.CTkLabel(
-            self.header,
+            actions_block,
             text="●  LIVE WORKSPACE",
             font=app_font(family="Segoe UI", size=9, weight="bold"),
             text_color=self.COLORS["green"],
@@ -349,11 +417,31 @@ class EduTrackApp(ctk.CTk):
             padx=8,
             pady=5,
         )
-        self.header_status.grid(row=0, column=1, rowspan=2, sticky="e")
+        self.header_status.pack(side="left", padx=(0, 10))
+
+        self.switch_role_button = ctk.CTkButton(
+            actions_block,
+            text="Switch User" if self.is_faculty else "Sign out",
+            width=90,
+            height=36,
+            corner_radius=10,
+            border_width=1,
+            border_color=self.COLORS["border"],
+            fg_color=self.COLORS["surface"],
+            hover_color=self.COLORS["surface_alt"],
+            text_color=self.COLORS["muted"],
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
+            command=self.sign_out,
+        )
+        self.switch_role_button.pack(side="left", padx=(0, 8))
+        self._enable_button_transition(
+            self.switch_role_button, self.COLORS["surface"], self.COLORS["surface_alt"]
+        )
+
         self.help_button = ctk.CTkButton(
-            self.header,
+            actions_block,
             text="Help / Guide",
-            width=112,
+            width=100,
             height=36,
             corner_radius=10,
             border_width=1,
@@ -364,7 +452,7 @@ class EduTrackApp(ctk.CTk):
             font=app_font(family="Segoe UI", size=10, weight="bold"),
             command=self.open_help_guide,
         )
-        self.help_button.grid(row=0, column=2, rowspan=2, sticky="e", padx=(12, 0))
+        self.help_button.pack(side="left")
         self._enable_button_transition(
             self.help_button, self.COLORS["surface"], self.COLORS["surface_alt"]
         )
@@ -842,13 +930,75 @@ class EduTrackApp(ctk.CTk):
             "grade_counts": grade_counts,
         }
 
+    def go_back(self) -> None:
+        """Navigate back in workspace page history or return from student details."""
+        if self.is_faculty and getattr(self, "_faculty_showing_detail", False):
+            self._close_faculty_student_records()
+            return
+        if self._history_index > 0:
+            self._history_index -= 1
+            self._is_history_navigation = True
+            try:
+                self.show_page(self._nav_history[self._history_index])
+            finally:
+                self._is_history_navigation = False
+            self._update_nav_history_buttons()
+
+    def go_forward(self) -> None:
+        """Navigate forward in workspace page history."""
+        if self._history_index < len(self._nav_history) - 1:
+            self._history_index += 1
+            self._is_history_navigation = True
+            try:
+                self.show_page(self._nav_history[self._history_index])
+            finally:
+                self._is_history_navigation = False
+            self._update_nav_history_buttons()
+
+    def _update_nav_history_buttons(self) -> None:
+        """Update states and breadcrumb labels for navigation controls."""
+        in_detail = self.is_faculty and getattr(self, "_faculty_showing_detail", False)
+        can_back = (self._history_index > 0) or in_detail
+        can_forward = (self._history_index < len(self._nav_history) - 1) and not in_detail
+
+        if hasattr(self, "back_button"):
+            self.back_button.configure(
+                state="normal" if can_back else "disabled",
+                fg_color=self.COLORS["surface"] if can_back else self.COLORS["surface_alt"],
+                text_color=self.COLORS["text"] if can_back else self.COLORS["muted"],
+            )
+        if hasattr(self, "forward_button"):
+            self.forward_button.configure(
+                state="normal" if can_forward else "disabled",
+                fg_color=self.COLORS["surface"] if can_forward else self.COLORS["surface_alt"],
+                text_color=self.COLORS["text"] if can_forward else self.COLORS["muted"],
+            )
+        if hasattr(self, "breadcrumb_label"):
+            workspace_tag = "FACULTY WORKSPACE" if self.is_faculty else "STUDENT WORKSPACE"
+            current = (self.current_page or "DASHBOARD").upper()
+            if in_detail:
+                sid = getattr(self, "_faculty_active_student_id", "")
+                crumb = f"EDUTRACK  ›  {workspace_tag}  ›  {current}  ›  STUDENT {sid}"
+            else:
+                crumb = f"EDUTRACK  ›  {workspace_tag}  ›  {current}"
+            self.breadcrumb_label.configure(text=crumb)
+
     def show_page(self, page: str) -> None:
         """Switch pages immediately and defer first-time page construction until idle."""
         if page not in {title for title, _ in self.nav_items}:
             raise ValueError(f"Page {page!r} is not available in this workspace.")
+
+        if not getattr(self, "_is_history_navigation", False):
+            if self._history_index < len(self._nav_history) - 1:
+                self._nav_history = self._nav_history[:self._history_index + 1]
+            if not self._nav_history or self._nav_history[-1] != page:
+                self._nav_history.append(page)
+                self._history_index = len(self._nav_history) - 1
+
         if page == self.current_page and (
             page in self._built_pages or self._pending_page == page
         ):
+            self._update_nav_history_buttons()
             return
         if self._page_render_job is not None:
             try:
@@ -965,6 +1115,7 @@ class EduTrackApp(ctk.CTk):
             self._pending_page = page
             self._page_render_job = self.after_idle(render_page)
         self.current_page = page
+        self._update_nav_history_buttons()
 
     def _register_smooth_scroll(self, frame: ctk.CTkScrollableFrame) -> None:
         if frame not in self._scrollable_frames:
@@ -1174,8 +1325,17 @@ class EduTrackApp(ctk.CTk):
         )
 
     def _build_faculty_dashboard(self, parent: ctk.CTkFrame) -> None:
+        self.faculty_parent_container = parent
+
+        # 1. Main Roster View Frame
+        self.faculty_roster_frame = ctk.CTkFrame(parent, fg_color="transparent")
+        self.faculty_roster_frame.pack(fill="both", expand=True)
+
+        # 2. Student Detail View Frame (unpacked initially)
+        self.faculty_detail_frame = ctk.CTkFrame(parent, fg_color="transparent")
+
         banner = ctk.CTkFrame(
-            parent,
+            self.faculty_roster_frame,
             fg_color="#142D50",
             corner_radius=18,
             border_width=1,
@@ -1196,7 +1356,7 @@ class EduTrackApp(ctk.CTk):
         ).pack(anchor="w", padx=24)
         ctk.CTkLabel(
             banner,
-            text="Search your assigned sections and review student academic records.",
+            text="Search your assigned sections, review class cohorts, and manage student grades.",
             font=app_font(family="Segoe UI", size=11),
             text_color="#C3D5EB",
         ).pack(anchor="w", padx=24, pady=(7, 20))
@@ -1212,39 +1372,120 @@ class EduTrackApp(ctk.CTk):
             self.faculty_roster = []
             roster_error = str(exc)
 
-        summary = ctk.CTkFrame(parent, fg_color="transparent")
+        # 4 Modern KPI Metrics Grid
+        total_students = len(self.faculty_roster)
+        valid_cgpas = [
+            float(s["current_cgpa"])
+            for s in self.faculty_roster
+            if s.get("current_cgpa") is not None
+        ]
+        avg_cgpa_str = (
+            f"{sum(valid_cgpas) / len(valid_cgpas):.2f}" if valid_cgpas else "N/A"
+        )
+        at_risk_count = sum(
+            1 for s in self.faculty_roster if s.get("status") == "Needs attention"
+        )
+        honors_count = sum(
+            1 for s in self.faculty_roster if (s.get("current_cgpa") or 0) >= 3.75
+        )
+
+        summary = ctk.CTkFrame(self.faculty_roster_frame, fg_color="transparent")
         summary.pack(fill="x", pady=(0, 18))
-        summary.grid_columnconfigure(0, weight=1)
+        summary.grid_columnconfigure((0, 1, 2, 3), weight=1)
         self._metric_card(
             summary,
             0,
-            "TOTAL ENROLLED STUDENTS",
-            str(len(self.faculty_roster)),
-            "Students in your assigned sections",
+            "TOTAL STUDENTS",
+            str(total_students),
+            "Assigned sections cohort",
             None,
             self.COLORS["cyan"],
-            "Section-scoped roster",
+            "Roster size",
+        )
+        self._metric_card(
+            summary,
+            1,
+            "BATCH AVG CGPA",
+            avg_cgpa_str,
+            "Cohort academic average",
+            None,
+            self.COLORS["blue"],
+            "Scale 4.00",
+        )
+        self._metric_card(
+            summary,
+            2,
+            "STUDENTS AT RISK",
+            str(at_risk_count),
+            "Grade < 2.50 or low standing",
+            None,
+            self.COLORS["amber"] if at_risk_count else self.COLORS["muted"],
+            "Attention needed",
+        )
+        self._metric_card(
+            summary,
+            3,
+            "HONOR ROLL (≥3.75)",
+            str(honors_count),
+            "Top tier performers",
+            None,
+            self.COLORS["green"],
+            "Dean's list pace",
         )
 
-        roster_card = self._card(parent)
+        roster_card = self._card(self.faculty_roster_frame)
         roster_card.pack(fill="both", expand=True)
         self._section_heading(
             roster_card,
             "Student roster",
             "SEARCHABLE · ASSIGNED SECTIONS ONLY",
         )
-        toolbar = ctk.CTkFrame(roster_card, fg_color="transparent")
-        toolbar.pack(fill="x", padx=18, pady=(0, 12))
-        toolbar.grid_columnconfigure(0, weight=1)
-        search = ctk.CTkEntry(
-            toolbar,
+
+        # Filter Pills Bar & Search Toolbar
+        filter_toolbar = ctk.CTkFrame(roster_card, fg_color="transparent")
+        filter_toolbar.pack(fill="x", padx=18, pady=(0, 10))
+
+        available_sections = ["All"] + sorted(
+            list(
+                {
+                    str(s["section"])
+                    for s in self.faculty_roster
+                    if s.get("section")
+                }
+            )
+        )
+        if len(available_sections) > 1:
+            ctk.CTkLabel(
+                filter_toolbar,
+                text="Section filter:",
+                font=app_font(family="Segoe UI", size=10, weight="bold"),
+                text_color=self.COLORS["muted"],
+            ).pack(side="left", padx=(0, 8))
+
+            self.faculty_section_filter_btn = ctk.CTkSegmentedButton(
+                filter_toolbar,
+                values=available_sections,
+                height=32,
+                corner_radius=8,
+                font=app_font(family="Segoe UI", size=10, weight="bold"),
+                command=self._on_faculty_section_filter_changed,
+            )
+            self.faculty_section_filter_btn.set("All")
+            self.faculty_section_filter_btn.pack(side="left", padx=(0, 14))
+
+        search_container = ctk.CTkFrame(roster_card, fg_color="transparent")
+        search_container.pack(fill="x", padx=18, pady=(0, 12))
+        search_container.grid_columnconfigure(0, weight=1)
+
+        self.faculty_search_entry = ctk.CTkEntry(
+            search_container,
             height=38,
             corner_radius=9,
-            placeholder_text="Search student ID, name, CGPA, or status",
+            placeholder_text="Search student ID, name, section, CGPA, or status",
         )
-        search.grid(row=0, column=0, sticky="ew", padx=(0, 12))
+        self.faculty_search_entry.grid(row=0, column=0, sticky="ew", padx=(0, 12))
         self.faculty_roster_count = ctk.CTkLabel(
-            toolbar,
+            search_container,
             text="",
             font=app_font(family="Segoe UI", size=10),
             text_color=self.COLORS["muted"],
@@ -1258,17 +1499,18 @@ class EduTrackApp(ctk.CTk):
         self._style_faculty_treeview()
         self.faculty_roster_tree = ttk.Treeview(
             table_frame,
-            columns=("student_id", "name", "cgpa", "status"),
+            columns=("student_id", "name", "section", "cgpa", "status"),
             show="headings",
             height=12,
             style="EduTrack.Treeview",
             selectmode="browse",
         )
         for column, heading, width in (
-            ("student_id", "Student ID", 150),
-            ("name", "Name", 280),
-            ("cgpa", "Current CGPA", 140),
-            ("status", "Status", 180),
+            ("student_id", "Student ID", 140),
+            ("name", "Name", 250),
+            ("section", "Section", 90),
+            ("cgpa", "Current CGPA", 120),
+            ("status", "Status", 160),
         ):
             self.faculty_roster_tree.heading(column, text=heading)
             self.faculty_roster_tree.column(
@@ -1282,9 +1524,9 @@ class EduTrackApp(ctk.CTk):
         self.faculty_roster_tree.configure(yscrollcommand=scrollbar.set)
         self.faculty_roster_tree.grid(row=0, column=0, sticky="nsew")
         scrollbar.grid(row=0, column=1, sticky="ns")
-        search.bind(
+        self.faculty_search_entry.bind(
             "<KeyRelease>",
-            lambda _event: self._filter_faculty_roster(search.get()),
+            lambda _event: self._filter_faculty_roster(self.faculty_search_entry.get()),
         )
         self.faculty_roster_tree.bind(
             "<Double-1>", lambda _event: self._open_selected_faculty_student()
@@ -1294,9 +1536,10 @@ class EduTrackApp(ctk.CTk):
         actions.pack(fill="x", padx=18, pady=(0, 18))
         manage_button = ctk.CTkButton(
             actions,
-            text="View / manage academic records",
+            text="Review & Edit Student Grades →",
             height=38,
             corner_radius=9,
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
             command=self._open_selected_faculty_student,
         )
         manage_button.pack(side="left")
@@ -1318,17 +1561,28 @@ class EduTrackApp(ctk.CTk):
             )
         self._filter_faculty_roster("")
 
+    def _on_faculty_section_filter_changed(self, selected_section: str) -> None:
+        self._faculty_active_section_filter = selected_section
+        query = self.faculty_search_entry.get() if hasattr(self, "faculty_search_entry") else ""
+        self._filter_faculty_roster(query)
+
     def _filter_faculty_roster(self, query: str) -> None:
         tree = self.faculty_roster_tree
         for item in tree.get_children():
             tree.delete(item)
         normalized_query = query.strip().casefold()
+        active_sec = getattr(self, "_faculty_active_section_filter", "All")
         visible_count = 0
         for student in self.faculty_roster:
+            section_val = str(student.get("section", ""))
+            if active_sec != "All" and section_val != active_sec:
+                continue
+
             cgpa = student["current_cgpa"]
             values = (
                 student["student_id"],
                 student["name"],
+                section_val or "—",
                 f"{cgpa:.2f}" if cgpa is not None else "No grades",
                 student["status"],
             )
@@ -1393,80 +1647,189 @@ class EduTrackApp(ctk.CTk):
             )
             return
 
-        student_name = next(
+        student_data = next(
             (
-                student["name"]
+                student
                 for student in self.faculty_roster
                 if student["student_id"] == student_id
             ),
-            student_id,
+            {
+                "name": student_id,
+                "student_id": student_id,
+                "section": "—",
+                "current_cgpa": None,
+                "status": "On track",
+            },
         )
-        window = ctk.CTkToplevel(self)
-        window.title(f"Academic records | {student_name}")
-        window.geometry("900x590")
-        window.minsize(760, 480)
-        window.configure(fg_color=self.COLORS["window"])
-        window.transient(self)
-        window.grid_columnconfigure(0, weight=1)
-        window.grid_rowconfigure(2, weight=1)
-        ctk.CTkLabel(
-            window,
-            text=f"{student_name}  ·  {student_id}",
-            font=app_font(family="Segoe UI", size=19, weight="bold"),
-            text_color=self.COLORS["text"],
-            anchor="w",
-        ).grid(row=0, column=0, sticky="ew", padx=20, pady=(18, 5))
-        ctk.CTkLabel(
-            window,
-            text="Select an existing course record to review or update its letter grade.",
-            font=app_font(family="Segoe UI", size=10),
-            text_color=self.COLORS["muted"],
-            anchor="w",
-        ).grid(row=1, column=0, sticky="ew", padx=20, pady=(0, 12))
+        student_name = student_data.get("name", student_id)
+        section = student_data.get("section", "—")
+        cgpa = student_data.get("current_cgpa")
+        cgpa_str = f"{cgpa:.2f}" if cgpa is not None else "No grades"
+        status_text = student_data.get("status", "On track")
 
-        table_frame = ctk.CTkFrame(window, fg_color="transparent")
-        table_frame.grid(row=2, column=0, sticky="nsew", padx=20, pady=(0, 12))
+        # Hide roster view and display detail view in-place
+        self.faculty_roster_frame.pack_forget()
+        self._faculty_showing_detail = True
+        self._faculty_active_student_id = student_id
+
+        for child in self.faculty_detail_frame.winfo_children():
+            child.destroy()
+
+        # 1. Back button & Navigation Header
+        top_bar = ctk.CTkFrame(self.faculty_detail_frame, fg_color="transparent")
+        top_bar.pack(fill="x", pady=(0, 16))
+
+        back_to_roster_btn = ctk.CTkButton(
+            top_bar,
+            text="← Back to Student Roster",
+            height=38,
+            corner_radius=10,
+            border_width=1,
+            border_color=self.COLORS["border"],
+            fg_color=self.COLORS["surface"],
+            hover_color=self.COLORS["surface_alt"],
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            command=self._close_faculty_student_records,
+        )
+        back_to_roster_btn.pack(side="left")
+        self._enable_button_transition(
+            back_to_roster_btn, self.COLORS["surface"], self.COLORS["surface_alt"]
+        )
+
+        ctk.CTkLabel(
+            top_bar,
+            text="ACADEMIC RECORDS & GRADING",
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=self.COLORS["muted"],
+        ).pack(side="right")
+
+        # 2. Student Hero Profile Card
+        hero_card = self._card(self.faculty_detail_frame)
+        hero_card.pack(fill="x", pady=(0, 16))
+
+        hero_inner = ctk.CTkFrame(hero_card, fg_color="transparent")
+        hero_inner.pack(fill="x", padx=20, pady=18)
+        hero_inner.grid_columnconfigure(1, weight=1)
+
+        initials = "".join(p[0] for p in student_name.split()[:2] if p).upper() or "S"
+        avatar = ctk.CTkFrame(
+            hero_inner, width=48, height=48, corner_radius=14, fg_color="#1D3B67"
+        )
+        avatar.grid(row=0, column=0, rowspan=2, padx=(0, 16), sticky="w")
+        avatar.grid_propagate(False)
+        ctk.CTkLabel(
+            avatar,
+            text=initials,
+            font=app_font(family="Segoe UI", size=16, weight="bold"),
+            text_color=self.COLORS["cyan"],
+        ).place(relx=0.5, rely=0.5, anchor="center")
+
+        name_row = ctk.CTkFrame(hero_inner, fg_color="transparent")
+        name_row.grid(row=0, column=1, sticky="w")
+        ctk.CTkLabel(
+            name_row,
+            text=student_name,
+            font=app_font(family="Segoe UI", size=18, weight="bold"),
+            text_color=self.COLORS["text"],
+        ).pack(side="left", padx=(0, 10))
+
+        badge_color = (
+            self.COLORS["amber"]
+            if status_text == "Needs attention"
+            else self.COLORS["green"]
+        )
+        ctk.CTkLabel(
+            name_row,
+            text=f"● {status_text.upper()}",
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=badge_color,
+        ).pack(side="left")
+
+        ctk.CTkLabel(
+            hero_inner,
+            text=f"Student ID: {student_id}   ·   Section: {section}   ·   Current CGPA: {cgpa_str}",
+            font=app_font(family="Segoe UI", size=11),
+            text_color=self.COLORS["muted"],
+        ).grid(row=1, column=1, sticky="w", pady=(3, 0))
+
+        # 3. Records Table Card
+        records_card = self._card(self.faculty_detail_frame)
+        records_card.pack(fill="both", expand=True)
+
+        self._section_heading(
+            records_card,
+            "Course enrollments",
+            "SELECT A COURSE TO UPDATE GRADE",
+        )
+
+        table_frame = ctk.CTkFrame(records_card, fg_color="transparent")
+        table_frame.pack(fill="both", expand=True, padx=20, pady=(0, 14))
         table_frame.grid_rowconfigure(0, weight=1)
         table_frame.grid_columnconfigure(0, weight=1)
+
         self._style_faculty_treeview()
         records_tree = ttk.Treeview(
             table_frame,
             columns=("course", "title", "credits", "semester", "grade"),
             show="headings",
-            height=12,
+            height=10,
             style="EduTrack.Treeview",
             selectmode="browse",
         )
-        for column, heading, width in (
+        for col, head, w in (
             ("course", "Course", 110),
-            ("title", "Course title", 290),
+            ("title", "Course title", 300),
             ("credits", "Credits", 80),
             ("semester", "Semester", 100),
-            ("grade", "Grade", 110),
+            ("grade", "Letter Grade", 110),
         ):
-            records_tree.heading(column, text=heading)
-            records_tree.column(
-                column, width=width, anchor="w", stretch=column == "title"
-            )
+            records_tree.heading(col, text=head)
+            records_tree.column(col, width=w, anchor="w", stretch=col == "title")
+
         scrollbar = ttk.Scrollbar(
             table_frame, orient="vertical", command=records_tree.yview
         )
         records_tree.configure(yscrollcommand=scrollbar.set)
         records_tree.grid(row=0, column=0, sticky="nsew")
         scrollbar.grid(row=0, column=1, sticky="ns")
+
         records_by_id = self._populate_faculty_records(records_tree, enrollments)
 
-        edit_frame = ctk.CTkFrame(window, fg_color="transparent")
-        edit_frame.grid(row=3, column=0, sticky="ew", padx=20, pady=(0, 18))
-        edit_frame.grid_columnconfigure(1, weight=1)
+        # 4. In-line Grade Editor
+        edit_card = ctk.CTkFrame(
+            records_card,
+            fg_color=self.COLORS["surface_alt"],
+            corner_radius=12,
+            border_width=1,
+            border_color=self.COLORS["border"],
+        )
+        edit_card.pack(fill="x", padx=20, pady=(0, 18))
+
+        edit_inner = ctk.CTkFrame(edit_card, fg_color="transparent")
+        edit_inner.pack(fill="x", padx=16, pady=14)
+        edit_inner.grid_columnconfigure(1, weight=1)
+
+        selected_label = ctk.CTkLabel(
+            edit_inner,
+            text="Select a course above to update its grade",
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            text_color=self.COLORS["text"],
+            anchor="w",
+        )
+        selected_label.grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
+
+        controls_row = ctk.CTkFrame(edit_inner, fg_color="transparent")
+        controls_row.grid(row=1, column=0, columnspan=2, sticky="ew")
+
         ctk.CTkLabel(
-            edit_frame,
-            text="Selected record grade",
+            controls_row,
+            text="Letter grade:",
             font=app_font(family="Segoe UI", size=10, weight="bold"),
             text_color=self.COLORS["muted"],
-        ).grid(row=0, column=0, sticky="w", padx=(0, 12))
+        ).pack(side="left", padx=(0, 10))
+
         grade_selector = ctk.CTkComboBox(
-            edit_frame,
+            controls_row,
             values=["Not graded", *self.GRADE_ORDER],
             width=150,
             height=36,
@@ -1474,29 +1837,32 @@ class EduTrackApp(ctk.CTk):
             state="readonly",
         )
         grade_selector.set("Not graded")
-        grade_selector.grid(row=0, column=1, sticky="w")
-        status = ctk.CTkLabel(
-            edit_frame,
+        grade_selector.pack(side="left", padx=(0, 14))
+
+        status_label = ctk.CTkLabel(
+            controls_row,
             text="",
             font=app_font(family="Segoe UI", size=10),
             text_color=self.COLORS["muted"],
         )
-        status.grid(row=1, column=0, columnspan=2, sticky="w", pady=(8, 0))
 
         def select_record(_event: tk.Event | None = None) -> None:
             selection = records_tree.selection()
             if selection:
-                grade_selector.set(
-                    records_by_id[selection[0]]["letter_grade"] or "Not graded"
+                rec = records_by_id[selection[0]]
+                selected_label.configure(
+                    text=f"Selected: {rec['course_code']} - {rec['course_title']}"
                 )
+                grade_selector.set(rec["letter_grade"] or "Not graded")
+                status_label.configure(text="")
 
         records_tree.bind("<<TreeviewSelect>>", select_record)
 
         def save_grade() -> None:
             selection = records_tree.selection()
             if not selection:
-                status.configure(
-                    text="Select a course record before saving.",
+                status_label.configure(
+                    text="⚠️ Select a course record first.",
                     text_color=self.COLORS["amber"],
                 )
                 return
@@ -1520,30 +1886,53 @@ class EduTrackApp(ctk.CTk):
                 self.faculty_roster = AcademicCRUD.get_faculty_students(
                     self.student["student_id"]
                 )
-                self._filter_faculty_roster("")
             except Exception as exc:
-                status.configure(
+                status_label.configure(
                     text=f"Could not save grade: {exc}",
                     text_color=self.COLORS["red"],
                 )
                 return
             records_tree.selection_set(selection[0])
-            status.configure(
-                text="Grade saved successfully.",
+            status_label.configure(
+                text="✓ Grade updated and saved successfully.",
                 text_color=self.COLORS["green"],
             )
 
         save_button = ctk.CTkButton(
-            edit_frame,
-            text="Save grade",
+            controls_row,
+            text="Save Grade",
+            width=110,
             height=36,
             corner_radius=9,
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
             command=save_grade,
         )
-        save_button.grid(row=0, column=2, sticky="e", padx=(12, 0))
+        save_button.pack(side="left", padx=(0, 14))
         self._enable_button_transition(
             save_button, self.COLORS["blue"], self.COLORS["blue_hover"]
         )
+
+        status_label.pack(side="left")
+
+        # Pack detail frame into view and update nav controls
+        self.faculty_detail_frame.pack(fill="both", expand=True)
+        self._update_nav_history_buttons()
+
+    def _close_faculty_student_records(self) -> None:
+        """Return from student detail view back to the faculty roster view."""
+        if hasattr(self, "faculty_detail_frame"):
+            self.faculty_detail_frame.pack_forget()
+        self._faculty_showing_detail = False
+        self._faculty_active_student_id = None
+        if hasattr(self, "faculty_roster_frame"):
+            self.faculty_roster_frame.pack(fill="both", expand=True)
+        query = (
+            self.faculty_search_entry.get()
+            if hasattr(self, "faculty_search_entry")
+            else ""
+        )
+        self._filter_faculty_roster(query)
+        self._update_nav_history_buttons()
 
     def _build_faculty_section_assignments(self, parent: ctk.CTkFrame) -> None:
         card = self._card(parent)
