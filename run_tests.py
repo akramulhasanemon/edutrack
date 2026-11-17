@@ -2,6 +2,7 @@
 
 import sys
 import tests.test_ai_advisor as ta
+import tests.test_pdf_and_retake as tpr
 import tests.test_predictor as tp
 
 
@@ -14,6 +15,9 @@ def main() -> int:
         ("Predictor - Feasible target", tp.test_trajectory_target_status_feasible),
         ("AI Advisor - Local advice fallback", ta.test_local_advice_uses_course_and_attendance_records),
         ("AI Advisor - Prompt formatting", ta.test_prompt_contains_complete_profile_and_trainer_instructions),
+        ("Academic PDF - Standing classification", tpr.test_academic_standing_classification),
+        ("Academic PDF - Transcript PDF generation", tpr.test_pdf_transcript_generation),
+        ("Simulator - Retake CGPA boost formula", tpr.test_retake_cgpa_calculation_formula),
     ]
 
     passed = 0
