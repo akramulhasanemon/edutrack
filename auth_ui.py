@@ -166,8 +166,8 @@ class EduTrackLogin(ctk.CTk):
         super().__init__()
         set_app_icon(self)
         self.title("EduTrack | Academic Intelligence & Workspace Sign In")
-        self.geometry("1100x720")
-        self.minsize(980, 650)
+        self.geometry("1000x640")
+        self.minsize(880, 580)
         maximize_window(self)
         self.configure(fg_color=self.THEME["bg_root"])
 
@@ -176,9 +176,9 @@ class EduTrackLogin(ctk.CTk):
         self._chart_points: list[tuple[float, float]] = []
         self._chart_photo: ImageTk.PhotoImage | None = None
 
-        # 2-column layout
-        self.grid_columnconfigure(0, weight=12)
-        self.grid_columnconfigure(1, weight=10)
+        # 2-column layout with minsize protection to prevent squishing
+        self.grid_columnconfigure(0, weight=12, minsize=480)
+        self.grid_columnconfigure(1, weight=10, minsize=400)
         self.grid_rowconfigure(0, weight=1)
 
         self._build_brand_panel()
@@ -201,7 +201,7 @@ class EduTrackLogin(ctk.CTk):
 
         # 1. Top Brand Row (Clean, uncluttered, no 2026 edition badge)
         brand_row = ctk.CTkFrame(panel, fg_color="transparent")
-        brand_row.grid(row=0, column=0, sticky="ew", padx=44, pady=(32, 0))
+        brand_row.grid(row=0, column=0, sticky="ew", padx=24, pady=(20, 0))
 
         brand_left = ctk.CTkFrame(brand_row, fg_color="transparent")
         brand_left.pack(side="left")
@@ -209,19 +209,19 @@ class EduTrackLogin(ctk.CTk):
         # Glass Logo Squircle
         logo_frame = ctk.CTkFrame(
             brand_left,
-            width=46,
-            height=46,
-            corner_radius=14,
+            width=42,
+            height=42,
+            corner_radius=13,
             fg_color=self.THEME["blue"],
             border_width=1.5,
             border_color=self.THEME["cyan"],
         )
-        logo_frame.pack(side="left", padx=(0, 14))
+        logo_frame.pack(side="left", padx=(0, 12))
         logo_frame.pack_propagate(False)
         ctk.CTkLabel(
             logo_frame,
             text="E",
-            font=app_font(family="Segoe UI", size=24, weight="bold"),
+            font=app_font(family="Segoe UI", size=22, weight="bold"),
             text_color="white",
         ).place(relx=0.5, rely=0.5, anchor="center")
 
@@ -229,19 +229,19 @@ class EduTrackLogin(ctk.CTk):
         ctk.CTkLabel(
             brand_left,
             text="EduTrack",
-            font=app_font(family="Segoe UI", size=24, weight="bold"),
+            font=app_font(family="Segoe UI", size=22, weight="bold"),
             text_color=self.THEME["text_white"],
         ).pack(side="left")
 
         # 2. Main Inspiring Headline
         header_frame = ctk.CTkFrame(panel, fg_color="transparent")
-        header_frame.grid(row=1, column=0, sticky="w", padx=44, pady=(24, 16))
+        header_frame.grid(row=1, column=0, sticky="w", padx=24, pady=(16, 10))
 
         ctk.CTkLabel(
             header_frame,
             text="YOUR NEXT CHAPTER,\nBY THE NUMBERS.",
             justify="left",
-            font=app_font(family="Segoe UI", size=29, weight="bold"),
+            font=app_font(family="Segoe UI", size=23, weight="bold"),
             text_color=self.THEME["text_white"],
         ).pack(anchor="w")
 
@@ -249,9 +249,9 @@ class EduTrackLogin(ctk.CTk):
             header_frame,
             text="AI-driven GPA forecasting, semester trajectory modeling, and degree velocity.",
             justify="left",
-            font=app_font(family="Segoe UI", size=11),
+            font=app_font(family="Segoe UI", size=10),
             text_color=self.THEME["text_secondary"],
-        ).pack(anchor="w", pady=(8, 0))
+        ).pack(anchor="w", pady=(6, 0))
 
         # 3. Modern Glassmorphic Academic Trajectory Card
         traj_card = ctk.CTkFrame(
@@ -261,7 +261,7 @@ class EduTrackLogin(ctk.CTk):
             border_width=1.5,
             border_color=self.THEME["glass_border"],
         )
-        traj_card.grid(row=2, column=0, sticky="nsew", padx=44, pady=(0, 22))
+        traj_card.grid(row=2, column=0, sticky="nsew", padx=24, pady=(0, 14))
         traj_card.grid_columnconfigure(0, weight=1)
         traj_card.grid_rowconfigure(2, weight=1)
 
@@ -360,25 +360,25 @@ class EduTrackLogin(ctk.CTk):
                 text=label,
                 font=app_font(family="Segoe UI", size=8, weight="bold"),
                 text_color=self.THEME["text_muted"],
-            ).pack(anchor="w", padx=14, pady=(10, 2))
+            ).pack(anchor="w", padx=10, pady=(8, 2))
 
             ctk.CTkLabel(
                 mcard,
                 text=val,
-                font=app_font(family="Segoe UI", size=18, weight="bold"),
+                font=app_font(family="Segoe UI", size=17, weight="bold"),
                 text_color=self.THEME["text_white"],
-            ).pack(anchor="w", padx=14, pady=(0, 2))
+            ).pack(anchor="w", padx=10, pady=(0, 2))
 
             ctk.CTkLabel(
                 mcard,
                 text=sub,
                 font=app_font(family="Segoe UI", size=8, weight="bold"),
                 text_color=accent,
-            ).pack(anchor="w", padx=14, pady=(0, 10))
+            ).pack(anchor="w", padx=10, pady=(0, 8))
 
         # 4. Department Footer
         footer = ctk.CTkFrame(panel, fg_color="transparent")
-        footer.grid(row=3, column=0, sticky="ew", padx=44, pady=(0, 18))
+        footer.grid(row=3, column=0, sticky="ew", padx=24, pady=(0, 14))
         ctk.CTkLabel(
             footer,
             text="BUBT  •  DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING",
@@ -636,7 +636,7 @@ class EduTrackLogin(ctk.CTk):
 
     def _build_login_panel(self) -> None:
         panel = ctk.CTkFrame(self, fg_color=self.THEME["bg_panel_right"], corner_radius=0)
-        panel.grid(row=0, column=1, sticky="nsew", padx=36, pady=24)
+        panel.grid(row=0, column=1, sticky="nsew", padx=(8, 20), pady=16)
         panel.grid_columnconfigure(0, weight=1)
         panel.grid_rowconfigure(0, weight=1)
 
@@ -644,11 +644,11 @@ class EduTrackLogin(ctk.CTk):
         glass_card = ctk.CTkFrame(
             panel,
             fg_color=self.THEME["glass_card"],
-            corner_radius=24,
+            corner_radius=22,
             border_width=1.5,
             border_color=self.THEME["glass_border"],
         )
-        glass_card.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.88)
+        glass_card.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.96)
 
         # Specular Sheen line on top of login card
         sheen = ctk.CTkFrame(
@@ -657,10 +657,10 @@ class EduTrackLogin(ctk.CTk):
             fg_color=self.THEME["glass_border_glow"],
             corner_radius=1,
         )
-        sheen.pack(fill="x", padx=24, pady=(1, 0))
+        sheen.pack(fill="x", padx=20, pady=(1, 0))
 
         inner = ctk.CTkFrame(glass_card, fg_color="transparent")
-        inner.pack(fill="both", expand=True, padx=36, pady=(24, 28))
+        inner.pack(fill="both", expand=True, padx=22, pady=(18, 20))
 
         # 1. Top Gateway Pill
         top_pill = ctk.CTkFrame(
@@ -676,22 +676,24 @@ class EduTrackLogin(ctk.CTk):
             text="✦ SECURE ACADEMIC WORKSPACE",
             font=app_font(family="Segoe UI", size=8, weight="bold"),
             text_color=self.THEME["cyan"],
-        ).pack(padx=12, pady=3)
+        ).pack(padx=10, pady=3)
 
         # 2. Card Title & Subtitle
         ctk.CTkLabel(
             inner,
             text="Sign In to EduTrack",
-            font=app_font(family="Segoe UI", size=26, weight="bold"),
+            font=app_font(family="Segoe UI", size=22, weight="bold"),
             text_color=self.THEME["text_white"],
-        ).pack(anchor="w", pady=(10, 4))
+        ).pack(anchor="w", pady=(8, 2))
 
         ctk.CTkLabel(
             inner,
             text="Access your academic records, forecasting tools, and advising.",
+            wraplength=340,
+            justify="left",
             font=app_font(family="Segoe UI", size=10),
             text_color=self.THEME["text_secondary"],
-        ).pack(anchor="w", pady=(0, 20))
+        ).pack(anchor="w", pady=(0, 16))
 
         # 3. Modern Segmented Role Selector
         self._field_label(inner, "SELECT WORKSPACE ROLE")

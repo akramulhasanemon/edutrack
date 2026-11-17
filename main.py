@@ -127,8 +127,8 @@ class EduTrackApp(ctk.CTk):
         super().__init__()
         set_app_icon(self)
         self.title("EduTrack | Academic dashboard")
-        self.geometry("1440x900")
-        self.minsize(1100, 720)
+        self.geometry("1060x660")
+        self.minsize(860, 560)
         maximize_window(self)
         self.accent_theme = DEFAULT_ACCENT_THEME
         self.signed_out = False
