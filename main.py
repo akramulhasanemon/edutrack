@@ -13,7 +13,7 @@ import sys
 import threading
 import tkinter as tk
 from collections import Counter, defaultdict
-from tkinter import messagebox, ttk
+from tkinter import filedialog, messagebox, ttk
 from typing import Any
 
 import customtkinter as ctk
@@ -2027,49 +2027,168 @@ class EduTrackApp(ctk.CTk):
             save_button, self.COLORS["blue"], self.COLORS["blue_hover"]
         )
 
+    def _export_student_pdf_transcript(self) -> None:
+        """Generate and export a polished PDF academic transcript report."""
+        from modules.pdf_generator import AcademicPDFReport
+
+        if not self.enrollments:
+            messagebox.showinfo(
+                "Export Transcript",
+                "No enrollment records found for this student. Add or import course records before exporting.",
+            )
+            return
+
+        sid = self.student.get("student_id", "profile")
+        default_filename = f"EduTrack_Transcript_{sid}.pdf"
+
+        file_path = filedialog.asksaveasfilename(
+            title="Export Official Academic Transcript",
+            defaultextension=".pdf",
+            filetypes=[("PDF Document", "*.pdf"), ("All Files", "*.*")],
+            initialfile=default_filename,
+        )
+        if not file_path:
+            return
+
+        summary = self._summary()
+        try:
+            generated_file = AcademicPDFReport.generate_transcript_pdf(
+                filename=file_path,
+                student_info=self.student,
+                enrollments=self.enrollments,
+                current_cgpa=summary.get("cgpa"),
+                completed_credits=summary.get("completed_credits"),
+                program_credits=self.program_credits,
+            )
+            open_now = messagebox.askyesno(
+                "Transcript Exported",
+                f"Academic transcript generated successfully!\n\n"
+                f"Saved to:\n{generated_file}\n\n"
+                f"Would you like to open the PDF report now?",
+            )
+            if open_now:
+                try:
+                    if sys.platform.startswith("win"):
+                        os.startfile(generated_file)
+                    elif sys.platform.startswith("darwin"):
+                        subprocess.Popen(["open", generated_file])
+                    else:
+                        subprocess.Popen(["xdg-open", generated_file])
+                except Exception as open_err:
+                    messagebox.showwarning(
+                        "Open File",
+                        f"Could not open file automatically: {open_err}",
+                    )
+        except Exception as err:
+            messagebox.showerror(
+                "Export Error",
+                f"Failed to generate PDF transcript:\n{err}",
+            )
+
     def _build_dashboard(self, parent: ctk.CTkFrame) -> None:
         if self.is_faculty:
             self._build_faculty_dashboard(parent)
             return
+        from modules.pdf_generator import AcademicPDFReport
+
         summary = self._summary()
+        cgpa = summary["cgpa"]
+        completed = summary["completed_credits"]
+        standing_label, standing_color = AcademicPDFReport.get_academic_standing(cgpa)
+
         banner = ctk.CTkFrame(
             parent,
-            fg_color="#142D50",
+            fg_color="#102138",
             corner_radius=18,
             border_width=1,
-            border_color="#24456D",
+            border_color="#1E3E6B",
         )
         banner.pack(fill="x", pady=(0, 22))
         banner.grid_columnconfigure(0, weight=1)
+        banner.grid_columnconfigure(1, weight=0)
+
+        # Left Info Stack
+        left_info = ctk.CTkFrame(banner, fg_color="transparent")
+        left_info.grid(row=0, column=0, sticky="nsew", padx=26, pady=20)
+
+        # Greeting row with Academic Standing badge
+        greeting_row = ctk.CTkFrame(left_info, fg_color="transparent")
+        greeting_row.pack(anchor="w", fill="x", pady=(0, 4))
+
         ctk.CTkLabel(
-            banner,
+            greeting_row,
             text=f"GOOD TO SEE YOU, {self.student['name'].upper()}",
             font=app_font(family="Segoe UI", size=10, weight="bold"),
-            text_color="#AFCDF2",
-        ).grid(row=0, column=0, sticky="w", padx=26, pady=(23, 8))
+            text_color="#93C5FD",
+        ).pack(side="left")
+
+        standing_badge = ctk.CTkFrame(
+            greeting_row,
+            fg_color="#0C1D36",
+            corner_radius=10,
+            border_width=1,
+            border_color=standing_color,
+        )
+        standing_badge.pack(side="left", padx=(12, 0))
+
         ctk.CTkLabel(
-            banner,
+            standing_badge,
+            text=f"● {standing_label.upper()}",
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=standing_color,
+            padx=10,
+            pady=2,
+        ).pack()
+
+        ctk.CTkLabel(
+            left_info,
             text="Make your next semester count.",
-            font=app_font(family="Segoe UI", size=23, weight="bold"),
+            font=app_font(family="Segoe UI", size=22, weight="bold"),
             text_color=self.COLORS["text"],
-        ).grid(row=1, column=0, sticky="w", padx=26)
+        ).pack(anchor="w", pady=(2, 6))
+
+        degree_pct = (completed / self.program_credits * 100) if self.program_credits else 0.0
+        sub_text = (
+            f"{self.student['semester']}  •  {self.student['role'].upper()} WORKSPACE  •  "
+            f"{completed:g}/{self.program_credits:g} Credits ({degree_pct:.0f}% Completed)"
+        )
         ctk.CTkLabel(
-            banner,
-            text=f"{self.student['semester']}  |  {self.student['role'].upper()} WORKSPACE",
+            left_info,
+            text=sub_text,
             font=app_font(family="Segoe UI", size=11),
-            text_color="#C3D5EB",
-        ).grid(row=2, column=0, sticky="w", padx=26, pady=(8, 23))
+            text_color="#94A3B8",
+        ).pack(anchor="w")
+
+        # Right Hub: Degree badge + PDF Transcript button
+        right_hub = ctk.CTkFrame(banner, fg_color="transparent")
+        right_hub.grid(row=0, column=1, sticky="e", padx=(12, 24), pady=20)
+
         ctk.CTkLabel(
-            banner,
-            text=f"{self.program_credits:g}\nCREDIT DEGREE",
-            font=app_font(family="Segoe UI", size=13, weight="bold"),
+            right_hub,
+            text=f"{self.program_credits:g} CR DEGREE\nCSE CURRICULUM",
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
             text_color=self.COLORS["cyan"],
             justify="center",
-            fg_color="#1B3B63",
-            corner_radius=13,
-            padx=26,
-            pady=18,
-        ).grid(row=0, column=1, rowspan=3, padx=(16, 24), pady=22)
+            fg_color="#162D4D",
+            corner_radius=12,
+            padx=16,
+            pady=10,
+        ).pack(side="left", padx=(0, 10))
+
+        pdf_btn = ctk.CTkButton(
+            right_hub,
+            text="📄 Export Transcript (PDF)",
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            fg_color="#1D4ED8",
+            hover_color="#1E40AF",
+            text_color="white",
+            corner_radius=12,
+            border_width=1,
+            border_color="#3B82F6",
+            height=44,
+            command=self._export_student_pdf_transcript,
+        )
+        pdf_btn.pack(side="left")
 
         self._section_heading(parent, "At a glance", "YOUR ACADEMIC SNAPSHOT")
         self._helper_text(
@@ -2133,16 +2252,68 @@ class EduTrackApp(ctk.CTk):
 
         insights = self._card(lower)
         insights.grid(row=0, column=1, sticky="nsew", padx=(10, 0))
-        self._section_heading(insights, "Quick insights", "YOUR NEXT STEP")
+
+        # --- Today's Schedule Section ---
+        from datetime import datetime
+        from modules.crud import AcademicCRUD
+
+        today_name = datetime.now().strftime("%A")
+        all_routines = AcademicCRUD.get_routines()
+        today_routines = [
+            r for r in all_routines
+            if r.get("day", "").strip().casefold() == today_name.casefold()
+        ]
+
+        self._section_heading(insights, "Class Schedule", f"TODAY'S CLASSES ({today_name.upper()})")
+        if today_routines:
+            for item in today_routines[:3]:
+                self._insight_row(
+                    insights,
+                    item.get("time", "Class Time"),
+                    f"{item.get('course_code', '')}  |  {item.get('room', '')}",
+                    item.get("course_title", "Course"),
+                    self.COLORS["blue"],
+                )
+        else:
+            self._insight_row(
+                insights,
+                "RELAX & REVISE",
+                "No classes scheduled today",
+                f"No routine entries for {today_name}. Great time for project work & revision.",
+                self.COLORS["green"],
+            )
+
+        sched_btn = ctk.CTkButton(
+            insights,
+            text="📅 View Full Weekly Schedule →",
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
+            fg_color="transparent",
+            hover_color=self.COLORS["surface_alt"],
+            text_color=self.COLORS["cyan"],
+            anchor="w",
+            height=28,
+            command=lambda: self.show_page("Attendance & Schedule"),
+        )
+        sched_btn.pack(fill="x", padx=16, pady=(0, 10))
+
+        # Separator line
+        ctk.CTkFrame(
+            insights,
+            height=1,
+            fg_color=self.COLORS["border"],
+        ).pack(fill="x", padx=16, pady=(2, 10))
+
+        # --- Academic Focus & Next Steps ---
+        self._section_heading(insights, "Academic insights", "YOUR NEXT STEP")
         if summary["weak_courses"]:
-            for record in summary["weak_courses"][:3]:
+            for record in summary["weak_courses"][:2]:
                 course = record.get("course_code", "Course")
                 grade = record.get("letter_grade") or record.get("grade_point", "")
                 self._insight_row(
                     insights,
-                    "FOCUS",
+                    "FOCUS AREA",
                     f"{course}  |  {grade}",
-                    "Consider giving this course extra review time.",
+                    "Consider giving this course extra review or simulating a retake.",
                     self.COLORS["amber"],
                 )
         elif summary["cgpa"] is not None:
@@ -2161,6 +2332,20 @@ class EduTrackApp(ctk.CTk):
                 "Connect academic records to see semester trends and course focus areas.",
                 self.COLORS["cyan"],
             )
+
+        ai_btn = ctk.CTkButton(
+            insights,
+            text="🤖 Consult AI Academic Advisor →",
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
+            fg_color="transparent",
+            hover_color=self.COLORS["surface_alt"],
+            text_color=self.COLORS["green"],
+            anchor="w",
+            height=28,
+            command=lambda: self.show_page("AI Advisor"),
+        )
+        ai_btn.pack(fill="x", padx=16, pady=(0, 14))
+
         if self.data_error:
             self._notice(
                 insights,
@@ -2194,12 +2379,19 @@ class EduTrackApp(ctk.CTk):
             pady=3,
         )
         card.grid_columnconfigure(0, weight=1)
+        top_accent = ctk.CTkFrame(
+            card,
+            height=3,
+            corner_radius=2,
+            fg_color=accent,
+        )
+        top_accent.pack(fill="x", padx=16, pady=(1, 0))
         ctk.CTkLabel(
             card,
             text=title,
             font=app_font(family="Segoe UI", size=9, weight="bold"),
             text_color=self.COLORS["muted"],
-        ).pack(anchor="w", padx=20, pady=(19, 11))
+        ).pack(anchor="w", padx=20, pady=(16, 11))
         ctk.CTkLabel(
             card,
             text=value,
@@ -2590,6 +2782,7 @@ class EduTrackApp(ctk.CTk):
         )
         self.what_if_detail.pack(anchor="w", padx=14, pady=(0, 11))
         self._update_what_if_projection(3.0)
+        self._build_retake_simulator(parent)
 
     def _update_what_if_projection(self, projected_gpa: float | None = None) -> None:
         """Refresh the simulated graduation CGPA as the slider or inputs change."""
@@ -2686,6 +2879,247 @@ class EduTrackApp(ctk.CTk):
             note = f"Aim for {required:.2f} across the remaining {remaining:g} credits."
             color = self.COLORS["cyan"]
         self.planner_result.configure(text=note, text_color=color)
+
+    def _build_retake_simulator(self, parent: ctk.CTkFrame) -> None:
+        """Build the Course Retake & Grade Improvement simulator card."""
+        from modules.grading import grade_point_for_enrollment
+
+        card = self._card(parent)
+        card.pack(fill="x", pady=(16, 0))
+
+        top_accent = ctk.CTkFrame(
+            card,
+            height=3,
+            corner_radius=2,
+            fg_color=self.COLORS["amber"],
+        )
+        top_accent.pack(fill="x", padx=16, pady=(1, 0))
+
+        ctk.CTkLabel(
+            card,
+            text="COURSE RETAKE & GRADE IMPROVEMENT SIMULATOR",
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
+            text_color=self.COLORS["amber"],
+        ).pack(anchor="w", padx=20, pady=(18, 4))
+
+        ctk.CTkLabel(
+            card,
+            text=(
+                "Simulate retaking an earlier course with a low or average grade. "
+                "See your projected CGPA jump when replacing your previous grade with a higher one."
+            ),
+            font=app_font(family="Segoe UI", size=10),
+            text_color=self.COLORS["muted"],
+            wraplength=800,
+            justify="left",
+        ).pack(anchor="w", padx=20, pady=(0, 14))
+
+        graded_courses = [
+            r for r in self.enrollments
+            if grade_point_for_enrollment(r) is not None
+        ]
+
+        if not graded_courses:
+            ctk.CTkLabel(
+                card,
+                text="No completed course records available for retake simulation.",
+                font=app_font(family="Segoe UI", size=10),
+                text_color=self.COLORS["muted"],
+            ).pack(anchor="w", padx=20, pady=(0, 18))
+            return
+
+        body = ctk.CTkFrame(card, fg_color="transparent")
+        body.pack(fill="x", padx=20, pady=(0, 18))
+        body.grid_columnconfigure(0, weight=6)
+        body.grid_columnconfigure(1, weight=4)
+
+        controls = ctk.CTkFrame(body, fg_color="transparent")
+        controls.grid(row=0, column=0, sticky="nsew", padx=(0, 20))
+
+        # Course Dropdown
+        ctk.CTkLabel(
+            controls,
+            text="Select Course to Retake:",
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
+            text_color=self.COLORS["text"],
+        ).pack(anchor="w", pady=(0, 5))
+
+        self._retake_course_map: dict[str, dict[str, Any]] = {}
+        course_options: list[str] = []
+        for r in graded_courses:
+            code = str(r.get("course_code", ""))
+            title = str(r.get("course_title", ""))
+            credits = f"{float(r.get('credit_hours', 0)):g}"
+            grade = str(r.get("letter_grade") or r.get("grade_point", "-"))
+            label = f"{code} - {title[:28]} ({grade} | {credits} Cr)"
+            course_options.append(label)
+            self._retake_course_map[label] = r
+
+        self.retake_course_var = ctk.StringVar(value=course_options[0])
+        self.retake_course_menu = ctk.CTkOptionMenu(
+            controls,
+            variable=self.retake_course_var,
+            values=course_options,
+            command=lambda _val: self._update_retake_calculation(),
+            height=38,
+            corner_radius=9,
+            fg_color=self.COLORS["surface_alt"],
+            button_color=self.COLORS["border"],
+            button_hover_color=self.COLORS["blue"],
+        )
+        self.retake_course_menu.pack(fill="x", pady=(0, 12))
+
+        # Target Improved Grade Dropdown
+        ctk.CTkLabel(
+            controls,
+            text="Target Improved Grade:",
+            font=app_font(family="Segoe UI", size=10, weight="bold"),
+            text_color=self.COLORS["text"],
+        ).pack(anchor="w", pady=(0, 5))
+
+        target_grade_options = [
+            "A+ (4.00 Grade Point)",
+            "A (3.75 Grade Point)",
+            "A- (3.50 Grade Point)",
+            "B+ (3.25 Grade Point)",
+            "B (3.00 Grade Point)",
+        ]
+        self.retake_grade_var = ctk.StringVar(value=target_grade_options[0])
+        self.retake_grade_menu = ctk.CTkOptionMenu(
+            controls,
+            variable=self.retake_grade_var,
+            values=target_grade_options,
+            command=lambda _val: self._update_retake_calculation(),
+            height=38,
+            corner_radius=9,
+            fg_color=self.COLORS["surface_alt"],
+            button_color=self.COLORS["border"],
+            button_hover_color=self.COLORS["blue"],
+        )
+        self.retake_grade_menu.pack(fill="x", pady=(0, 6))
+
+        # Result Display Box
+        result_box = ctk.CTkFrame(
+            body,
+            fg_color=self.COLORS["surface_alt"],
+            corner_radius=12,
+            border_width=1,
+            border_color=self.COLORS["border"],
+        )
+        result_box.grid(row=0, column=1, sticky="nsew")
+
+        ctk.CTkLabel(
+            result_box,
+            text="PROJECTED CGPA AFTER RETAKE",
+            font=app_font(family="Segoe UI", size=8, weight="bold"),
+            text_color=self.COLORS["muted"],
+        ).pack(anchor="w", padx=14, pady=(12, 2))
+
+        self.retake_new_cgpa_lbl = ctk.CTkLabel(
+            result_box,
+            text="—",
+            font=app_font(family="Segoe UI", size=26, weight="bold"),
+            text_color=self.COLORS["green"],
+        )
+        self.retake_new_cgpa_lbl.pack(anchor="w", padx=14)
+
+        self.retake_boost_lbl = ctk.CTkLabel(
+            result_box,
+            text="Boost: —",
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            text_color=self.COLORS["cyan"],
+        )
+        self.retake_boost_lbl.pack(anchor="w", padx=14, pady=(2, 4))
+
+        self.retake_detail_lbl = ctk.CTkLabel(
+            result_box,
+            text="Select a course to preview improvement",
+            font=app_font(family="Segoe UI", size=9),
+            text_color=self.COLORS["muted"],
+            wraplength=220,
+            justify="left",
+        )
+        self.retake_detail_lbl.pack(anchor="w", padx=14, pady=(0, 12))
+
+        self._update_retake_calculation()
+
+    def _update_retake_calculation(self) -> None:
+        """Calculate and display the CGPA jump for the selected retake scenario."""
+        if not hasattr(self, "retake_course_var") or not hasattr(self, "retake_grade_var"):
+            return
+
+        from modules.grading import grade_point_for_enrollment
+
+        selected_label = self.retake_course_var.get()
+        selected_record = self._retake_course_map.get(selected_label)
+        if not selected_record:
+            return
+
+        summary = self._summary()
+        current_cgpa = summary.get("cgpa")
+        total_credits = summary.get("completed_credits", 0.0)
+
+        if current_cgpa is None or total_credits <= 0:
+            self.retake_new_cgpa_lbl.configure(text="—")
+            self.retake_boost_lbl.configure(text="No graded records")
+            return
+
+        # Parse target grade point
+        grade_str = self.retake_grade_var.get()
+        target_gp = 4.0
+        if "4.00" in grade_str:
+            target_gp = 4.00
+        elif "3.75" in grade_str:
+            target_gp = 3.75
+        elif "3.50" in grade_str:
+            target_gp = 3.50
+        elif "3.25" in grade_str:
+            target_gp = 3.25
+        elif "3.00" in grade_str:
+            target_gp = 3.00
+
+        try:
+            course_credits = float(selected_record.get("credit_hours", 0.0))
+            old_gp = grade_point_for_enrollment(selected_record)
+            if old_gp is None or course_credits <= 0:
+                return
+
+            current_points = current_cgpa * total_credits
+            new_points = current_points - (course_credits * old_gp) + (course_credits * target_gp)
+            new_cgpa = new_points / total_credits
+            boost = new_cgpa - current_cgpa
+
+            self.retake_new_cgpa_lbl.configure(text=f"{new_cgpa:.2f}")
+
+            if boost > 0.0001:
+                self.retake_boost_lbl.configure(
+                    text=f"▲ +{boost:.2f} CGPA Boost 🚀",
+                    text_color=self.COLORS["green"],
+                )
+                self.retake_detail_lbl.configure(
+                    text=f"Replacing {old_gp:.2f} with {target_gp:.2f} adds {(course_credits * (target_gp - old_gp)):.2f} grade points across {total_credits:g} credits.",
+                    text_color=self.COLORS["muted"],
+                )
+            elif abs(boost) <= 0.0001:
+                self.retake_boost_lbl.configure(
+                    text="No CGPA change (Same grade)",
+                    text_color=self.COLORS["muted"],
+                )
+                self.retake_detail_lbl.configure(
+                    text="The target grade matches your existing grade.",
+                    text_color=self.COLORS["muted"],
+                )
+            else:
+                self.retake_boost_lbl.configure(
+                    text=f"▼ {boost:.2f} (Grade lower than current)",
+                    text_color=self.COLORS["red"],
+                )
+                self.retake_detail_lbl.configure(
+                    text="Target grade is lower than your current grade.",
+                    text_color=self.COLORS["red"],
+                )
+        except Exception:
+            self.retake_new_cgpa_lbl.configure(text="—")
 
     def _build_semester_calculator(self, parent: ctk.CTkFrame) -> None:
         intro = self._card(parent)
