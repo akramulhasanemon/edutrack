@@ -184,6 +184,7 @@ class EduTrackApp(ctk.CTk):
 
         self._load_student_data()
         self._build_shell()
+        self._setup_floating_ai_widget()
         self.show_page("Dashboard")
 
     def _build_shell(self) -> None:
@@ -1118,6 +1119,8 @@ class EduTrackApp(ctk.CTk):
             self._page_render_job = self.after_idle(render_page)
         self.current_page = page
         self._update_nav_history_buttons()
+        if hasattr(self, "_update_floating_ai_page_context"):
+            self._update_floating_ai_page_context(page)
 
     def _register_smooth_scroll(self, frame: ctk.CTkScrollableFrame) -> None:
         if frame not in self._scrollable_frames:
@@ -3466,7 +3469,7 @@ class EduTrackApp(ctk.CTk):
 
         ctk.CTkLabel(
             ai_titles,
-            text="EduTrack AI Academic Copilot",
+            text="EduTrack AI",
             font=app_font(family="Segoe UI", size=15, weight="bold"),
             text_color=self.COLORS["text"],
         ).pack(anchor="w")
@@ -3579,7 +3582,7 @@ class EduTrackApp(ctk.CTk):
                 )
         else:
             welcome_msg = (
-                f"Hello {self.student['name']}! 👋 I am your EduTrack AI Academic Copilot.\n\n"
+                f"Hello {self.student['name']}! 👋 I am EduTrack AI, your smart academic assistant.\n\n"
                 f"I have reviewed your academic trajectory: Current CGPA is {cgpa_text} with {summary['completed_credits']:g} credits completed. "
                 f"Your saved target is {self.target_cgpa:.2f}.\n\n"
                 "Ask me any question about your courses, exams, study routines, or click any of the Quick Prompts above to begin!"
@@ -3607,6 +3610,14 @@ class EduTrackApp(ctk.CTk):
             text_color=self.COLORS["text"],
         )
         self.advisor_input.pack(fill="x", padx=12, pady=(8, 4))
+
+        def _on_advisor_enter(event):
+            if not (event.state & 0x1):
+                self._request_advice()
+                return "break"
+            return None
+
+        self.advisor_input.bind("<Return>", _on_advisor_enter)
         self.advisor_input.bind("<Control-Return>", lambda _event: self._request_advice())
 
         dock_bottom = ctk.CTkFrame(dock, fg_color="transparent")
@@ -3614,7 +3625,7 @@ class EduTrackApp(ctk.CTk):
 
         self.advisor_status = ctk.CTkLabel(
             dock_bottom,
-            text="Tip: Press Ctrl+Enter to send. Powered by Gemini AI & SQLite Knowledge Base.",
+            text="Tip: Press Enter to send (Shift+Enter for newline). Powered by EduTrack AI & SQLite Knowledge Base.",
             font=app_font(family="Segoe UI", size=9),
             text_color=self.COLORS["muted"],
         )
@@ -3636,7 +3647,7 @@ class EduTrackApp(ctk.CTk):
 
         self.advisor_button = ctk.CTkButton(
             dock_bottom,
-            text="✨ Ask Copilot",
+            text="✨ Ask EduTrack AI",
             height=34,
             corner_radius=10,
             font=app_font(family="Segoe UI", size=11, weight="bold"),
@@ -3665,7 +3676,7 @@ class EduTrackApp(ctk.CTk):
             padx=(80, 4) if is_user else (4, 80),
         )
 
-        header_label = "👤 YOU" if is_user else "🤖 EDUTRACK AI COPILOT"
+        header_label = "👤 YOU" if is_user else "🤖 EDUTRACK AI"
         header_color = "#93C5FD" if is_user else "#38BDF8"
         ctk.CTkLabel(
             bubble,
@@ -3702,7 +3713,7 @@ class EduTrackApp(ctk.CTk):
         summary = self._summary()
         cgpa_text = f"{summary['cgpa']:.2f}" if summary["cgpa"] is not None else "No grades"
         welcome_msg = (
-            f"Hello {self.student['name']}! 👋 I am your EduTrack AI Academic Copilot.\n\n"
+            f"Hello {self.student['name']}! 👋 I am EduTrack AI, your smart academic assistant.\n\n"
             f"I have reloaded your academic records (CGPA: {cgpa_text}, Target: {self.target_cgpa:.2f}). "
             "How can I help you excel today?"
         )
@@ -3821,7 +3832,7 @@ class EduTrackApp(ctk.CTk):
         )
         if self.advisor_button.winfo_exists():
             self.advisor_button.configure(
-                state="normal", text="Get academic guidance"
+                state="normal", text="✨ Ask EduTrack AI"
             )
         if self.advisor_status.winfo_exists():
             self.advisor_status.configure(
@@ -3829,6 +3840,340 @@ class EduTrackApp(ctk.CTk):
                 text_color=self.COLORS["amber"] if error else self.COLORS["green"],
             )
         self._scroll_advisor_chat()
+
+    # =========================================================================
+    # DYNAMIC FLOATING EDUTRACK AI WIDGET
+    # =========================================================================
+
+    def _setup_floating_ai_widget(self) -> None:
+        """Create the always-visible floating action button and pop-up chat drawer."""
+        self._floating_ai_visible = False
+
+        # 1. Floating Action Capsule Button (FAB)
+        self.floating_ai_btn = ctk.CTkButton(
+            self,
+            text="✨ EduTrack AI",
+            height=42,
+            corner_radius=21,
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            fg_color="#1D4ED8",
+            hover_color="#2563EB",
+            text_color="#FFFFFF",
+            border_width=1.5,
+            border_color="#38BDF8",
+            command=self._toggle_floating_ai,
+        )
+        self.floating_ai_btn.place(relx=0.975, rely=0.955, anchor="se")
+        self.floating_ai_btn.lift()
+
+        # 2. Floating Pop-up Glassmorphic Chat Card (385x510px)
+        self.floating_chat_card = ctk.CTkFrame(
+            self,
+            width=385,
+            height=510,
+            fg_color="#0C1729",
+            corner_radius=18,
+            border_width=1.5,
+            border_color="#1C3558",
+        )
+        self.floating_chat_card.grid_propagate(False)
+
+        # Top Control Bar
+        top_bar = ctk.CTkFrame(self.floating_chat_card, fg_color="#101F37", height=48, corner_radius=14)
+        top_bar.pack(fill="x", padx=10, pady=(10, 6))
+        top_bar.pack_propagate(False)
+
+        tb_left = ctk.CTkFrame(top_bar, fg_color="transparent")
+        tb_left.pack(side="left", padx=10, fill="y")
+
+        ctk.CTkLabel(
+            tb_left,
+            text="🤖 EduTrack AI",
+            font=app_font(family="Segoe UI", size=12, weight="bold"),
+            text_color=self.COLORS["text"],
+        ).pack(side="left")
+
+        live_pill = ctk.CTkFrame(tb_left, fg_color="#070E1B", corner_radius=8, border_width=1, border_color="#10B981")
+        live_pill.pack(side="left", padx=(8, 0))
+        ctk.CTkLabel(
+            live_pill,
+            text="● Live",
+            font=app_font(family="Segoe UI", size=8, weight="bold"),
+            text_color="#34D399",
+            padx=6,
+            pady=1,
+        ).pack()
+
+        # Close / Minimize buttons
+        close_btn = ctk.CTkButton(
+            top_bar,
+            text="✕",
+            width=28,
+            height=28,
+            corner_radius=8,
+            fg_color="transparent",
+            hover_color="#3B1D28",
+            text_color=self.COLORS["muted"],
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            command=self._toggle_floating_ai,
+        )
+        close_btn.pack(side="right", padx=(4, 8))
+
+        min_btn = ctk.CTkButton(
+            top_bar,
+            text="—",
+            width=28,
+            height=28,
+            corner_radius=8,
+            fg_color="transparent",
+            hover_color="#1C2C45",
+            text_color=self.COLORS["muted"],
+            font=app_font(family="Segoe UI", size=11, weight="bold"),
+            command=self._toggle_floating_ai,
+        )
+        min_btn.pack(side="right")
+
+        # Page-Aware Context Strip
+        ctx_frame = ctk.CTkFrame(self.floating_chat_card, fg_color="#070E1B", corner_radius=10, height=28)
+        ctx_frame.pack(fill="x", padx=10, pady=(0, 6))
+        ctx_frame.pack_propagate(False)
+
+        self.floating_context_lbl = ctk.CTkLabel(
+            ctx_frame,
+            text="📍 Context: Dashboard • Goal: 3.85",
+            font=app_font(family="Segoe UI", size=9, weight="bold"),
+            text_color=self.COLORS["cyan"],
+        )
+        self.floating_context_lbl.pack(side="left", padx=10)
+
+        # Micro Quick Prompt Chips
+        chips_bar = ctk.CTkFrame(self.floating_chat_card, fg_color="transparent")
+        chips_bar.pack(fill="x", padx=10, pady=(0, 6))
+
+        quick_chips = [
+            ("🎯 Goal", "How can I achieve my target CGPA from my current academic standing?"),
+            ("📅 Routine", "Create a 7-day study timetable based on my courses and routine."),
+            ("🔄 Retake", "Which course should I retake first to maximize my CGPA?"),
+            ("⚡ Exam", "What high-yield exam preparation strategies should I use?"),
+        ]
+        for chip_name, query_text in quick_chips:
+            c_btn = ctk.CTkButton(
+                chips_bar,
+                text=chip_name,
+                font=app_font(family="Segoe UI", size=8, weight="bold"),
+                fg_color="#101F37",
+                hover_color="#1D4ED8",
+                text_color=self.COLORS["text"],
+                border_width=1,
+                border_color="#1C3558",
+                corner_radius=10,
+                height=26,
+                command=lambda q=query_text: self._send_floating_message(q),
+            )
+            c_btn.pack(side="left", padx=2, expand=True, fill="x")
+
+        # Scrollable Chat Feed
+        self.floating_chat_feed = ctk.CTkScrollableFrame(
+            self.floating_chat_card,
+            fg_color="#050A13",
+            corner_radius=12,
+            scrollbar_button_color=self.COLORS["border"],
+        )
+        self.floating_chat_feed.pack(fill="both", expand=True, padx=10, pady=(0, 8))
+
+        # Initial Welcome Message
+        self._append_floating_message(
+            "assistant",
+            f"Hello {self.student['name']}! 👋 I'm EduTrack AI, always here to assist you.\n\n"
+            "Ask me anything about your courses, CGPA goals, or exam prep right from this page!"
+        )
+
+        # Bottom Input Dock
+        in_dock = ctk.CTkFrame(self.floating_chat_card, fg_color="#101F37", corner_radius=12, border_width=1, border_color="#1C3558")
+        in_dock.pack(fill="x", padx=10, pady=(0, 10))
+
+        self.floating_input = ctk.CTkTextbox(
+            in_dock,
+            height=46,
+            corner_radius=8,
+            fg_color="transparent",
+            border_width=0,
+            font=app_font(family="Segoe UI", size=10),
+            wrap="word",
+            text_color=self.COLORS["text"],
+        )
+        self.floating_input.pack(side="left", fill="both", expand=True, padx=(8, 4), pady=6)
+
+        def _on_floating_enter(event):
+            if not (event.state & 0x1):
+                self._send_floating_message()
+                return "break"
+            return None
+
+        self.floating_input.bind("<Return>", _on_floating_enter)
+        self.floating_input.bind("<Control-Return>", lambda _event: self._send_floating_message())
+
+        self.floating_send_btn = ctk.CTkButton(
+            in_dock,
+            text="➤",
+            width=36,
+            height=36,
+            corner_radius=10,
+            fg_color="#2563EB",
+            hover_color="#1D4ED8",
+            font=app_font(family="Segoe UI", size=12, weight="bold"),
+            command=self._send_floating_message,
+        )
+        self.floating_send_btn.pack(side="right", padx=(0, 6), pady=6)
+
+    def _toggle_floating_ai(self) -> None:
+        """Toggle the floating AI chat card open or closed."""
+        if not hasattr(self, "floating_chat_card"):
+            return
+        if self._floating_ai_visible:
+            self.floating_chat_card.place_forget()
+            self._floating_ai_visible = False
+            self.floating_ai_btn.configure(text="✨ EduTrack AI", fg_color="#1D4ED8")
+        else:
+            self.floating_chat_card.place(relx=0.975, rely=0.885, anchor="se")
+            self.floating_chat_card.lift()
+            self.floating_ai_btn.lift()
+            self._floating_ai_visible = True
+            self.floating_ai_btn.configure(text="✕ Close EduTrack AI", fg_color="#0F172A")
+            self.floating_input.focus_set()
+
+    def _update_floating_ai_page_context(self, page_name: str) -> None:
+        """Keep floating widget aware of the currently visible screen."""
+        if hasattr(self, "floating_context_lbl") and self.floating_context_lbl.winfo_exists():
+            self.floating_context_lbl.configure(
+                text=f"📍 Context: {page_name} • Goal: {self.target_cgpa:.2f}"
+            )
+        if hasattr(self, "floating_ai_btn") and self.floating_ai_btn.winfo_exists():
+            self.floating_ai_btn.lift()
+        if hasattr(self, "floating_chat_card") and getattr(self, "_floating_ai_visible", False):
+            self.floating_chat_card.lift()
+
+    def _append_floating_message(self, role: str, text: str) -> ctk.CTkLabel:
+        """Render a compact bubble inside the floating chat drawer."""
+        is_user = role == "user"
+        row = ctk.CTkFrame(self.floating_chat_feed, fg_color="transparent")
+        row.pack(fill="x", padx=4, pady=4)
+
+        bubble = ctk.CTkFrame(
+            row,
+            corner_radius=12,
+            fg_color="#1D4ED8" if is_user else "#0C1729",
+            border_width=1,
+            border_color="#3B82F6" if is_user else "#1C3558",
+        )
+        bubble.pack(
+            side="right" if is_user else "left",
+            padx=(30, 2) if is_user else (2, 30),
+        )
+
+        badge_text = "👤 YOU" if is_user else "🤖 EDUTRACK AI"
+        badge_color = "#93C5FD" if is_user else "#38BDF8"
+        ctk.CTkLabel(
+            bubble,
+            text=badge_text,
+            font=app_font(family="Segoe UI", size=8, weight="bold"),
+            text_color=badge_color,
+        ).pack(anchor="w", padx=10, pady=(6, 2))
+
+        msg = ctk.CTkLabel(
+            bubble,
+            text=text,
+            font=app_font(family="Segoe UI", size=10),
+            text_color="#FFFFFF" if is_user else "#F1F5F9",
+            wraplength=270,
+            justify="left",
+            anchor="w",
+        )
+        msg.pack(anchor="w", padx=10, pady=(0, 8))
+
+        self.floating_chat_feed.update_idletasks()
+        try:
+            self.floating_chat_feed._parent_canvas.yview_moveto(1.0)
+        except Exception:
+            pass
+        return msg
+
+    def _send_floating_message(self, direct_query: str | None = None) -> None:
+        """Send question from the floating drawer to the AI engine."""
+        query = (
+            direct_query.strip()
+            if direct_query is not None
+            else self.floating_input.get("1.0", "end").strip()
+        )
+        if not query:
+            return
+
+        self.floating_input.delete("1.0", "end")
+        self._append_floating_message("user", query)
+        loading_lbl = self._append_floating_message("assistant", "Thinking...")
+
+        self.floating_send_btn.configure(state="disabled", text="⏳")
+
+        summary = self._summary()
+        history = list(self.advisor_history)
+        self.advisor_history.append({"role": "user", "text": query})
+
+        def worker() -> None:
+            from modules.ai_advisor import AIAdvisorEngine, build_student_academic_profile
+
+            try:
+                from modules.crud import AcademicCRUD
+                settings = AcademicCRUD.get_user_settings(self.student["student_id"])
+                profile = build_student_academic_profile(
+                    self.student["student_id"],
+                    settings["display_name"],
+                    float(settings["target_cgpa"]),
+                    float(settings["program_credits"]),
+                )
+                api_key = settings["gemini_api_key"] or self.gemini_api_key or os.environ.get("GEMINI_API_KEY", "")
+            except Exception:
+                profile = {
+                    "student_name": self.student["name"],
+                    "student_id": self.student["student_id"],
+                    "current_cgpa": summary["cgpa"],
+                    "graded_credits": summary["completed_credits"],
+                    "target_cgpa": self.target_cgpa,
+                    "program_credits": self.program_credits,
+                    "courses": self.enrollments,
+                    "weak_courses": summary["weak_courses"],
+                    "attendance": [],
+                    "schedules": [],
+                }
+                api_key = self.gemini_api_key or os.environ.get("GEMINI_API_KEY", "")
+
+            try:
+                engine = AIAdvisorEngine(api_key=api_key)
+                response = engine.get_academic_advice(
+                    str(profile.get("student_name") or self.student["name"]),
+                    profile.get("current_cgpa"),
+                    float(profile.get("graded_credits") or 0),
+                    profile.get("weak_courses", []),
+                    query,
+                    academic_profile=profile,
+                    conversation=history,
+                )
+            except Exception as exc:
+                response = f"Could not generate response ({type(exc).__name__})."
+
+            def finish() -> None:
+                if loading_lbl.winfo_exists():
+                    loading_lbl.configure(text=response)
+                self.advisor_history.append({"role": "assistant", "text": response})
+                if hasattr(self, "floating_send_btn") and self.floating_send_btn.winfo_exists():
+                    self.floating_send_btn.configure(state="normal", text="➤")
+                # Also append to main chat if open
+                if hasattr(self, "advisor_chat") and self.advisor_chat.winfo_exists():
+                    self._append_advisor_message("user", query, scroll=False)
+                    self._append_advisor_message("assistant", response, scroll=True)
+
+            self.after(0, finish)
+
+        threading.Thread(target=worker, daemon=True).start()
 
     def _build_analytics(self, parent: ctk.CTkFrame) -> None:
         summary = self._summary()
