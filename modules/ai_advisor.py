@@ -340,6 +340,48 @@ class AIAdvisorEngine:
 
         lines: list[str] = []
 
+        # --- SCENARIO 7.5: OFFLINE MACHINE LEARNING & SIMULATION ENGINE ---
+        if any(w in q_lower for w in (
+            "ml", "machine learning", "algorithm", "simulate", "model", "random forest",
+            "prediction", "predict my grade", "how ai works", "offline ai", "xai", "explainable",
+            "মেশিন লার্নিং", "অ্যালগরিদম", "প্রেডিকশন"
+        )):
+            try:
+                from modules.offline_ml import AcademicMLPipeline
+                pipeline = AcademicMLPipeline.get_instance()
+                avg_att = sum(item.get("attendance_percentage", 85.0) for item in attendance) / max(len(attendance), 1)
+                pred = pipeline.predict(
+                    attendance_pct=avg_att,
+                    midterm_pct=80.0,
+                    continuous_pct=82.0,
+                    credit_weight=3.0,
+                    prior_cgpa=float(cgpa or 3.22),
+                )
+                opt = pipeline.solve_pareto_grade_plan(
+                    current_cgpa=float(cgpa or 3.22),
+                    completed_credits=credits,
+                    target_cgpa=target,
+                    remaining_credits=rem_credits,
+                )
+                imp_str = "\n".join([f"  • {k}: {v}% weight" for k, v in pred['feature_importances'].items()])
+                plan_str = "\n".join([f"  • {p['grade']} ({p['grade_point']:.2f} GP): {p['courses_needed']} course(s) — {p['description']}" for p in opt.get('plan', [])])
+
+                return (
+                    f"🤖 EDUTRACK ENTERPRISE OFFLINE ML DIAGNOSTIC ({name})\n\n"
+                    f"📊 Core Machine Learning Specifications:\n"
+                    f"• Algorithm: {pred['meta']['algorithm']}\n"
+                    f"• Execution: {pred['meta']['framework']} (Latency: {pred['meta']['latency_ms']}ms, 100% Offline)\n"
+                    f"• Course Performance Prediction: {pred['predicted_marks']}% Score → {pred['predicted_grade']} ({pred['predicted_grade_point']:.2f} Grade Point)\n"
+                    f"• Risk Classification: {pred['risk_category']} (Critical Risk Probability: {pred['critical_risk_pct']}%)\n\n"
+                    f"🔍 Explainable AI (XAI) Attribution Factor:\n{imp_str}\n\n"
+                    f"🎯 Pareto-Optimal Target Plan ({target:.2f} CGPA Goal):\n"
+                    f"• Required Future Average GPA: {opt['required_avg']:.2f}\n"
+                    f"{plan_str}\n\n"
+                    f"💡 You can also test custom what-if scenarios in real-time inside the AI Simulation Lab!"
+                )
+            except Exception:
+                pass
+
         # --- SCENARIO 8: CGPA TARGET & HOW TO REACH GOAL ---
         if any(w in q_lower for w in (
             "cgpa", "goal", "target", "reach", "achieve", "improve", "diagnos",

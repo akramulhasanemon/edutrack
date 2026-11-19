@@ -341,6 +341,54 @@ class DesktopBridgeAPI:
             )
 
     # -------------------------------------------------------------------------
+    # Enterprise Offline Machine Learning & Simulation Lab API
+    # -------------------------------------------------------------------------
+    def run_ai_simulation(
+        self,
+        attendance_pct: float = 85.0,
+        midterm_pct: float = 80.0,
+        continuous_pct: float = 82.0,
+        credit_weight: float = 3.0,
+        course_rigor: float = 1.0,
+    ) -> dict[str, Any]:
+        """Execute real-time Scikit-Learn Random Forest prediction with Explainable AI (XAI)."""
+        from modules.offline_ml import AcademicMLPipeline
+
+        sid = self._current_user["user_id"] if self._current_user else "20255103311"
+        profile = AcademicCRUD.get_student_profile(sid) or {}
+        prior_cgpa = float(profile.get("current_cgpa") or 3.22)
+
+        pipeline = AcademicMLPipeline.get_instance()
+        return pipeline.predict(
+            attendance_pct=float(attendance_pct),
+            midterm_pct=float(midterm_pct),
+            continuous_pct=float(continuous_pct),
+            credit_weight=float(credit_weight),
+            prior_cgpa=prior_cgpa,
+            course_rigor=float(course_rigor),
+        )
+
+    def get_optimal_grade_plan(self, target_cgpa: float | None = None) -> dict[str, Any]:
+        """Run Pareto Constraint Optimization to compute the lowest-risk path to target CGPA."""
+        from modules.offline_ml import AcademicMLPipeline
+
+        sid = self._current_user["user_id"] if self._current_user else "20255103311"
+        profile = AcademicCRUD.get_student_profile(sid) or {}
+        current_cgpa = float(profile.get("current_cgpa") or 3.22)
+        completed_credits = float(profile.get("completed_credits") or 24.0)
+        target = float(target_cgpa or profile.get("target_cgpa") or 3.85)
+        program_credits = float(profile.get("program_credits") or 142.0)
+        remaining_credits = max(0.0, program_credits - completed_credits)
+
+        pipeline = AcademicMLPipeline.get_instance()
+        return pipeline.solve_pareto_grade_plan(
+            current_cgpa=current_cgpa,
+            completed_credits=completed_credits,
+            target_cgpa=target,
+            remaining_credits=remaining_credits,
+        )
+
+    # -------------------------------------------------------------------------
     # PDF Transcript Export
     # -------------------------------------------------------------------------
     def export_pdf_transcript(self, student_id: str | None = None) -> dict[str, Any]:
