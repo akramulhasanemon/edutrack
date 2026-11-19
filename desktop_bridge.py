@@ -305,7 +305,12 @@ class DesktopBridgeAPI:
     # -------------------------------------------------------------------------
     # AI Academic Advisor
     # -------------------------------------------------------------------------
-    def ask_ai_advisor(self, prompt: str, student_id: str | None = None) -> str:
+    def ask_ai_advisor(
+        self,
+        prompt: str,
+        student_id: str | None = None,
+        language: str = "en",
+    ) -> str:
         """Call Gemini or intelligent offline coaching engine."""
         sid = student_id or (self._current_user["user_id"] if self._current_user else "20255103311")
         profile = AcademicCRUD.get_student_profile(sid) or {}
@@ -332,6 +337,7 @@ class DesktopBridgeAPI:
                 weak_courses=academic_context.get("weak_courses", []),
                 user_query=prompt,
                 academic_profile=academic_context,
+                language=language,
             )
         except Exception as exc:
             return (

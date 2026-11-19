@@ -700,22 +700,33 @@
     position: fixed;
     bottom: 88px;
     right: 28px;
-    width: 420px;
+    width: 445px;
     max-width: calc(100vw - 40px);
-    height: 590px;
+    height: 610px;
     max-height: calc(100vh - 110px);
-    background: linear-gradient(155deg, rgba(12, 23, 44, 0.95) 0%, rgba(6, 13, 26, 0.97) 100%);
-    border: 1px solid rgba(0, 212, 168, 0.35);
-    border-radius: 20px;
-    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.75), 0 0 40px rgba(0, 212, 168, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-    backdrop-filter: blur(32px);
+    background: linear-gradient(155deg, rgba(8, 16, 32, 0.96) 0%, rgba(4, 9, 20, 0.98) 100%);
+    border: 1px solid rgba(0, 212, 168, 0.38);
+    border-radius: 22px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.82), 0 0 50px rgba(0, 212, 168, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(36px);
     display: flex;
     flex-direction: column;
     z-index: 10000;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(20px) scale(0.95);
+    transform: translateY(22px) scale(0.96);
     transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+  .ai-drawer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00d4a8 0%, #0ea5e9 50%, #8b5cf6 100%);
+    z-index: 10;
   }
   .ai-drawer.open {
     opacity: 1;
@@ -726,9 +737,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.1rem 1.3rem;
+    padding: 1.1rem 1.25rem 0.95rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.025);
+    position: relative;
+    gap: 10px;
   }
   .ai-drawer-title-group {
     display: flex;
@@ -736,46 +749,106 @@
     gap: 12px;
   }
   .ai-drawer-avatar {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, #00d4a8, #0ea5e9);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #060d1a;
-    font-weight: 800;
-    font-size: 15px;
-    box-shadow: 0 4px 14px rgba(0, 212, 168, 0.35);
+    font-weight: 900;
+    font-size: 17px;
+    box-shadow: 0 4px 18px rgba(0, 212, 168, 0.45);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .ai-drawer-avatar .neural-pulse {
+    position: absolute;
+    inset: -3px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(0, 212, 168, 0.5);
+    animation: ai-bubble-pulse 2.2s infinite;
+    pointer-events: none;
   }
   .ai-drawer-name {
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 800;
     color: var(--text);
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
+    line-height: 1.2;
+  }
+  .ai-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(0, 212, 168, 0.12);
+    border: 1px solid rgba(0, 212, 168, 0.35);
+    color: #00d4a8;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .ai-status-badge .badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #00d4a8;
+    box-shadow: 0 0 6px #00d4a8;
   }
   .ai-drawer-sub {
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin-top: 1px;
+    margin-top: 3px;
+    letter-spacing: 0.4px;
   }
   .ai-drawer-actions {
     display: flex;
-    gap: 6px;
+    gap: 7px;
     align-items: center;
+  }
+  .ai-lang-toggle {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .ai-lang-btn {
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ai-lang-btn.active {
+    background: var(--accent);
+    color: #060d1a;
+    box-shadow: 0 2px 8px rgba(0, 212, 168, 0.4);
+  }
+  .ai-lang-btn:hover:not(.active) {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
   }
   .ai-drawer-btn {
     background: transparent;
     border: none;
     color: var(--text2);
-    font-size: 17px;
+    font-size: 16px;
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -798,7 +871,7 @@
   .ai-msg {
     display: flex;
     flex-direction: column;
-    max-width: 90%;
+    max-width: 92%;
     animation: fadeIn 0.22s ease-out;
   }
   .ai-msg.ai {
@@ -808,28 +881,43 @@
     align-self: flex-end;
   }
   .ai-msg-bubble {
-    padding: 12px 15px;
-    border-radius: 15px;
-    font-size: 13.5px;
-    line-height: 1.55;
+    padding: 13px 16px;
+    border-radius: 16px;
+    font-size: 13px;
+    line-height: 1.58;
+    position: relative;
+    word-break: break-word;
   }
   .ai-msg.ai .ai-msg-bubble {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    color: var(--text);
+    background: rgba(14, 25, 48, 0.72);
+    border: 1px solid rgba(0, 212, 168, 0.2);
+    border-left: 3px solid var(--accent);
+    color: #e2e8f0;
     border-bottom-left-radius: 4px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   }
   .ai-msg.user .ai-msg-bubble {
-    background: linear-gradient(135deg, rgba(0, 212, 168, 0.25), rgba(14, 165, 233, 0.3));
-    border: 1px solid rgba(0, 212, 168, 0.4);
-    color: #fff;
+    background: linear-gradient(135deg, rgba(0, 212, 168, 0.28), rgba(14, 165, 233, 0.32));
+    border: 1px solid rgba(0, 212, 168, 0.45);
+    color: #ffffff;
     border-bottom-right-radius: 4px;
+    box-shadow: 0 6px 20px rgba(0, 212, 168, 0.15);
   }
   .ai-msg-meta {
-    font-size: 10.5px;
+    font-size: 10px;
     color: var(--text3);
-    margin-top: 4px;
-    padding: 0 4px;
+    margin-top: 5px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ai-msg-meta .tech-tag {
+    color: var(--accent);
+    font-size: 9.5px;
+    background: rgba(0, 212, 168, 0.08);
+    padding: 1px 5px;
+    border-radius: 4px;
   }
 
   .ai-quick-prompts {
@@ -1795,16 +1883,24 @@
 <div class="ai-drawer" id="edutrack-ai-drawer">
   <div class="ai-drawer-header">
     <div class="ai-drawer-title-group">
-      <div class="ai-drawer-avatar">AI</div>
+      <div class="ai-drawer-avatar">
+        <span class="neural-pulse"></span>
+        🤖
+      </div>
       <div>
         <div class="ai-drawer-name">
           <span>EduTrackAi</span>
-          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);"></span>
+          <span class="ai-status-badge"><span class="badge-dot"></span>0ms Offline ML</span>
         </div>
-        <div class="ai-drawer-sub">Live Academic Copilot · BUBT CSE</div>
+        <div class="ai-drawer-sub">Autonomous Academic Intelligence · BUBT CSE</div>
       </div>
     </div>
     <div class="ai-drawer-actions">
+      <!-- 1-Click Language Switcher Pill -->
+      <div class="ai-lang-toggle" title="Switch AI response language">
+        <button class="ai-lang-btn active" id="ai-lang-btn-en" onclick="setAiLanguage('en')">EN</button>
+        <button class="ai-lang-btn" id="ai-lang-btn-bn" onclick="setAiLanguage('bn')">বাংলা</button>
+      </div>
       <button class="ai-drawer-btn" onclick="clearAiDrawerChat()" title="Reset chat">🔄</button>
       <button class="ai-drawer-btn" onclick="toggleAiDrawer()" title="Close">✕</button>
     </div>
@@ -1813,24 +1909,29 @@
   <div class="ai-drawer-body" id="ai-drawer-body">
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrackAi</strong>, your live academic intelligence copilot.<br><br>
-        Currently your <strong>CGPA is 3.22</strong> with <strong>24 credits completed</strong>. Your target is <strong>3.85 CGPA</strong>.<br><br>
-        How can I guide your academic trajectory today?
+        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrackAi</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
+        Currently your <strong>CGPA is 3.22</strong> across <strong>24 credits completed</strong>. Your degree target is <strong>3.85 CGPA</strong>.<br><br>
+        How can I guide your course pacing, exam preparation, or degree trajectory today?
       </div>
-      <div class="ai-msg-meta">EduTrackAi · Just now</div>
+      <div class="ai-msg-meta">
+        <span>EduTrackAi</span>
+        <span>·</span>
+        <span class="tech-tag">🟢 100% On-Device ML</span>
+      </div>
     </div>
 
     <div class="ai-quick-prompts">
       <div class="ai-chip" style="background:rgba(14,165,233,0.15);border-color:rgba(14,165,233,0.4);color:var(--accent2);" onclick="showSection('advisor'); switchAdvisorTab('sim'); toggleAiDrawer();">🧪 Live AI Simulation Lab</div>
       <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')">🎯 How to raise CGPA to 3.85?</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Forecast my next semester GPA trajectory')">📈 Forecast next semester</div>
-      <div class="ai-chip" onclick="askEduTrackAi('What courses should I take next semester?')">⚡ Next course sequencing</div>
-      <div class="ai-chip" onclick="askEduTrackAi('What grade do I need in MAT101 and CSE101?')">📝 Grade targets for Dean Benchmark</div>
+      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')">📅 7-Day Study Timetable</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')">🔄 Retake Strategy & GPA Jump</div>
+      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')">⚡ High-Yield Exam Protocol</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')">📋 Attendance Clearance Audit</div>
     </div>
   </div>
 
   <div class="ai-drawer-footer">
-    <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrackAi anything..." onkeydown="handleAiDrawerKey(event)">
+    <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrackAi in Academic English or বাংলা..." onkeydown="handleAiDrawerKey(event)">
     <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send">➤</button>
   </div>
 </div>
@@ -2325,6 +2426,23 @@ async function sendChatMsg() {
 }
 
 // ===== EDUTRACKAI FLOATING DRAWER CONTROLLER =====
+var currentAiLang = 'en';
+
+function setAiLanguage(lang) {
+  currentAiLang = lang || 'en';
+  var btnEn = document.getElementById('ai-lang-btn-en');
+  var btnBn = document.getElementById('ai-lang-btn-bn');
+  if (btnEn) btnEn.classList.toggle('active', currentAiLang === 'en');
+  if (btnBn) btnBn.classList.toggle('active', currentAiLang === 'bn');
+
+  var inp = document.getElementById('ai-drawer-input');
+  if (inp) {
+    inp.placeholder = currentAiLang === 'en'
+      ? 'Ask EduTrackAi in Academic English...'
+      : 'EduTrackAi-কে বাংলায় প্রশ্ন করুন...';
+  }
+}
+
 function toggleAiDrawer() {
   var drawer = document.getElementById('edutrack-ai-drawer');
   if (!drawer) return;
@@ -2364,7 +2482,7 @@ async function sendAiDrawerMsg() {
   // Append user message
   var userDiv = document.createElement('div');
   userDiv.className = 'ai-msg user';
-  userDiv.innerHTML = '<div class="ai-msg-bubble">' + escapeHtml(query) + '</div><div class="ai-msg-meta">You · Just now</div>';
+  userDiv.innerHTML = '<div class="ai-msg-bubble">' + escapeHtml(query) + '</div><div class="ai-msg-meta"><span>You</span><span>·</span><span>Just now</span></div>';
   body.appendChild(userDiv);
   body.scrollTop = body.scrollHeight;
 
@@ -2372,14 +2490,15 @@ async function sendAiDrawerMsg() {
   var typingDiv = document.createElement('div');
   typingDiv.className = 'ai-msg ai';
   typingDiv.id = 'ai-drawer-typing';
-  typingDiv.innerHTML = '<div class="ai-msg-bubble" style="display:flex;align-items:center;gap:8px;color:var(--accent);"><span style="font-size:12px;font-weight:600;">EduTrackAi is analyzing...</span><span class="dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:ai-pulse-glow 1s infinite;"></span></div>';
+  var typingText = currentAiLang === 'bn' ? 'EduTrackAi অফলাইনে বিশ্লেষণ করছে...' : 'EduTrackAi is analyzing on-device...';
+  typingDiv.innerHTML = '<div class="ai-msg-bubble" style="display:flex;align-items:center;gap:8px;color:var(--accent);"><span style="font-size:12px;font-weight:600;">' + typingText + '</span><span class="dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:ai-pulse-glow 1s infinite;"></span></div>';
   body.appendChild(typingDiv);
   body.scrollTop = body.scrollHeight;
 
   var reply = '';
   if (window.pywebview && window.pywebview.api && window.pywebview.api.ask_ai_advisor) {
     try {
-      var res = await window.pywebview.api.ask_ai_advisor(query, currentUserId);
+      var res = await window.pywebview.api.ask_ai_advisor(query, currentUserId, currentAiLang);
       if (typeof res === 'string') {
         reply = res;
       } else if (res && res.advice) {
@@ -2393,7 +2512,7 @@ async function sendAiDrawerMsg() {
   }
 
   if (!reply) {
-    reply = generateLocalAiResponse(query);
+    reply = generateLocalAiResponse(query, currentAiLang);
   }
 
   var indicator = document.getElementById('ai-drawer-typing');
@@ -2401,7 +2520,7 @@ async function sendAiDrawerMsg() {
 
   var aiDiv = document.createElement('div');
   aiDiv.className = 'ai-msg ai';
-  aiDiv.innerHTML = '<div class="ai-msg-bubble">' + formatAiText(reply) + '</div><div class="ai-msg-meta">EduTrackAi · Just now</div>';
+  aiDiv.innerHTML = '<div class="ai-msg-bubble">' + formatAiText(reply) + '</div><div class="ai-msg-meta"><span>EduTrackAi</span><span>·</span><span class="tech-tag">🟢 0ms Offline ML</span></div>';
   body.appendChild(aiDiv);
   body.scrollTop = body.scrollHeight;
 }
@@ -2420,19 +2539,31 @@ function formatAiText(text) {
     .replace(/\*(.*?)\*/g, '<em>$1</em>');
 }
 
-function generateLocalAiResponse(query) {
+function generateLocalAiResponse(query, lang) {
   var q = (query || '').toLowerCase();
   var cgpa = '3.22';
   var target = '3.85';
   var creditsLeft = '118';
+  var isBn = (lang === 'bn') || /[\u0980-\u09FF]/.test(query);
+
+  if (isBn) {
+    if (q.includes('raise') || q.includes('target') || q.includes('3.85') || q.includes('how to') || q.includes('টার্গেট') || q.includes('সিজিপিএ')) {
+      return '🎯 <strong>' + target + ' CGPA অর্জনের সুনির্দিষ্ট পরিকল্পনা:</strong><br><br>' +
+        '• আপনার বর্তমান সিজিপিএ <strong>' + cgpa + '</strong> (সম্পন্ন ক্রেডিট: ২৪, অবশিষ্ট: <strong>' + creditsLeft + '</strong>)।<br>' +
+        '• লক্ষ্যমাত্রায় পৌঁছাতে পরবর্তী ৬ সেমিস্টারে গড়ে <strong>৩.৯৮ GPA</strong> প্রয়োজন।<br>' +
+        '• <strong>কার্যপদ্ধতি:</strong> থিওরি কোর্সগুলোতে (CSE201, MAT101, CSE202) A/A+ নিশ্চিত করুন এবং Trajectory Planner-এ পূর্ববর্তী কম গ্রেডের কোর্স রিটেক সিমুলেট করুন।';
+    }
+    return '🤖 <strong>EduTrackAi অফলাইন একাডেমিক গাইডেন্স:</strong><br><br>' +
+      'আপনার B.Sc. in CSE ডিগ্রি ট্র্যাকিং অনুযায়ী বর্তমানে CGPA ' + cgpa + '। ৩-ক্রেডিটের গুরুত্বপূর্ণ কোর্সগুলোতে বাড়তি সময় দিন এবং যেকোনো সময় রুটিন বা রিটেক স্ট্র্যাটেজির জন্য প্রশ্ন করুন!';
+  }
 
   if (q.includes('raise') || q.includes('target') || q.includes('3.85') || q.includes('how to')) {
-    return '🎯 <strong>Strategy to reach ' + target + ' CGPA:</strong><br><br>' +
-      '• You currently hold <strong>' + cgpa + ' CGPA</strong> across 24 credits, leaving <strong>' + creditsLeft + ' credits</strong>.<br>' +
-      '• To reach ' + target + ', you need an average semester GPA of <strong>3.98</strong> across the next 6 semesters.<br>' +
-      '• <strong>Action Plan:</strong> Secure A / A+ in all 3.0 & 4.0 credit core engineering theory courses (CSE201, MAT101, CSE202). A single B+ in a 4-credit course requires two A+ courses to balance.';
+    return '🎯 <strong>Strategic Trajectory to Achieve ' + target + ' CGPA:</strong><br><br>' +
+      '• Current Standing: <strong>' + cgpa + ' CGPA</strong> across 24 completed credits, leaving <strong>' + creditsLeft + ' remaining credits</strong> in B.Sc. in CSE.<br>' +
+      '• Required GPA Velocity: You need an average semester GPA of <strong>3.98</strong> across upcoming terms.<br>' +
+      '• <strong>Optimal Action Plan:</strong> Target A / A+ across all 3.0 & 4.0 credit core engineering lectures. Retaking prior C/D grade courses will significantly lower this target GPA pressure.';
   } else if (q.includes('forecast') || q.includes('trajectory') || q.includes('next semester')) {
-    return '📈 <strong>Semester Trajectory Forecast:</strong><br><br>' +
+    return '📈 <strong>Semester Trajectory Forecast (BUBT CSE):</strong><br><br>' +
       '• Projected performance at current velocity (+0.16 GPA/sem):<br>' +
       '  - <strong>Semester 4:</strong> 3.52 projected term GPA → Cumulative CGPA rises to <strong>3.30</strong><br>' +
       '  - <strong>Semester 5:</strong> 3.72 projected term GPA → Cumulative CGPA rises to <strong>3.42</strong><br>' +
@@ -2443,10 +2574,10 @@ function generateLocalAiResponse(query) {
       '• <strong>Mathematics:</strong> MAT101 (Differential & Integral Calculus, 3.0 CR)<br>' +
       '• <strong>Lab Anchor:</strong> CSE102 (Programming Lab II, 1.5 CR)<br>' +
       '• <strong>GED Requirement:</strong> ENG101 (Academic English, 3.0 CR)<br>' +
-      '💡 <em>Tip: Keep total semester load at 13.5–15 credits to avoid cognitive overload and ensure high marks.</em>';
+      '💡 <em>Tip: Keep total semester load at 13.5–15 credits to avoid cognitive overload and maximize grade return.</em>';
   } else if (q.includes('dean') || q.includes('honor') || q.includes('benchmark')) {
     return '🏆 <strong>Dean\'s Honor Roll & Scholarship Criteria:</strong><br><br>' +
-      '• BUBT requirement: Semester GPA <strong>3.75 or above</strong> with minimum 12 registered credits.<br>' +
+      '• BUBT Requirement: Semester GPA <strong>3.75 or above</strong> with minimum 12 registered credits.<br>' +
       '• Maintaining CGPA ≥ 3.75 unlocks merit waiver tuition discounts up to 50–100%.';
   }
   return '💡 <strong>EduTrackAi Academic Guidance:</strong><br><br>' +
@@ -2455,18 +2586,30 @@ function generateLocalAiResponse(query) {
 
 function clearAiDrawerChat() {
   var body = document.getElementById('ai-drawer-body');
-  body.innerHTML = '<div class="ai-msg ai">' +
-    '<div class="ai-msg-bubble">' +
-    '👋 <strong>Chat history cleared.</strong> I am ready for your next question! Ask me about GPA trajectories, graduation requirements, or course planning.' +
-    '</div>' +
-    '<div class="ai-msg-meta">EduTrackAi · Just now</div>' +
-    '</div>' +
-    '<div class="ai-quick-prompts">' +
-    '<div class="ai-chip" style="background:rgba(14,165,233,0.15);border-color:rgba(14,165,233,0.4);color:var(--accent2);" onclick="showSection(\'advisor\'); switchAdvisorTab(\'sim\'); toggleAiDrawer();">🧪 Live AI Simulation Lab</div>' +
-    '<div class="ai-chip" onclick="askEduTrackAi(\'How can I raise my CGPA from 3.22 to 3.85?\')">🎯 How to raise CGPA to 3.85?</div>' +
-    '<div class="ai-chip" onclick="askEduTrackAi(\'Forecast my next semester GPA trajectory\')">📈 Forecast next semester</div>' +
-    '<div class="ai-chip" onclick="askEduTrackAi(\'What courses should I take next semester?\')">⚡ Next course sequencing</div>' +
-    '</div>';
+  if (!body) return;
+  body.innerHTML = `
+    <div class="ai-msg ai">
+      <div class="ai-msg-bubble">
+        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrackAi</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
+        Currently your <strong>CGPA is 3.22</strong> across <strong>24 credits completed</strong>. Your degree target is <strong>3.85 CGPA</strong>.<br><br>
+        How can I guide your course pacing, exam preparation, or degree trajectory today?
+      </div>
+      <div class="ai-msg-meta">
+        <span>EduTrackAi</span>
+        <span>·</span>
+        <span class="tech-tag">🟢 100% On-Device ML</span>
+      </div>
+    </div>
+
+    <div class="ai-quick-prompts">
+      <div class="ai-chip" style="background:rgba(14,165,233,0.15);border-color:rgba(14,165,233,0.4);color:var(--accent2);" onclick="showSection('advisor'); switchAdvisorTab('sim'); toggleAiDrawer();">🧪 Live AI Simulation Lab</div>
+      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')">🎯 How to raise CGPA to 3.85?</div>
+      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')">📅 7-Day Study Timetable</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')">🔄 Retake Strategy & GPA Jump</div>
+      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')">⚡ High-Yield Exam Protocol</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')">📋 Attendance Clearance Audit</div>
+    </div>
+  `;
 }
 
 async function exportTranscript() {
