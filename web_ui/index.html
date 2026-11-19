@@ -200,13 +200,32 @@ body.dark-mode .lh-chart{background:rgba(10,25,48,.5);border-color:rgba(56,189,2
 .lc-sec{display:inline-flex;align-items:center;gap:6px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.22);border-radius:30px;padding:5px 13px;font-size:10px;font-weight:700;color:var(--deep);text-transform:uppercase;letter-spacing:.6px;}
 body.dark-mode .lc-sec{color:var(--sky2);}
 .theme-pill-btn{
-  background:rgba(255,255,255,.3);border:1px solid rgba(14,165,233,.2);
-  padding:5px 11px;border-radius:20px;font-size:11px;font-weight:700;
-  color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:5px;
-  transition:var(--t);
+  background:rgba(255,255,255,.45);
+  backdrop-filter:blur(12px) saturate(160%);
+  -webkit-backdrop-filter:blur(12px) saturate(160%);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 2px 8px rgba(14,165,233,.1), inset 0 1px 1px rgba(255,255,255,.8);
+  padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:700;
+  color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  transition:all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.theme-pill-btn:hover{background:rgba(255,255,255,.6);transform:scale(1.03);}
-body.dark-mode .theme-pill-btn{background:rgba(14,30,54,.6);color:#bae6fd;}
+.theme-pill-btn:hover{
+  background:rgba(255,255,255,.75);
+  border-color:var(--sky);
+  box-shadow:0 4px 12px rgba(14,165,233,.2);
+  transform:scale(1.04);
+}
+body.dark-mode .theme-pill-btn{
+  background:rgba(14,30,54,.65);
+  border-color:rgba(56,189,248,.25);
+  box-shadow:0 2px 8px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.1);
+  color:#bae6fd;
+}
+.theme-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+}
 
 .lc-h2{font-size:1.8rem;font-weight:900;color:var(--ink);letter-spacing:-.6px;margin-bottom:5px;}
 .lc-sub{font-size:12.5px;color:var(--mid);line-height:1.6;margin-bottom:1.6rem;}
@@ -243,15 +262,32 @@ body.dark-mode .fg a{color:var(--sky2);}
 .div-or span{font-size:11px;color:var(--muted);}
 .demo-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .btn-dm{
-  padding:9px 12px;border-radius:10px;
-  border:1.5px solid rgba(255,255,255,.65);
-  background:rgba(255,255,255,.45);backdrop-filter:blur(10px);
-  color:var(--deep);font-size:12px;font-weight:600;cursor:pointer;transition:var(--t);
-  display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:10px 14px;border-radius:12px;
+  border:1.5px solid rgba(255,255,255,.75);
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(14px) saturate(180%);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);
+  box-shadow:0 4px 14px rgba(14,165,233,0.12), inset 0 1px 2px rgba(255,255,255,0.9);
+  color:var(--deep);font-size:12.5px;font-weight:700;cursor:pointer;
+  transition:all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  display:flex;align-items:center;justify-content:center;gap:6px;
 }
-body.dark-mode .btn-dm{background:rgba(14,30,54,.6);border-color:rgba(56,189,248,.2);color:var(--sky2);}
-.btn-dm:hover{background:rgba(255,255,255,.75);transform:translateY(-1px);}
-body.dark-mode .btn-dm:hover{background:rgba(14,30,54,.95);}
+body.dark-mode .btn-dm{
+  background:rgba(14,30,54,.65);
+  border-color:rgba(56,189,248,.3);
+  box-shadow:0 4px 16px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.12);
+  color:var(--sky2);
+}
+.btn-dm:hover{
+  background:rgba(255,255,255,.85);
+  border-color:var(--sky);
+  box-shadow:0 6px 20px rgba(14,165,233,0.25), inset 0 1px 3px rgba(255,255,255,0.95);
+  transform:translateY(-2px);
+}
+body.dark-mode .btn-dm:hover{
+  background:rgba(14,30,54,.95);
+  box-shadow:0 6px 20px rgba(0,0,0,0.5);
+}
 .lc-ft{font-size:10.5px;color:var(--muted);text-align:center;margin-top:1.3rem;line-height:1.5;}
 
 /* ═══════════════════════════════════════
@@ -483,12 +519,35 @@ body.dark-mode .ritag.b{color:var(--sky2);}
 .gsc:nth-child(3)::before{background:linear-gradient(90deg,var(--deepest),var(--deep));}
 .gsc:nth-child(4)::before{background:linear-gradient(90deg,var(--ok),#34d399);}
 .gsc:hover{transform:translateY(-5px) scale(1.01);box-shadow:var(--shadow-hover);border-color:rgba(14,165,233,.45);}
-.gsc-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:11px;transition:var(--t);}
-.gsc:hover .gsc-ico{transform:scale(1.1) rotate(5deg);}
-.gsc:nth-child(1) .gsc-ico{background:rgba(14,165,233,.12);}
-.gsc:nth-child(2) .gsc-ico{background:rgba(3,105,161,.1);}
-.gsc:nth-child(3) .gsc-ico{background:rgba(7,89,133,.09);}
-.gsc:nth-child(4) .gsc-ico{background:rgba(5,150,105,.1);}
+.gsc-ico{
+  width:42px;height:42px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:11px;
+  background:rgba(255,255,255,0.45);
+  backdrop-filter:blur(14px) saturate(180%);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.7);
+  box-shadow:0 4px 14px rgba(14,165,233,0.12), inset 0 1px 2px rgba(255,255,255,0.85);
+  transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,0.06));
+}
+body.dark-mode .gsc-ico{
+  background:rgba(14,30,54,0.55);
+  border-color:rgba(56,189,248,0.28);
+  box-shadow:0 4px 16px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.12);
+}
+.gsc:hover .gsc-ico{
+  transform:scale(1.12) translateY(-2px) rotate(4deg);
+  box-shadow:0 8px 20px rgba(14,165,233,0.24), inset 0 1px 3px rgba(255,255,255,0.9);
+}
+.gsc:nth-child(1) .gsc-ico{background:linear-gradient(135deg,rgba(14,165,233,0.22),rgba(255,255,255,0.5));}
+.gsc:nth-child(2) .gsc-ico{background:linear-gradient(135deg,rgba(3,105,161,0.18),rgba(255,255,255,0.5));}
+.gsc:nth-child(3) .gsc-ico{background:linear-gradient(135deg,rgba(7,89,133,0.16),rgba(255,255,255,0.5));}
+.gsc:nth-child(4) .gsc-ico{background:linear-gradient(135deg,rgba(5,150,105,0.18),rgba(255,255,255,0.5));}
+body.dark-mode .gsc:nth-child(1) .gsc-ico{background:linear-gradient(135deg,rgba(14,165,233,0.25),rgba(14,30,54,0.6));}
+body.dark-mode .gsc:nth-child(2) .gsc-ico{background:linear-gradient(135deg,rgba(3,105,161,0.22),rgba(14,30,54,0.6));}
+body.dark-mode .gsc:nth-child(3) .gsc-ico{background:linear-gradient(135deg,rgba(7,89,133,0.2),rgba(14,30,54,0.6));}
+body.dark-mode .gsc:nth-child(4) .gsc-ico{background:linear-gradient(135deg,rgba(5,150,105,0.22),rgba(14,30,54,0.6));}
 .gsc-lbl{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;font-weight:700;}
 .gsc-val{font-size:2.2rem;font-weight:900;line-height:1;margin-bottom:5px;}
 .gsc:nth-child(1) .gsc-val{color:var(--sky);}
@@ -549,12 +608,15 @@ body.dark-mode .ci-cr{color:var(--sky2);}
 .ci-bar{height:6px;background:rgba(14,165,233,.12);border-radius:3px;overflow:hidden;}
 .ci-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--sky3));}
 .ci-grade-pill{
-  padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:800;letter-spacing:.3px;
-  display:flex;align-items:center;gap:4px;min-width:62px;justify-content:center;
+  padding:6px 13px;border-radius:10px;font-size:12.5px;font-weight:800;letter-spacing:.3px;
+  display:flex;align-items:center;gap:5px;min-width:66px;justify-content:center;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:inset 0 1px 1.5px rgba(255,255,255,0.4), 0 2px 6px rgba(0,0,0,0.04);
 }
-.pill-a{background:rgba(5,150,105,.14);color:var(--ok);border:1px solid rgba(5,150,105,.3);}
-.pill-b{background:rgba(14,165,233,.14);color:var(--sky);border:1px solid rgba(14,165,233,.3);}
-.pill-c{background:rgba(217,119,6,.14);color:var(--warn);border:1px solid rgba(217,119,6,.3);}
+.pill-a{background:linear-gradient(135deg,rgba(5,150,105,.2),rgba(5,150,105,.08));color:var(--ok);border:1px solid rgba(5,150,105,.38);}
+.pill-b{background:linear-gradient(135deg,rgba(14,165,233,.2),rgba(14,165,233,.08));color:var(--sky);border:1px solid rgba(14,165,233,.38);}
+.pill-c{background:linear-gradient(135deg,rgba(217,119,6,.2),rgba(217,119,6,.08));color:var(--warn);border:1px solid rgba(217,119,6,.38);}
 
 /* ═══════════ MERIT SCHOLARSHIP & WAIVER ═══════════ */
 .waiver-card{
@@ -564,6 +626,21 @@ body.dark-mode .ci-cr{color:var(--sky2);}
 }
 .waiver-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:9px;}
 .waiver-title{font-size:14.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:7px;}
+.waiver-title span:first-child{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:8px;
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.75);
+  box-shadow:0 2px 8px rgba(14,165,233,0.12), inset 0 1px 1px rgba(255,255,255,0.85);
+  font-size:14px;
+}
+body.dark-mode .waiver-title span:first-child{
+  background:rgba(14,30,54,0.6);
+  border-color:rgba(56,189,248,0.25);
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
 .waiver-val{font-size:1.35rem;font-weight:900;color:var(--deep);white-space:nowrap;}
 body.dark-mode .waiver-val{color:var(--sky2);}
 .waiver-steps{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0 6px;}
@@ -604,9 +681,23 @@ body.dark-mode .mile-date-badge{color:var(--sky2);}
 }
 .q-tool-ico{
   width:44px;height:44px;border-radius:12px;
-  background:linear-gradient(135deg,rgba(14,165,233,.14),rgba(3,105,161,.08));
-  border:1px solid rgba(14,165,233,.22);
-  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.65),rgba(14,165,233,0.12));
+  backdrop-filter:blur(14px) saturate(180%);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.75);
+  box-shadow:0 4px 14px rgba(14,165,233,0.14), inset 0 1px 2px rgba(255,255,255,0.9);
+  display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;
+  transition:all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,0.06));
+}
+body.dark-mode .q-tool-ico{
+  background:linear-gradient(135deg,rgba(14,30,54,0.7),rgba(14,165,233,0.18));
+  border-color:rgba(56,189,248,0.28);
+  box-shadow:0 4px 16px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.14);
+}
+.q-tool-card:hover .q-tool-ico{
+  transform:scale(1.14) rotate(6deg);
+  box-shadow:0 8px 22px rgba(14,165,233,0.26), inset 0 1px 3px rgba(255,255,255,0.95);
 }
 .q-tool-text{display:flex;flex-direction:column;gap:3px;}
 .q-tool-title{font-size:14px;font-weight:800;color:var(--ink);}
@@ -685,14 +776,46 @@ body.dark-mode .btn-add{color:var(--sky2);}
   box-shadow:0 10px 36px rgba(3,105,161,.2);
 }
 .ai-bnr::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% -10%,rgba(255,255,255,.1),transparent 60%);}
-.ai-av{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,.28);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;}
+.ai-av{
+  width:62px;height:62px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(255,255,255,.25),rgba(14,165,233,.15));
+  backdrop-filter:blur(14px) saturate(180%);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);
+  border:2px solid rgba(255,255,255,.45);
+  box-shadow:0 8px 24px rgba(0,0,0,.15), inset 0 2px 4px rgba(255,255,255,.5);
+  margin:0 auto 10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;position:relative;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+}
 .ai-nm{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:4px;}
 .ai-s{font-size:13px;color:rgba(255,255,255,.75);}
 .qp-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
-.qp{padding:6px 13px;border-radius:20px;background:var(--input-bg);backdrop-filter:blur(10px);border:1px solid rgba(14,165,233,.24);color:var(--deep);font-size:12.5px;cursor:pointer;transition:var(--t);font-weight:600;}
-body.dark-mode .qp{color:var(--sky2);}
-.qp:hover{background:rgba(255,255,255,.9);transform:translateY(-1px);}
-body.dark-mode .qp:hover{background:rgba(14,30,54,.95);}
+.qp{
+  padding:7px 15px;border-radius:20px;
+  background:rgba(255,255,255,0.45);
+  backdrop-filter:blur(12px) saturate(160%);
+  -webkit-backdrop-filter:blur(12px) saturate(160%);
+  border:1px solid rgba(255,255,255,0.65);
+  box-shadow:0 2px 8px rgba(14,165,233,0.08), inset 0 1px 1px rgba(255,255,255,0.85);
+  color:var(--deep);font-size:12.5px;cursor:pointer;
+  transition:all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+body.dark-mode .qp{
+  background:rgba(14,30,54,0.55);
+  border-color:rgba(56,189,248,0.25);
+  box-shadow:0 2px 8px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.1);
+  color:var(--sky2);
+}
+.qp:hover{
+  background:rgba(255,255,255,0.85);
+  border-color:var(--sky);
+  box-shadow:0 4px 14px rgba(14,165,233,0.22);
+  transform:translateY(-1px) scale(1.02);
+}
+body.dark-mode .qp:hover{background:rgba(14,30,54,0.9);}
 .chat-box{background:var(--chat-bg);backdrop-filter:blur(16px);border:var(--border-card);border-radius:var(--r);padding:1.3rem;min-height:300px;max-height:360px;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-card);}
 .msg{display:flex;gap:9px;}
 .msg.u{flex-direction:row-reverse;}
@@ -1110,23 +1233,36 @@ body.dark-mode .ai-msg-meta .tech-tag {
   margin-top: 6px;
 }
 .ai-chip {
-  background: rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(14, 165, 233, 0.24);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8);
   color: var(--deep);
   font-size: 11.5px;
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 6px 13px;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 body.dark-mode .ai-chip {
+  background: rgba(14, 30, 54, 0.55);
+  border-color: rgba(56, 189, 248, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
   color: var(--sky2);
 }
 .ai-chip:hover {
-  background: rgba(14, 165, 233, 0.18);
+  background: rgba(255, 255, 255, 0.75);
   border-color: var(--sky);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
   transform: translateY(-1px);
+}
+body.dark-mode .ai-chip:hover {
+  background: rgba(14, 30, 54, 0.85);
 }
 .ai-drawer-footer {
   padding: 1rem 1.2rem;
@@ -1169,6 +1305,32 @@ body.dark-mode .ai-chip {
 .ai-drawer-send:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
+}
+
+/* ═══════════ GLASSY EMOJI & ICON SYSTEM ═══════════ */
+.em-glass{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.55);
+  backdrop-filter:blur(12px) saturate(180%);
+  -webkit-backdrop-filter:blur(12px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.75);
+  box-shadow:0 2px 8px rgba(14,165,233,0.14), inset 0 1px 2px rgba(255,255,255,0.9);
+  border-radius:8px;
+  line-height:1;
+  padding:3px 5px;
+  margin-right:4px;
+  vertical-align:middle;
+  transition:all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.06));
+}
+body.dark-mode .em-glass{
+  background:rgba(14,30,54,0.65);
+  border-color:rgba(56,189,248,0.3);
+  box-shadow:0 2px 8px rgba(0,0,0,0.35), inset 0 1px 1px rgba(255,255,255,0.12);
+}
+.em-glass:hover{
+  transform:scale(1.15) rotate(4deg);
+  box-shadow:0 4px 12px rgba(14,165,233,0.25), inset 0 1px 3px rgba(255,255,255,0.95);
 }
 
 ::-webkit-scrollbar{width:4px;}
@@ -1226,7 +1388,7 @@ body.dark-mode .ai-chip {
 
   <div class="lc">
     <div class="lc-top-bar">
-      <div class="lc-sec">🔒 Secure Academic Workspace</div>
+      <div class="lc-sec"><span class="em-glass">🔒</span> Secure Academic Workspace</div>
       <button class="theme-pill-btn" onclick="toggleTheme()" id="login-theme-btn" title="Toggle Light / Dark Mode">
         <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
       </button>
@@ -1235,8 +1397,8 @@ body.dark-mode .ai-chip {
     <p class="lc-sub">Access your records, forecasting tools, and advising.</p>
     <div style="font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:7px;">Select workspace role</div>
     <div class="rtabs">
-      <button class="rtab active" id="rt-s" onclick="setRole('student')">🎓 Student</button>
-      <button class="rtab" id="rt-f" onclick="setRole('faculty')">👤 Faculty</button>
+      <button class="rtab active" id="rt-s" onclick="setRole('student')"><span class="em-glass">🎓</span> Student</button>
+      <button class="rtab" id="rt-f" onclick="setRole('faculty')"><span class="em-glass">👤</span> Faculty</button>
     </div>
     <div class="fl"><label id="id-lbl">Student ID</label><input class="fi" id="l-id" value="20255103311"></div>
     <div class="fl"><label>Password</label><div class="pw-wr"><input class="fi" id="l-pw" type="password" value="••••••••••••"><button class="pw-ey" onclick="togglePw()">👁</button></div></div>
@@ -1244,10 +1406,10 @@ body.dark-mode .ai-chip {
     <button class="btn-sign" onclick="doLogin()"><span>Sign in to Workspace</span><span>→</span></button>
     <div class="div-or"><span>or quick demo access</span></div>
     <div class="demo-g">
-      <button class="btn-dm" onclick="demoLogin('student')">🎓 Student Demo</button>
-      <button class="btn-dm" onclick="demoLogin('faculty')">👤 Faculty Demo</button>
+      <button class="btn-dm" onclick="demoLogin('student')"><span class="em-glass">🎓</span> Student Demo</button>
+      <button class="btn-dm" onclick="demoLogin('faculty')"><span class="em-glass">👤</span> Faculty Demo</button>
     </div>
-    <div class="lc-ft">🔒 Local SQLite · BUBT CSE Standard CGPA Modeling</div>
+    <div class="lc-ft"><span class="em-glass">🔒</span> Local SQLite · BUBT CSE Standard CGPA Modeling</div>
   </div>
 </div>
 
@@ -1523,7 +1685,7 @@ body.dark-mode .ai-chip {
             <div class="gc">
               <div class="gc-h"><div class="gc-t">AI Insights</div><div class="gc-s">Your next step</div></div>
               <div class="ins-box"><div class="ins-st">On Track</div><div class="ins-t">Keep your semester pace steady</div><div class="ins-s">No low-grade courses flagged in your record.</div></div>
-              <button class="btn-ai" onclick="go('advisor')">⭐ Consult AI Academic Advisor →</button>
+              <button class="btn-ai" onclick="go('advisor')"><span class="em-glass" style="margin-right:2px;background:rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.45);">⭐</span> Consult AI Academic Advisor →</button>
             </div>
           </div>
         </div>
@@ -1621,13 +1783,13 @@ body.dark-mode .ai-chip {
       <div class="section" id="sec-advisor">
         <div class="ai-bnr"><div class="ai-av">⭐</div><div class="ai-nm">EduTrack AI Academic Advisor</div><div class="ai-s">Your intelligent autonomous academic planning assistant · 100% Offline</div></div>
         <div class="qp-row">
-          <button class="qp" onclick="sq('How can I improve my CGPA?')">🎯 Improve CGPA</button>
-          <button class="qp" onclick="sq('What courses should I take next semester?')">📚 Course recommendations</button>
-          <button class="qp" onclick="sq('Am I on track for Magna Cum Laude?')">★ Honours track check</button>
-          <button class="qp" onclick="sq('What is my graduation timeline?')">⏱️ Graduation timeline</button>
-          <button class="qp" onclick="sq('Give me study tips for CSE')">💡 Study tips</button>
-          <button class="qp" onclick="sq('Retake Strategy & GPA Jump')">🔄 Retake Strategy</button>
-          <button class="qp" onclick="sq('Attendance Clearance Audit')">📋 Attendance Audit</button>
+          <button class="qp" onclick="sq('How can I improve my CGPA?')"><span class="em-glass">🎯</span> Improve CGPA</button>
+          <button class="qp" onclick="sq('What courses should I take next semester?')"><span class="em-glass">📚</span> Course recommendations</button>
+          <button class="qp" onclick="sq('Am I on track for Magna Cum Laude?')"><span class="em-glass">★</span> Honours track check</button>
+          <button class="qp" onclick="sq('What is my graduation timeline?')"><span class="em-glass">⏱️</span> Graduation timeline</button>
+          <button class="qp" onclick="sq('Give me study tips for CSE')"><span class="em-glass">💡</span> Study tips</button>
+          <button class="qp" onclick="sq('Retake Strategy & GPA Jump')"><span class="em-glass">🔄</span> Retake Strategy</button>
+          <button class="qp" onclick="sq('Attendance Clearance Audit')"><span class="em-glass">📋</span> Attendance Audit</button>
         </div>
         <div class="chat-box" id="cbox"><div class="msg ai"><div class="mav">AI</div><div class="mb">Hello Mahabub! I am your EduTrack AI Academic Advisor. Your current CGPA is 3.22 across 24 completed credits. How can I guide your academic roadmap today? 🎓</div></div></div>
         <div class="chat-row"><input class="chat-inp" id="ci" placeholder="Ask anything about your degree in Academic English or বাংলা…" onkeypress="if(event.key==='Enter')sm()"><button class="btn-send" onclick="sm()">Send</button></div>
@@ -1795,11 +1957,11 @@ body.dark-mode .ai-chip {
     </div>
 
     <div class="ai-quick-prompts">
-      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')">🎯 How to raise CGPA to 3.85?</div>
-      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')">📅 7-Day Study Timetable</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')">🔄 Retake Strategy & GPA Jump</div>
-      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')">⚡ High-Yield Exam Protocol</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')">📋 Attendance Clearance Audit</div>
+      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')"><span class="em-glass">🎯</span> How to raise CGPA to 3.85?</div>
+      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')"><span class="em-glass">📅</span> 7-Day Study Timetable</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')"><span class="em-glass">🔄</span> Retake Strategy & GPA Jump</div>
+      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')"><span class="em-glass">⚡</span> High-Yield Exam Protocol</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')"><span class="em-glass">📋</span> Attendance Clearance Audit</div>
     </div>
   </div>
 
@@ -1824,12 +1986,12 @@ body.dark-mode .ai-chip {
     </div>
     <div class="modal-body" style="max-height:68vh;overflow-y:auto;padding:1.4rem;display:flex;flex-direction:column;gap:14px;">
       <div style="background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:12px;padding:12px 14px;">
-        <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;">🎓 About EduTrack</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;"><span class="em-glass">🎓</span> About EduTrack</div>
         <div style="font-size:11.5px;color:var(--mid);line-height:1.5;">EduTrack is a 100% offline-first academic management, trajectory modeling, and advising workspace designed specifically for BUBT CSE students and faculty members.</div>
       </div>
 
       <div>
-        <div style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:7px;">✨ Workspace Navigation &amp; Modules</div>
+        <div style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:7px;"><span class="em-glass">✨</span> Workspace Navigation &amp; Modules</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;font-size:11.5px;">
           <div style="padding:9px;border-radius:9px;background:var(--input-bg);border:1px solid rgba(14,165,233,.12);">
             <strong style="color:var(--deep);">01 Dashboard:</strong> Live CGPA standing, enrolled courses marks radar, waiver goals &amp; schedule.
@@ -1853,7 +2015,7 @@ body.dark-mode .ai-chip {
       </div>
 
       <div style="background:var(--input-bg);border:1px solid rgba(14,165,233,.12);border-radius:12px;padding:11px 14px;">
-        <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;">⚖️ BUBT Examination &amp; Waiver Policies</div>
+        <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;"><span class="em-glass">⚖️</span> BUBT Examination &amp; Waiver Policies</div>
         <ul style="font-size:11px;color:var(--mid);line-height:1.6;padding-left:18px;">
           <li>Minimum <strong>75% attendance</strong> is mandatory across every registered course for final exam clearance.</li>
           <li>Semester GPA ≥ <strong>3.75</strong> qualifies for Dean's Honor Roll and up to <strong>25%–50% tuition waiver</strong>.</li>
@@ -2393,11 +2555,11 @@ function clearAiDrawerChat() {
       </div>
     </div>
     <div class="ai-quick-prompts">
-      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')">🎯 How to raise CGPA to 3.85?</div>
-      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')">📅 7-Day Study Timetable</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')">🔄 Retake Strategy & GPA Jump</div>
-      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')">⚡ High-Yield Exam Protocol</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')">📋 Attendance Clearance Audit</div>
+      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')"><span class="em-glass">🎯</span> How to raise CGPA to 3.85?</div>
+      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')"><span class="em-glass">📅</span> 7-Day Study Timetable</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')"><span class="em-glass">🔄</span> Retake Strategy & GPA Jump</div>
+      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')"><span class="em-glass">⚡</span> High-Yield Exam Protocol</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')"><span class="em-glass">📋</span> Attendance Clearance Audit</div>
     </div>
   `;
 }
