@@ -13,6 +13,12 @@ from pathlib import Path
 
 def main() -> None:
     """Launch the EduTrack desktop application."""
+    try:
+        from desktop_app import enable_high_dpi_awareness
+        enable_high_dpi_awareness()
+    except Exception:
+        pass
+
     if "--legacy" in sys.argv:
         print("Notice: Launching legacy interface as requested by --legacy flag...")
         import legacy_main

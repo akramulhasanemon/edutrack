@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EduTrack | Academic Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="assets/chart.umd.min.js"></script>
 <script>
   if (typeof Chart === 'undefined') {
@@ -21,22 +24,27 @@
     --accent: #00d4a8;
     --accent2: #0ea5e9;
     --accent3: #7c3aed;
-    --text: #f0f4ff;
-    --text2: #8ba3c7;
-    --text3: #4d6a94;
+    --text: #f8fafc;
+    --text2: #94a3b8;
+    --text3: #64748b;
     --danger: #ef4444;
     --warning: #f59e0b;
     --success: #10b981;
     --card-radius: 16px;
-    --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    --transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-main);
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   /* Animated bg orbs */
   .bg-orbs {
@@ -66,18 +74,22 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: clamp(1rem, 3vh, 2.5rem) 1.5rem;
+    min-height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
   }
   .login-container {
     display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 60px;
+    grid-template-columns: minmax(0, 1fr) clamp(340px, 32vw, 420px);
+    gap: clamp(24px, 4vw, 60px);
     max-width: 1100px;
     width: 100%;
     align-items: center;
+    margin: auto 0;
   }
   .login-left .brand {
-    display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 12px; margin-bottom: clamp(0.8rem, 2vh, 2rem);
   }
   .brand-icon {
     width: 48px; height: 48px; border-radius: 12px;
@@ -87,31 +99,31 @@
   }
   .brand-name { font-size: 22px; font-weight: 700; color: var(--text); }
   .login-left h1 {
-    font-size: 3.5rem; font-weight: 800; line-height: 1.1;
-    margin-bottom: 1rem;
+    font-size: clamp(2.2rem, 3.6vw, 3.5rem); font-weight: 800; line-height: 1.1;
+    margin-bottom: clamp(0.5rem, 1.4vh, 1rem);
     background: linear-gradient(135deg, #fff 40%, var(--accent) 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .login-left p { font-size: 1rem; color: var(--text2); margin-bottom: 2.5rem; }
+  .login-left p { font-size: clamp(0.85rem, 1.05vw, 1rem); color: var(--text2); margin-bottom: clamp(1rem, 2.2vh, 2.5rem); }
   .chart-preview {
     background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: var(--card-radius); padding: 1.5rem;
+    border-radius: var(--card-radius); padding: clamp(1rem, 1.8vh, 1.5rem);
     backdrop-filter: blur(20px);
   }
-  .chart-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
-  .mini-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 1.2rem; }
+  .chart-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: clamp(0.5rem, 1vh, 1rem); }
+  .mini-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: clamp(8px, 1.2vw, 12px); margin-top: clamp(0.8rem, 1.5vh, 1.2rem); }
   .mini-stat {
     background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
-    border-radius: 10px; padding: 12px;
+    border-radius: 10px; padding: clamp(8px, 1.2vh, 12px);
   }
   .mini-stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
-  .mini-stat-val { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-top: 2px; }
+  .mini-stat-val { font-size: clamp(1.1rem, 1.4vw, 1.3rem); font-weight: 700; color: var(--text); margin-top: 2px; }
   .mini-stat-sub { font-size: 10px; color: var(--accent); margin-top: 1px; }
 
   /* Login card */
   .login-card {
     background: rgba(10,22,40,0.8); border: 1px solid var(--glass-border);
-    border-radius: 20px; padding: 2rem;
+    border-radius: 20px; padding: clamp(1.4rem, 2.4vh, 2rem);
     backdrop-filter: blur(30px);
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
@@ -251,72 +263,96 @@
 
   /* Welcome banner */
   .welcome-banner {
-    background: linear-gradient(135deg, rgba(0,212,168,0.08), rgba(14,165,233,0.08));
-    border: 1px solid rgba(0,212,168,0.15);
-    border-radius: var(--card-radius); padding: 1.5rem 1.8rem;
-    margin-bottom: 1.8rem; display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(135deg, rgba(0, 212, 168, 0.12) 0%, rgba(14, 165, 233, 0.12) 50%, rgba(124, 58, 237, 0.08) 100%);
+    border: 1px solid rgba(0, 212, 168, 0.25);
+    border-radius: 18px; padding: 1.6rem 2rem;
+    margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(24px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
-  .welcome-banner .ava { width: 44px; height: 44px; border-radius: 12px; font-size: 16px; }
-  .welcome-left { display: flex; align-items: center; gap: 14px; }
+  .welcome-banner .ava { width: 48px; height: 48px; border-radius: 14px; font-size: 17px; font-weight: 800; }
+  .welcome-left { display: flex; align-items: center; gap: 16px; }
   .w-tags { display: flex; gap: 8px; margin-bottom: 6px; }
   .tag {
-    font-size: 10px; padding: 3px 8px; border-radius: 20px;
-    background: rgba(0,212,168,0.1); border: 1px solid rgba(0,212,168,0.2);
-    color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    font-size: 11px; padding: 4px 10px; border-radius: 20px;
+    background: rgba(0,212,168,0.12); border: 1px solid rgba(0,212,168,0.28);
+    color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px;
   }
-  .tag.blue { background: rgba(14,165,233,0.1); border-color: rgba(14,165,233,0.2); color: var(--accent2); }
-  .w-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; }
-  .w-meta { font-size: 12px; color: var(--text2); }
+  .tag.blue { background: rgba(14,165,233,0.12); border-color: rgba(14,165,233,0.28); color: var(--accent2); }
+  .w-name {
+    font-size: 1.35rem; font-weight: 800; margin-bottom: 3px; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 60%, #cbd5e1 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .w-meta { font-size: 12.5px; color: var(--text2); }
   .btn-export {
-    padding: 9px 16px; border-radius: 10px;
+    padding: 10px 18px; border-radius: 12px;
     background: linear-gradient(135deg, var(--accent2), var(--accent3));
-    border: none; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;
-    transition: var(--transition); display: flex; align-items: center; gap: 6px;
+    border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: var(--transition); display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 16px rgba(14,165,233,0.3);
   }
-  .btn-export:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-export:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(14,165,233,0.45); }
 
   /* Stats grid */
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 1.8rem; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 2rem; }
   .stat-card {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: var(--card-radius); padding: 1.2rem;
-    backdrop-filter: blur(10px); transition: var(--transition);
+    background: linear-gradient(145deg, rgba(14, 28, 54, 0.72) 0%, rgba(8, 16, 32, 0.86) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px; padding: 1.35rem 1.4rem;
+    backdrop-filter: blur(20px); transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative; overflow: hidden;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
   .stat-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    border-radius: var(--card-radius) var(--card-radius) 0 0;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    border-radius: 16px 16px 0 0;
   }
   .stat-card.c-green::before { background: linear-gradient(90deg, var(--success), transparent); }
   .stat-card.c-blue::before { background: linear-gradient(90deg, var(--accent2), transparent); }
   .stat-card.c-purple::before { background: linear-gradient(90deg, var(--accent3), transparent); }
   .stat-card.c-amber::before { background: linear-gradient(90deg, var(--warning), transparent); }
-  .stat-card:hover { background: var(--glass-hover); transform: translateY(-2px); }
-  .stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .stat-val { font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
-  .stat-sub { font-size: 11px; color: var(--text2); margin-bottom: 10px; }
-  .stat-bar { height: 3px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+  .stat-card:hover {
+    background: linear-gradient(145deg, rgba(18, 36, 68, 0.8) 0%, rgba(10, 20, 40, 0.9) 100%);
+    border-color: rgba(255, 255, 255, 0.16);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  .stat-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .stat-val {
+    font-size: 2.25rem; font-weight: 800; line-height: 1; margin-bottom: 6px;
+    letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+  }
+  .stat-sub { font-size: 12px; color: var(--text2); margin-bottom: 12px; font-weight: 400; }
+  .stat-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
   .stat-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
-  .bar-green { background: linear-gradient(90deg, var(--success), #34d399); }
-  .bar-blue { background: linear-gradient(90deg, var(--accent2), #38bdf8); }
-  .bar-purple { background: linear-gradient(90deg, var(--accent3), #a855f7); }
-  .bar-amber { background: linear-gradient(90deg, var(--warning), #fbbf24); }
-  .stat-hint { font-size: 10px; margin-top: 6px; }
-  .c-green .stat-val { color: var(--success); }
-  .c-blue .stat-val { color: var(--accent2); }
-  .c-purple .stat-val { color: var(--accent3); }
-  .c-amber .stat-val { color: var(--warning); }
+  .bar-green { background: linear-gradient(90deg, var(--success), #34d399); box-shadow: 0 0 10px rgba(16,185,129,0.5); }
+  .bar-blue { background: linear-gradient(90deg, var(--accent2), #38bdf8); box-shadow: 0 0 10px rgba(14,165,233,0.5); }
+  .bar-purple { background: linear-gradient(90deg, var(--accent3), #a855f7); box-shadow: 0 0 10px rgba(124,58,237,0.5); }
+  .bar-amber { background: linear-gradient(90deg, var(--warning), #fbbf24); box-shadow: 0 0 10px rgba(245,158,11,0.5); }
+  .stat-hint { font-size: 11px; font-weight: 600; margin-top: 8px; }
+  .c-green .stat-val { color: var(--success); text-shadow: 0 0 20px rgba(16,185,129,0.25); }
+  .c-blue .stat-val { color: var(--accent2); text-shadow: 0 0 20px rgba(14,165,233,0.25); }
+  .c-purple .stat-val { color: var(--accent3); text-shadow: 0 0 20px rgba(124,58,237,0.25); }
+  .c-amber .stat-val { color: var(--warning); text-shadow: 0 0 20px rgba(245,158,11,0.25); }
 
   /* Bottom grid */
-  .bottom-grid { display: grid; grid-template-columns: 1fr 380px; gap: 14px; }
+  .bottom-grid { display: grid; grid-template-columns: 1fr 390px; gap: 16px; }
   .glass-card {
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: var(--card-radius); padding: 1.5rem;
-    backdrop-filter: blur(10px);
+    background: linear-gradient(145deg, rgba(13, 25, 48, 0.75) 0%, rgba(7, 14, 30, 0.88) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px; padding: 1.5rem 1.6rem;
+    backdrop-filter: blur(24px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: all 0.25s ease;
+  }
+  .glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
-  .card-title { font-size: 15px; font-weight: 600; }
-  .card-sub { font-size: 11px; color: var(--text3); }
+  .card-title { font-size: 16px; font-weight: 700; letter-spacing: -0.015em; }
+  .card-sub { font-size: 12px; color: var(--text2); }
   .schedule-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
   .schedule-item:last-child { border-bottom: none; }
   .schedule-time { font-size: 11px; color: var(--accent); font-weight: 600; min-width: 80px; }
@@ -534,13 +570,331 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
 
-  /* Responsive */
-  @media(max-width:1024px) {
+  /* Responsive & Multi-DPI compact screen adaptation */
+  @media (max-height: 800px) {
+    #login-page { padding: 1rem 1.2rem; }
+    .chart-preview { padding: 0.9rem 1rem; }
+    .chart-preview canvas { max-height: 120px !important; }
+    .login-card { padding: 1.35rem 1.5rem; }
+    .login-card-header { margin-bottom: 0.9rem; }
+    .field-group { margin-bottom: 0.75rem; }
+    .demo-section { margin-top: 0.8rem; }
+    .login-footer { margin-top: 0.75rem; }
+    .topbar { margin-bottom: 1.2rem; }
+    .main-content { padding: 1.2rem; }
+  }
+
+  @media (max-height: 680px) {
+    #login-page { padding: 0.6rem 1rem; }
+    .login-left h1 { font-size: 1.95rem; }
+    .chart-preview canvas { max-height: 100px !important; }
+    .login-card { padding: 1rem 1.25rem; }
+    .login-card h2 { font-size: 1.3rem; }
+    .mini-stat-val { font-size: 1.1rem; }
+    .demo-section { margin-top: 0.5rem; }
+    .login-footer { margin-top: 0.5rem; }
+  }
+
+  @media (max-width: 1080px) {
     .stats-grid, .faculty-stats-grid { grid-template-columns: repeat(2,1fr); }
     .bottom-grid, .analytics-grid, .calc-grid, .settings-grid, .schedule-grid { grid-template-columns: 1fr; }
-    .login-container { grid-template-columns: 1fr; }
-    .login-left { display: none; }
     .traj-stats { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 960px) {
+    .login-container { grid-template-columns: 1fr; max-width: 440px; }
+    .login-left { display: none; }
+  }
+
+  /* ===== FLOATING EDUTRACKAI BUBBLE & DRAWER ===== */
+  #login-page.active ~ #ai-bubble-container,
+  #login-page.active ~ #edutrack-ai-drawer {
+    display: none !important;
+  }
+  .ai-bubble-container {
+    position: fixed;
+    bottom: 24px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+  }
+  .ai-bubble-pill {
+    background: rgba(10, 22, 40, 0.88);
+    border: 1px solid rgba(0, 212, 168, 0.35);
+    backdrop-filter: blur(20px);
+    padding: 7px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 212, 168, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ai-bubble-pill:hover {
+    border-color: var(--accent);
+    transform: translateX(-3px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55), 0 0 24px rgba(0, 212, 168, 0.35);
+  }
+  .ai-bubble-pill .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: ai-pulse-glow 2s infinite;
+  }
+  .ai-bubble-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d4a8 0%, #0ea5e9 100%);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 26px rgba(0, 212, 168, 0.45), 0 0 35px rgba(14, 165, 233, 0.3);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+  .ai-bubble-btn:hover {
+    transform: scale(1.08) rotate(6deg);
+    box-shadow: 0 12px 34px rgba(0, 212, 168, 0.65), 0 0 45px rgba(14, 165, 233, 0.45);
+  }
+  .ai-bubble-btn svg {
+    width: 26px;
+    height: 26px;
+    fill: #060d1a;
+  }
+  .ai-bubble-btn::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 212, 168, 0.45);
+    animation: ai-bubble-pulse 2.5s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes ai-bubble-pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.22); opacity: 0; }
+    100% { transform: scale(1.22); opacity: 0; }
+  }
+  @keyframes ai-pulse-glow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  /* Chat Drawer Modal */
+  .ai-drawer {
+    position: fixed;
+    bottom: 88px;
+    right: 28px;
+    width: 420px;
+    max-width: calc(100vw - 40px);
+    height: 590px;
+    max-height: calc(100vh - 110px);
+    background: linear-gradient(155deg, rgba(12, 23, 44, 0.95) 0%, rgba(6, 13, 26, 0.97) 100%);
+    border: 1px solid rgba(0, 212, 168, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.75), 0 0 40px rgba(0, 212, 168, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(32px);
+    display: flex;
+    flex-direction: column;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ai-drawer.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  .ai-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .ai-drawer-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ai-drawer-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #060d1a;
+    font-weight: 800;
+    font-size: 15px;
+    box-shadow: 0 4px 14px rgba(0, 212, 168, 0.35);
+  }
+  .ai-drawer-name {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .ai-drawer-sub {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 1px;
+  }
+  .ai-drawer-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .ai-drawer-btn {
+    background: transparent;
+    border: none;
+    color: var(--text2);
+    font-size: 17px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .ai-drawer-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+  }
+
+  .ai-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .ai-msg {
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    animation: fadeIn 0.22s ease-out;
+  }
+  .ai-msg.ai {
+    align-self: flex-start;
+  }
+  .ai-msg.user {
+    align-self: flex-end;
+  }
+  .ai-msg-bubble {
+    padding: 12px 15px;
+    border-radius: 15px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .ai-msg.ai .ai-msg-bubble {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .ai-msg.user .ai-msg-bubble {
+    background: linear-gradient(135deg, rgba(0, 212, 168, 0.25), rgba(14, 165, 233, 0.3));
+    border: 1px solid rgba(0, 212, 168, 0.4);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .ai-msg-meta {
+    font-size: 10.5px;
+    color: var(--text3);
+    margin-top: 4px;
+    padding: 0 4px;
+  }
+
+  .ai-quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 6px;
+  }
+  .ai-chip {
+    background: rgba(0, 212, 168, 0.08);
+    border: 1px solid rgba(0, 212, 168, 0.24);
+    color: var(--accent);
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ai-chip:hover {
+    background: rgba(0, 212, 168, 0.2);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 212, 168, 0.2);
+  }
+
+  .ai-drawer-footer {
+    padding: 1rem 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .ai-drawer-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 11px 15px;
+    color: var(--text);
+    font-size: 13.5px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .ai-drawer-input:focus {
+    border-color: var(--accent);
+    background: rgba(0, 212, 168, 0.05);
+  }
+  .ai-drawer-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    color: #060d1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .ai-drawer-send:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 212, 168, 0.4);
   }
 </style>
 </head>
@@ -734,7 +1088,9 @@
               <div class="card-sub">Weighted GPA by semester</div>
             </div>
           </div>
-          <canvas id="trend-chart" height="160"></canvas>
+          <div class="chart-container" style="position: relative; height: 185px; width: 100%; min-height: 175px;">
+            <canvas id="trend-chart"></canvas>
+          </div>
         </div>
         <div>
           <div class="glass-card" style="margin-bottom:14px;">
@@ -1117,6 +1473,61 @@
   </div><!-- end main-content -->
 </div><!-- end app-page -->
 
+<!-- ===== FLOATING EDUTRACKAI BUBBLE & CHAT DRAWER ===== -->
+<div class="ai-bubble-container" id="ai-bubble-container">
+  <div class="ai-bubble-pill" onclick="toggleAiDrawer()">
+    <div class="dot"></div>
+    <span>EduTrackAi • Online</span>
+  </div>
+  <div class="ai-bubble-btn" onclick="toggleAiDrawer()" title="Ask EduTrackAi">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2a1 1 0 0 1 1 1v1.07A8.001 8.001 0 0 1 20 12a1 1 0 0 1-2 0 6 6 0 0 0-5-5.917V7a1 1 0 0 1-2 0v-.917A6 6 0 0 0 6 12a1 1 0 0 1-2 0 8.001 8.001 0 0 1 7-7.93V3a1 1 0 0 1 1-1zm0 8a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-7 8a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1zm3 3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1z"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ai-drawer" id="edutrack-ai-drawer">
+  <div class="ai-drawer-header">
+    <div class="ai-drawer-title-group">
+      <div class="ai-drawer-avatar">AI</div>
+      <div>
+        <div class="ai-drawer-name">
+          <span>EduTrackAi</span>
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);"></span>
+        </div>
+        <div class="ai-drawer-sub">Live Academic Copilot · BUBT CSE</div>
+      </div>
+    </div>
+    <div class="ai-drawer-actions">
+      <button class="ai-drawer-btn" onclick="clearAiDrawerChat()" title="Reset chat">🔄</button>
+      <button class="ai-drawer-btn" onclick="toggleAiDrawer()" title="Close">✕</button>
+    </div>
+  </div>
+
+  <div class="ai-drawer-body" id="ai-drawer-body">
+    <div class="ai-msg ai">
+      <div class="ai-msg-bubble">
+        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrackAi</strong>, your live academic intelligence copilot.<br><br>
+        Currently your <strong>CGPA is 3.22</strong> with <strong>24 credits completed</strong>. Your target is <strong>3.85 CGPA</strong>.<br><br>
+        How can I guide your academic trajectory today?
+      </div>
+      <div class="ai-msg-meta">EduTrackAi · Just now</div>
+    </div>
+
+    <div class="ai-quick-prompts">
+      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')">🎯 How to raise CGPA to 3.85?</div>
+      <div class="ai-chip" onclick="askEduTrackAi('Forecast my next semester GPA trajectory')">📈 Forecast next semester</div>
+      <div class="ai-chip" onclick="askEduTrackAi('What courses should I take next semester?')">⚡ Next course sequencing</div>
+      <div class="ai-chip" onclick="askEduTrackAi('What grade do I need in MAT101 and CSE101?')">📝 Grade targets for Dean Benchmark</div>
+    </div>
+  </div>
+
+  <div class="ai-drawer-footer">
+    <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrackAi anything..." onkeydown="handleAiDrawerKey(event)">
+    <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send">➤</button>
+  </div>
+</div>
+
 <script>
 var currentRole = 'student';
 var currentUserId = '20255103311';
@@ -1180,6 +1591,7 @@ async function doLogin() {
     showSection('dashboard');
   }
   initCharts();
+  setTimeout(renderTrendChart, 80);
 }
 
 function applyRealStudentData(data, user) {
@@ -1232,14 +1644,87 @@ function showSection(id) {
   if (id === 'cgpa' && document.getElementById('courses-container').children.length === 0) {
     addCourse(); addCourse(); addCourse();
   }
+  if (id === 'dashboard') {
+    setTimeout(renderTrendChart, 60);
+  } else if (id === 'trajectory' && chartInstances['traj']) {
+    setTimeout(function() { try { chartInstances['traj'].resize(); } catch(e){} }, 60);
+  } else if (id === 'analytics' && chartInstances['analytics']) {
+    setTimeout(function() { try { chartInstances['analytics'].resize(); } catch(e){} }, 60);
+  }
 }
 
 var chartsInited = false;
 var chartInstances = {};
+
+function renderTrendChart() {
+  var tc = document.getElementById('trend-chart');
+  if (!tc || typeof Chart === 'undefined') return;
+  if (chartInstances['trend']) {
+    try { chartInstances['trend'].destroy(); } catch(e){}
+  }
+  var ctx = tc.getContext('2d');
+  var gradient = ctx.createLinearGradient(0, 0, 0, 180);
+  gradient.addColorStop(0, 'rgba(0, 212, 168, 0.32)');
+  gradient.addColorStop(0.65, 'rgba(14, 165, 233, 0.12)');
+  gradient.addColorStop(1, 'rgba(0, 212, 168, 0.00)');
+
+  chartInstances['trend'] = new Chart(tc, {
+    type: 'line',
+    data: {
+      labels: ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4'],
+      datasets: [{
+        label: 'Semester GPA',
+        data: [3.25, 3.08, 3.38, 3.52],
+        borderColor: '#00d4a8',
+        backgroundColor: gradient,
+        borderWidth: 2.8,
+        pointBackgroundColor: '#060d1a',
+        pointBorderColor: '#00d4a8',
+        pointBorderWidth: 2.5,
+        pointRadius: 5.5,
+        pointHoverRadius: 7.5,
+        tension: 0.38,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(6, 13, 26, 0.95)',
+          borderColor: 'rgba(0, 212, 168, 0.4)',
+          borderWidth: 1,
+          padding: 10,
+          titleFont: { family: "'Plus Jakarta Sans', sans-serif", size: 12, weight: 'bold' },
+          bodyFont: { family: "'Plus Jakarta Sans', sans-serif", size: 12 }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+          ticks: { color: 'rgba(255,255,255,0.55)', font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '500' } }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+          min: 2.5,
+          max: 4.0,
+          ticks: {
+            stepSize: 0.5,
+            color: 'rgba(255,255,255,0.55)',
+            font: { family: "'Plus Jakarta Sans', sans-serif", size: 11, weight: '500' }
+          }
+        }
+      }
+    }
+  });
+}
+
 function initCharts() {
   if (chartsInited) return;
   chartsInited = true;
-  var defaults = { color: 'rgba(255,255,255,0.7)', font: { family: "'Segoe UI', system-ui, sans-serif", size: 11 } };
+  var defaults = { color: 'rgba(255,255,255,0.7)', font: { family: "'Plus Jakarta Sans', system-ui, sans-serif", size: 11 } };
   Chart.defaults.color = defaults.color;
   Chart.defaults.font = defaults.font;
   var gridOpts = { color: 'rgba(255,255,255,0.04)', drawBorder: false };
@@ -1247,25 +1732,19 @@ function initCharts() {
   // Login preview chart
   var lc = document.getElementById('login-chart');
   if (lc) {
-    new Chart(lc, { type: 'line', data: {
+    chartInstances['login'] = new Chart(lc, { type: 'line', data: {
       labels: ['S1','S2','S3','S4','S5','S6 (Proj)'],
       datasets: [{ data: [2.4,2.6,2.9,3.52,3.72,3.88], borderColor: '#00d4a8', backgroundColor: 'rgba(0,212,168,0.08)', borderWidth: 2, pointBackgroundColor: '#00d4a8', pointRadius: 4, tension: 0.4, fill: true }]
     }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2, max: 4 } } }});
   }
 
-  // Trend chart
-  var tc = document.getElementById('trend-chart');
-  if (tc) {
-    new Chart(tc, { type: 'line', data: {
-      labels: ['1','2','3'],
-      datasets: [{ data: [3.25,3.08,3.38], borderColor: '#00d4a8', backgroundColor: 'rgba(0,212,168,0.1)', borderWidth: 2, pointBackgroundColor: '#00d4a8', pointRadius: 5, tension: 0.4, fill: true }]
-    }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2.5, max: 4 } } }});
-  }
+  // Dashboard trend chart
+  renderTrendChart();
 
   // Trajectory chart
   var tjc = document.getElementById('traj-chart');
   if (tjc) {
-    new Chart(tjc, { type: 'line', data: {
+    chartInstances['traj'] = new Chart(tjc, { type: 'line', data: {
       labels: ['S1','S2','S3','S4','S5','S6 (Proj)'],
       datasets: [
         { label: 'GPA Trajectory', data: [2.4,2.6,2.9,3.52,3.72,3.88], borderColor: '#00d4a8', backgroundColor: 'rgba(0,212,168,0.1)', borderWidth: 2.5, pointBackgroundColor: '#00d4a8', pointRadius: 5, tension: 0.4, fill: true },
@@ -1277,7 +1756,7 @@ function initCharts() {
   // Analytics trend
   var at = document.getElementById('analytics-trend');
   if (at) {
-    new Chart(at, { type: 'bar', data: {
+    chartInstances['analytics'] = new Chart(at, { type: 'bar', data: {
       labels: ['S1','S2','S3','S4','S5','S6 Proj'],
       datasets: [{ data: [3.25,3.08,3.38,3.52,3.72,3.88], backgroundColor: ['rgba(0,212,168,0.5)','rgba(0,212,168,0.5)','rgba(0,212,168,0.5)','rgba(0,212,168,0.8)','rgba(14,165,233,0.5)','rgba(14,165,233,0.3)'], borderRadius: 6, borderSkipped: false }]
     }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2.5, max: 4.1 } } }});
@@ -1286,7 +1765,7 @@ function initCharts() {
   // Grade dist
   var gd = document.getElementById('grade-dist');
   if (gd) {
-    new Chart(gd, { type: 'doughnut', data: {
+    chartInstances['gradeDist'] = new Chart(gd, { type: 'doughnut', data: {
       labels: ['A+','A','A-','B+','B','B-'],
       datasets: [{ data: [2,3,4,5,3,1], backgroundColor: ['#00d4a8','#0ea5e9','#7c3aed','#f59e0b','#10b981','#ef4444'], borderWidth: 0 }]
     }, options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'right', labels: { color: 'rgba(255,255,255,0.6)', font: { size: 11 }, padding: 10 } } } }});
@@ -1364,8 +1843,12 @@ async function sendChatMsg() {
   if (window.pywebview && window.pywebview.api) {
     try {
       var res = await window.pywebview.api.ask_ai_advisor(msg);
-      if (res && res.advice) {
+      if (typeof res === 'string') {
+        reply = res;
+      } else if (res && res.advice) {
         reply = res.advice;
+      } else if (res) {
+        reply = JSON.stringify(res);
       }
     } catch(err) {
       console.log('Using local fallback:', err);
@@ -1382,6 +1865,150 @@ async function sendChatMsg() {
 
   box.innerHTML += '<div class="msg ai"><div class="msg-ava">AI</div><div class="msg-bubble">' + reply + '</div></div>';
   box.scrollTop = box.scrollHeight;
+}
+
+// ===== EDUTRACKAI FLOATING DRAWER CONTROLLER =====
+function toggleAiDrawer() {
+  var drawer = document.getElementById('edutrack-ai-drawer');
+  if (!drawer) return;
+  drawer.classList.toggle('open');
+  if (drawer.classList.contains('open')) {
+    setTimeout(function() {
+      var inp = document.getElementById('ai-drawer-input');
+      if (inp) inp.focus();
+    }, 150);
+  }
+}
+
+function handleAiDrawerKey(e) {
+  if (e.key === 'Enter') {
+    sendAiDrawerMsg();
+  }
+}
+
+function askEduTrackAi(promptText) {
+  var drawer = document.getElementById('edutrack-ai-drawer');
+  if (drawer && !drawer.classList.contains('open')) {
+    drawer.classList.add('open');
+  }
+  var inp = document.getElementById('ai-drawer-input');
+  if (inp) inp.value = promptText;
+  sendAiDrawerMsg();
+}
+
+async function sendAiDrawerMsg() {
+  var inp = document.getElementById('ai-drawer-input');
+  var query = inp.value.trim();
+  if (!query) return;
+
+  var body = document.getElementById('ai-drawer-body');
+  inp.value = '';
+
+  // Append user message
+  var userDiv = document.createElement('div');
+  userDiv.className = 'ai-msg user';
+  userDiv.innerHTML = '<div class="ai-msg-bubble">' + escapeHtml(query) + '</div><div class="ai-msg-meta">You · Just now</div>';
+  body.appendChild(userDiv);
+  body.scrollTop = body.scrollHeight;
+
+  // Append typing indicator
+  var typingDiv = document.createElement('div');
+  typingDiv.className = 'ai-msg ai';
+  typingDiv.id = 'ai-drawer-typing';
+  typingDiv.innerHTML = '<div class="ai-msg-bubble" style="display:flex;align-items:center;gap:8px;color:var(--accent);"><span style="font-size:12px;font-weight:600;">EduTrackAi is analyzing...</span><span class="dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:ai-pulse-glow 1s infinite;"></span></div>';
+  body.appendChild(typingDiv);
+  body.scrollTop = body.scrollHeight;
+
+  var reply = '';
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.ask_ai_advisor) {
+    try {
+      var res = await window.pywebview.api.ask_ai_advisor(query, currentUserId);
+      if (typeof res === 'string') {
+        reply = res;
+      } else if (res && res.advice) {
+        reply = res.advice;
+      } else if (res) {
+        reply = JSON.stringify(res);
+      }
+    } catch(err) {
+      console.log('Backend AI Advisor error:', err);
+    }
+  }
+
+  if (!reply) {
+    reply = generateLocalAiResponse(query);
+  }
+
+  var indicator = document.getElementById('ai-drawer-typing');
+  if (indicator) indicator.remove();
+
+  var aiDiv = document.createElement('div');
+  aiDiv.className = 'ai-msg ai';
+  aiDiv.innerHTML = '<div class="ai-msg-bubble">' + formatAiText(reply) + '</div><div class="ai-msg-meta">EduTrackAi · Just now</div>';
+  body.appendChild(aiDiv);
+  body.scrollTop = body.scrollHeight;
+}
+
+function escapeHtml(text) {
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function formatAiText(text) {
+  return text
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+}
+
+function generateLocalAiResponse(query) {
+  var q = (query || '').toLowerCase();
+  var cgpa = '3.22';
+  var target = '3.85';
+  var creditsLeft = '118';
+
+  if (q.includes('raise') || q.includes('target') || q.includes('3.85') || q.includes('how to')) {
+    return '🎯 <strong>Strategy to reach ' + target + ' CGPA:</strong><br><br>' +
+      '• You currently hold <strong>' + cgpa + ' CGPA</strong> across 24 credits, leaving <strong>' + creditsLeft + ' credits</strong>.<br>' +
+      '• To reach ' + target + ', you need an average semester GPA of <strong>3.98</strong> across the next 6 semesters.<br>' +
+      '• <strong>Action Plan:</strong> Secure A / A+ in all 3.0 & 4.0 credit core engineering theory courses (CSE201, MAT101, CSE202). A single B+ in a 4-credit course requires two A+ courses to balance.';
+  } else if (q.includes('forecast') || q.includes('trajectory') || q.includes('next semester')) {
+    return '📈 <strong>Semester Trajectory Forecast:</strong><br><br>' +
+      '• Projected performance at current velocity (+0.16 GPA/sem):<br>' +
+      '  - <strong>Semester 4:</strong> 3.52 projected term GPA → Cumulative CGPA rises to <strong>3.30</strong><br>' +
+      '  - <strong>Semester 5:</strong> 3.72 projected term GPA → Cumulative CGPA rises to <strong>3.42</strong><br>' +
+      '  - <strong>Semester 6:</strong> 3.88 projected term GPA → Magna Cum Laude threshold unlocked!';
+  } else if (q.includes('course') || q.includes('take') || q.includes('schedule')) {
+    return '⚡ <strong>Recommended Course Sequencing:</strong><br><br>' +
+      '• <strong>Primary Core:</strong> CSE201 (Data Structures, 3.0 CR) & CSE202 (Algorithms, 3.0 CR)<br>' +
+      '• <strong>Mathematics:</strong> MAT101 (Differential & Integral Calculus, 3.0 CR)<br>' +
+      '• <strong>Lab Anchor:</strong> CSE102 (Programming Lab II, 1.5 CR)<br>' +
+      '• <strong>GED Requirement:</strong> ENG101 (Academic English, 3.0 CR)<br>' +
+      '💡 <em>Tip: Keep total semester load at 13.5–15 credits to avoid cognitive overload and ensure high marks.</em>';
+  } else if (q.includes('dean') || q.includes('honor') || q.includes('benchmark')) {
+    return '🏆 <strong>Dean\'s Honor Roll & Scholarship Criteria:</strong><br><br>' +
+      '• BUBT requirement: Semester GPA <strong>3.75 or above</strong> with minimum 12 registered credits.<br>' +
+      '• Maintaining CGPA ≥ 3.75 unlocks merit waiver tuition discounts up to 50–100%.';
+  }
+  return '💡 <strong>EduTrackAi Academic Guidance:</strong><br><br>' +
+    'Based on your academic profile, your strongest leverage is maximizing grades in core CSE theory courses. Would you like me to forecast your specific required grade distribution or analyze your course prerequisites?';
+}
+
+function clearAiDrawerChat() {
+  var body = document.getElementById('ai-drawer-body');
+  body.innerHTML = '<div class="ai-msg ai">' +
+    '<div class="ai-msg-bubble">' +
+    '👋 <strong>Chat history cleared.</strong> I am ready for your next question! Ask me about GPA trajectories, graduation requirements, or course planning.' +
+    '</div>' +
+    '<div class="ai-msg-meta">EduTrackAi · Just now</div>' +
+    '</div>' +
+    '<div class="ai-quick-prompts">' +
+    '<div class="ai-chip" onclick="askEduTrackAi(\'How can I raise my CGPA from 3.22 to 3.85?\')">🎯 How to raise CGPA to 3.85?</div>' +
+    '<div class="ai-chip" onclick="askEduTrackAi(\'Forecast my next semester GPA trajectory\')">📈 Forecast next semester</div>' +
+    '<div class="ai-chip" onclick="askEduTrackAi(\'What courses should I take next semester?\')">⚡ Next course sequencing</div>' +
+    '</div>';
 }
 
 async function exportTranscript() {
