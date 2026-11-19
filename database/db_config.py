@@ -8,6 +8,7 @@ import json
 import os
 import secrets
 import sqlite3
+import sys
 import tempfile
 import threading
 from pathlib import Path
@@ -33,6 +34,8 @@ def get_database_path() -> Path:
     configured_path = os.environ.get("EDUTRACK_DB_PATH")
     if configured_path:
         return Path(configured_path).expanduser().resolve()
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent / "edutrack.db"
     return DEFAULT_DATABASE_PATH
 
 

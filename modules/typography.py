@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import customtkinter as ctk
+# Lazy import customtkinter only if legacy font helpers are called
 import tkinter as tk
 
 
@@ -69,14 +69,16 @@ def readable_font_size(size: int) -> int:
 
 def app_font(
     *, size: int, family: str = "Segoe UI", weight: str = "normal"
-) -> ctk.CTkFont:
+):
     """Create an application font using the shared accessible size scale."""
+    import customtkinter as ctk
     readable_size = readable_font_size(size)
     return ctk.CTkFont(family=family, size=readable_size, weight=weight)
 
 
-def maximize_window(window: ctk.CTk) -> None:
+def maximize_window(window) -> None:
     """Open fullscreen; bind F11 to toggle and Escape to exit fullscreen."""
+    import customtkinter as ctk
     window.update_idletasks()
     screen_geometry = (
         f"{window.winfo_screenwidth()}x{window.winfo_screenheight()}+0+0"

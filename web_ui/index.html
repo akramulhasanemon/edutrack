@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduTrack | Academic Intelligence</title>
+<script src="assets/chart.umd.min.js"></script>
+<script>
+  if (typeof Chart === 'undefined') {
+    document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"><\/script>');
+  }
+</script>
+<style>
+  :root {
+    --bg: #060d1a;
+    --bg2: #0a1628;
+    --bg3: #0f1f38;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --glass-hover: rgba(255,255,255,0.07);
+    --accent: #00d4a8;
+    --accent2: #0ea5e9;
+    --accent3: #7c3aed;
+    --text: #f0f4ff;
+    --text2: #8ba3c7;
+    --text3: #4d6a94;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+    --card-radius: 16px;
+    --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* Animated bg orbs */
+  .bg-orbs {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(100px); opacity: 0.12;
+    animation: orb-float 20s ease-in-out infinite;
+  }
+  .orb1 { width:600px; height:600px; background:#00d4a8; top:-200px; left:-100px; animation-delay:0s; }
+  .orb2 { width:500px; height:500px; background:#0ea5e9; top:30%; right:-100px; animation-delay:-7s; }
+  .orb3 { width:400px; height:400px; background:#7c3aed; bottom:-100px; left:30%; animation-delay:-14s; }
+  @keyframes orb-float {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-20px) scale(1.05); }
+    66% { transform: translate(-20px,30px) scale(0.95); }
+  }
+
+  /* ===== PAGES ===== */
+  .page { display:none; min-height:100vh; position:relative; z-index:1; }
+  .page.active { display:flex; }
+
+  /* ===== LOGIN PAGE ===== */
+  #login-page {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .login-container {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 60px;
+    max-width: 1100px;
+    width: 100%;
+    align-items: center;
+  }
+  .login-left .brand {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;
+  }
+  .brand-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800; color: #fff;
+  }
+  .brand-name { font-size: 22px; font-weight: 700; color: var(--text); }
+  .login-left h1 {
+    font-size: 3.5rem; font-weight: 800; line-height: 1.1;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 40%, var(--accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .login-left p { font-size: 1rem; color: var(--text2); margin-bottom: 2.5rem; }
+  .chart-preview {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--card-radius); padding: 1.5rem;
+    backdrop-filter: blur(20px);
+  }
+  .chart-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+  .mini-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 1.2rem; }
+  .mini-stat {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
+    border-radius: 10px; padding: 12px;
+  }
+  .mini-stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .mini-stat-val { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-top: 2px; }
+  .mini-stat-sub { font-size: 10px; color: var(--accent); margin-top: 1px; }
+
+  /* Login card */
+  .login-card {
+    background: rgba(10,22,40,0.8); border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: 2rem;
+    backdrop-filter: blur(30px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .login-card-header { margin-bottom: 1.5rem; }
+  .secure-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,212,168,0.1); border: 1px solid rgba(0,212,168,0.2);
+    color: var(--accent); font-size: 10px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px; margin-bottom: 1rem;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .login-card h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+  .login-card .sub { font-size: 0.85rem; color: var(--text2); }
+  .role-tabs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: rgba(255,255,255,0.04); border-radius: 10px;
+    padding: 4px; margin-bottom: 1.2rem;
+  }
+  .role-tab {
+    padding: 8px; border-radius: 8px; border: none;
+    background: transparent; color: var(--text2); font-size: 14px;
+    font-weight: 500; cursor: pointer; transition: var(--transition);
+  }
+  .role-tab.active {
+    background: var(--accent); color: #000; font-weight: 600;
+  }
+  .field-group { margin-bottom: 1rem; }
+  .field-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block; }
+  .field-input {
+    width: 100%; padding: 10px 14px; border-radius: 10px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    color: var(--text); font-size: 14px; outline: none;
+    transition: var(--transition);
+  }
+  .field-input:focus { border-color: var(--accent); background: rgba(0,212,168,0.05); }
+  .pw-wrap { position: relative; }
+  .pw-toggle {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: var(--text3); cursor: pointer; font-size: 14px;
+  }
+  .btn-primary {
+    width: 100%; padding: 12px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: var(--transition); margin-top: 0.5rem;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 25px rgba(0,212,168,0.3); }
+  .demo-section { margin-top: 1rem; }
+  .demo-title { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .demo-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-demo {
+    padding: 8px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);
+    color: var(--text2); font-size: 12px; cursor: pointer; transition: var(--transition);
+  }
+  .btn-demo:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+  .login-footer { font-size: 10px; color: var(--text3); text-align: center; margin-top: 1rem; }
+
+  /* ===== APP SHELL ===== */
+  #app-page {
+    flex-direction: row;
+  }
+  .sidebar {
+    width: 220px; min-height: 100vh; flex-shrink: 0;
+    background: rgba(6,13,26,0.9); border-right: 1px solid var(--glass-border);
+    padding: 1.5rem 0; display: flex; flex-direction: column;
+    backdrop-filter: blur(20px);
+    position: sticky; top: 0; height: 100vh;
+  }
+  .sidebar-brand {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 1.2rem 1.5rem; border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 1rem;
+  }
+  .sidebar-brand .brand-icon { width: 32px; height: 32px; border-radius: 8px; font-size: 14px; }
+  .sidebar-brand .brand-name { font-size: 16px; font-weight: 700; }
+  .sidebar-role { font-size: 9px; color: var(--text3); padding: 0 1.2rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 1.2rem; cursor: pointer; transition: var(--transition);
+    color: var(--text2); font-size: 13px; border-left: 2px solid transparent;
+    margin: 1px 0;
+  }
+  .nav-item:hover { background: var(--glass-hover); color: var(--text); }
+  .nav-item.active { background: rgba(0,212,168,0.08); color: var(--accent); border-left-color: var(--accent); }
+  .nav-num { font-size: 10px; color: var(--text3); min-width: 20px; }
+  .sidebar-bottom {
+    margin-top: auto; padding: 1rem 1.2rem;
+    border-top: 1px solid var(--glass-border);
+  }
+  .user-pill {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px; border-radius: 10px; background: var(--glass);
+    border: 1px solid var(--glass-border); margin-bottom: 10px;
+  }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent3), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .user-info .uname { font-size: 12px; font-weight: 600; }
+  .user-info .urole { font-size: 10px; color: var(--text3); }
+  .signout-btn {
+    width: 100%; padding: 7px; border-radius: 8px; border: 1px solid var(--glass-border);
+    background: transparent; color: var(--text2); font-size: 11px; cursor: pointer; transition: var(--transition);
+  }
+  .signout-btn:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #ef4444; }
+
+  /* Main content */
+  .main-content { flex: 1; overflow-y: auto; padding: 2rem; min-height: 100vh; }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .breadcrumb { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .breadcrumb span { color: var(--text2); }
+  .topbar-title { font-size: 1.5rem; font-weight: 700; }
+  .topbar-sub { font-size: 13px; color: var(--text2); }
+  .topbar-actions { display: flex; align-items: center; gap: 10px; }
+  .live-badge {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--accent); background: rgba(0,212,168,0.1);
+    border: 1px solid rgba(0,212,168,0.2); padding: 5px 12px; border-radius: 20px;
+  }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.3); } }
+  .btn-sm {
+    padding: 7px 14px; border-radius: 8px; border: 1px solid var(--glass-border);
+    background: var(--glass); color: var(--text2); font-size: 12px; cursor: pointer; transition: var(--transition);
+  }
+  .btn-sm:hover { background: var(--glass-hover); color: var(--text); }
+
+  /* Section tabs */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Welcome banner */
+  .welcome-banner {
+    background: linear-gradient(135deg, rgba(0,212,168,0.08), rgba(14,165,233,0.08));
+    border: 1px solid rgba(0,212,168,0.15);
+    border-radius: var(--card-radius); padding: 1.5rem 1.8rem;
+    margin-bottom: 1.8rem; display: flex; align-items: center; justify-content: space-between;
+  }
+  .welcome-banner .ava { width: 44px; height: 44px; border-radius: 12px; font-size: 16px; }
+  .welcome-left { display: flex; align-items: center; gap: 14px; }
+  .w-tags { display: flex; gap: 8px; margin-bottom: 6px; }
+  .tag {
+    font-size: 10px; padding: 3px 8px; border-radius: 20px;
+    background: rgba(0,212,168,0.1); border: 1px solid rgba(0,212,168,0.2);
+    color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .tag.blue { background: rgba(14,165,233,0.1); border-color: rgba(14,165,233,0.2); color: var(--accent2); }
+  .w-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; }
+  .w-meta { font-size: 12px; color: var(--text2); }
+  .btn-export {
+    padding: 9px 16px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    border: none; color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: var(--transition); display: flex; align-items: center; gap: 6px;
+  }
+  .btn-export:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* Stats grid */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 1.8rem; }
+  .stat-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--card-radius); padding: 1.2rem;
+    backdrop-filter: blur(10px); transition: var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    border-radius: var(--card-radius) var(--card-radius) 0 0;
+  }
+  .stat-card.c-green::before { background: linear-gradient(90deg, var(--success), transparent); }
+  .stat-card.c-blue::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+  .stat-card.c-purple::before { background: linear-gradient(90deg, var(--accent3), transparent); }
+  .stat-card.c-amber::before { background: linear-gradient(90deg, var(--warning), transparent); }
+  .stat-card:hover { background: var(--glass-hover); transform: translateY(-2px); }
+  .stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .stat-val { font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .stat-sub { font-size: 11px; color: var(--text2); margin-bottom: 10px; }
+  .stat-bar { height: 3px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+  .stat-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+  .bar-green { background: linear-gradient(90deg, var(--success), #34d399); }
+  .bar-blue { background: linear-gradient(90deg, var(--accent2), #38bdf8); }
+  .bar-purple { background: linear-gradient(90deg, var(--accent3), #a855f7); }
+  .bar-amber { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+  .stat-hint { font-size: 10px; margin-top: 6px; }
+  .c-green .stat-val { color: var(--success); }
+  .c-blue .stat-val { color: var(--accent2); }
+  .c-purple .stat-val { color: var(--accent3); }
+  .c-amber .stat-val { color: var(--warning); }
+
+  /* Bottom grid */
+  .bottom-grid { display: grid; grid-template-columns: 1fr 380px; gap: 14px; }
+  .glass-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--card-radius); padding: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+  .card-title { font-size: 15px; font-weight: 600; }
+  .card-sub { font-size: 11px; color: var(--text3); }
+  .schedule-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .schedule-item:last-child { border-bottom: none; }
+  .schedule-time { font-size: 11px; color: var(--accent); font-weight: 600; min-width: 80px; }
+  .schedule-course { font-size: 13px; font-weight: 600; }
+  .schedule-room { font-size: 11px; color: var(--text2); }
+  .schedule-desc { font-size: 11px; color: var(--text3); }
+  .insight-card {
+    background: rgba(0,212,168,0.05); border: 1px solid rgba(0,212,168,0.1);
+    border-radius: 10px; padding: 12px; margin-top: 12px;
+  }
+  .insight-status { font-size: 10px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .insight-text { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .insight-sub { font-size: 11px; color: var(--text2); }
+  .btn-ai {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 20px; border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 10px;
+  }
+
+  /* Trajectory planner */
+  .traj-header-card {
+    background: linear-gradient(135deg, rgba(0,212,168,0.06), rgba(14,165,233,0.06));
+    border: 1px solid rgba(0,212,168,0.12); border-radius: var(--card-radius);
+    padding: 1.5rem; margin-bottom: 1.5rem;
+    display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
+  }
+  .pacing-badge {
+    background: rgba(0,212,168,0.15); border: 1px solid rgba(0,212,168,0.3);
+    color: var(--accent); font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 20px; white-space: nowrap;
+  }
+  .chart-wrap { position: relative; height: 300px; }
+  .traj-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 1.5rem; }
+  .traj-stat {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--card-radius); padding: 1.2rem;
+  }
+
+  /* CGPA Calculator */
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .course-row {
+    display: grid; grid-template-columns: 1fr auto auto auto;
+    gap: 8px; align-items: center; padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .course-row:last-child { border-bottom: none; }
+  .select-sm {
+    padding: 6px 10px; border-radius: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    color: var(--text); font-size: 12px; cursor: pointer; outline: none;
+  }
+  .input-sm {
+    padding: 6px 10px; border-radius: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    color: var(--text); font-size: 12px; outline: none; width: 60px;
+  }
+  .input-sm:focus { border-color: var(--accent); }
+  .result-box {
+    background: linear-gradient(135deg, rgba(0,212,168,0.1), rgba(14,165,233,0.1));
+    border: 1px solid rgba(0,212,168,0.2); border-radius: var(--card-radius);
+    padding: 1.5rem; text-align: center; margin-top: 1rem;
+  }
+  .result-gpa { font-size: 3rem; font-weight: 800; color: var(--accent); line-height: 1; }
+  .result-label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+  .btn-add {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 8px;
+    background: rgba(0,212,168,0.1); border: 1px solid rgba(0,212,168,0.2);
+    color: var(--accent); font-size: 12px; cursor: pointer; margin-top: 10px; transition: var(--transition);
+  }
+  .btn-add:hover { background: rgba(0,212,168,0.2); }
+
+  /* AI Advisor */
+  .ai-chat-wrap { max-width: 100%; }
+  .ai-header {
+    background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(14,165,233,0.1));
+    border: 1px solid rgba(124,58,237,0.2); border-radius: var(--card-radius);
+    padding: 1.5rem; margin-bottom: 1.5rem; text-align: center;
+  }
+  .ai-avatar {
+    width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 10px;
+    background: linear-gradient(135deg, var(--accent3), var(--accent2));
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+  }
+  .ai-title { font-size: 1.1rem; font-weight: 700; }
+  .ai-sub { font-size: 12px; color: var(--text2); }
+  .chat-box {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--card-radius); padding: 1.2rem;
+    min-height: 320px; max-height: 400px; overflow-y: auto;
+    margin-bottom: 1rem; display: flex; flex-direction: column; gap: 12px;
+  }
+  .msg { display: flex; gap: 10px; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-bubble {
+    max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5;
+  }
+  .msg.ai .msg-bubble { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); }
+  .msg.user .msg-bubble { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #000; font-weight: 500; }
+  .msg-ava { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+  .msg.ai .msg-ava { background: linear-gradient(135deg, var(--accent3), var(--accent2)); color: #fff; }
+  .msg.user .msg-ava { background: linear-gradient(135deg, var(--accent), #00b894); color: #000; }
+  .chat-input-wrap { display: flex; gap: 8px; }
+  .chat-input {
+    flex: 1; padding: 10px 14px; border-radius: 10px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    color: var(--text); font-size: 13px; outline: none;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .btn-send {
+    padding: 10px 16px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000; font-weight: 700; cursor: pointer; font-size: 13px;
+  }
+  .quick-prompts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .qp {
+    padding: 5px 10px; border-radius: 20px; font-size: 11px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);
+    color: var(--text2); cursor: pointer; transition: var(--transition);
+  }
+  .qp:hover { background: rgba(0,212,168,0.1); border-color: rgba(0,212,168,0.2); color: var(--accent); }
+
+  /* Analytics */
+  .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .full-width { grid-column: 1 / -1; }
+
+  /* Attendance */
+  .schedule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .week-header { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; margin-bottom: 8px; }
+  .day-label { text-align: center; font-size: 10px; color: var(--text3); padding: 4px; }
+  .week-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; }
+  .day-slot {
+    min-height: 50px; border-radius: 6px; padding: 4px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04);
+    font-size: 10px;
+  }
+  .day-slot.has-class { background: rgba(0,212,168,0.08); border-color: rgba(0,212,168,0.15); }
+  .slot-time { color: var(--accent); font-weight: 600; font-size: 9px; }
+  .slot-course { color: var(--text); font-weight: 600; font-size: 10px; }
+  .slot-room { color: var(--text2); font-size: 9px; }
+  .att-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .att-row:last-child { border-bottom: none; }
+  .att-course-name { flex: 1; font-size: 13px; }
+  .att-pct { font-size: 13px; font-weight: 700; min-width: 40px; text-align: right; }
+  .att-bar { flex: 2; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+  .att-fill { height: 100%; border-radius: 2px; }
+
+  /* Faculty */
+  .faculty-banner {
+    background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(124,58,237,0.08));
+    border: 1px solid rgba(14,165,233,0.15); border-radius: var(--card-radius);
+    padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .faculty-stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 1.5rem; }
+  .search-bar {
+    display: flex; gap: 10px; margin-bottom: 1rem; align-items: center;
+  }
+  .search-input {
+    flex: 1; padding: 10px 14px; border-radius: 10px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);
+    color: var(--text); font-size: 13px; outline: none;
+  }
+  .search-input:focus { border-color: var(--accent2); }
+  .roster-table { width: 100%; border-collapse: collapse; }
+  .roster-table th {
+    text-align: left; font-size: 10px; color: var(--text3); text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 8px 12px; border-bottom: 1px solid var(--glass-border);
+  }
+  .roster-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .roster-table tr:hover td { background: var(--glass-hover); }
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: 600;
+  }
+  .status-badge.on-track { background: rgba(16,185,129,0.1); color: var(--success); }
+  .status-badge.at-risk { background: rgba(239,68,68,0.1); color: var(--danger); }
+
+  /* Settings */
+  .settings-grid { display: grid; grid-template-columns: 220px 1fr; gap: 1.5rem; }
+  .settings-nav-item {
+    padding: 10px 14px; border-radius: 10px; cursor: pointer; font-size: 13px;
+    color: var(--text2); transition: var(--transition); margin-bottom: 4px;
+  }
+  .settings-nav-item:hover { background: var(--glass-hover); color: var(--text); }
+  .settings-nav-item.active { background: rgba(0,212,168,0.08); color: var(--accent); }
+  .settings-section-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+  .setting-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .setting-row:last-child { border-bottom: none; }
+  .setting-name { font-size: 13px; font-weight: 500; }
+  .setting-desc { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .toggle {
+    width: 44px; height: 24px; border-radius: 12px;
+    background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+    position: relative; transition: var(--transition); flex-shrink: 0;
+  }
+  .toggle::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; transition: var(--transition);
+  }
+  .toggle.on { background: var(--accent); }
+  .toggle.on::after { left: 23px; }
+  .input-setting {
+    padding: 7px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+    color: var(--text); font-size: 13px; outline: none; min-width: 120px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
+
+  /* Responsive */
+  @media(max-width:1024px) {
+    .stats-grid, .faculty-stats-grid { grid-template-columns: repeat(2,1fr); }
+    .bottom-grid, .analytics-grid, .calc-grid, .settings-grid, .schedule-grid { grid-template-columns: 1fr; }
+    .login-container { grid-template-columns: 1fr; }
+    .login-left { display: none; }
+    .traj-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div id="login-page" class="page active">
+  <div class="login-container">
+    <div class="login-left">
+      <div class="brand">
+        <div class="brand-icon">E</div>
+        <span class="brand-name">EduTrack</span>
+      </div>
+      <h1>Your next chapter,<br>by the numbers.</h1>
+      <p>AI-driven GPA forecasting, semester trajectory modeling, and degree velocity for BUBT CSE students.</p>
+      <div class="chart-preview">
+        <div class="chart-label">Academic Trajectory Engine — Predictive GPA Curve</div>
+        <canvas id="login-chart" height="140"></canvas>
+        <div class="mini-stats">
+          <div class="mini-stat">
+            <div class="mini-stat-label">Current CGPA</div>
+            <div class="mini-stat-val">3.52</div>
+            <div class="mini-stat-sub">▲ Top 12%</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Target</div>
+            <div class="mini-stat-val">3.88</div>
+            <div class="mini-stat-sub">★ Magna Cum Laude</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-label">Credits</div>
+            <div class="mini-stat-val">72/142</div>
+            <div class="mini-stat-sub">51% Complete</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="login-card">
+      <div class="login-card-header">
+        <div class="secure-badge">⬡ Secure Academic Workspace</div>
+        <h2>Sign in to EduTrack</h2>
+        <p class="sub">Access your academic records, forecasting tools, and advising.</p>
+      </div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Select workspace role</div>
+      <div class="role-tabs">
+        <button class="role-tab active" id="role-student" onclick="setRole('student')">Student</button>
+        <button class="role-tab" id="role-faculty" onclick="setRole('faculty')">Faculty</button>
+      </div>
+      <div class="field-group">
+        <label class="field-label" id="id-label">Student ID</label>
+        <input class="field-input" id="login-id" value="20255103311" placeholder="Enter your ID">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Password</label>
+        <div class="pw-wrap">
+          <input class="field-input" id="login-pw" type="password" value="••••••••••••" placeholder="Password">
+          <button class="pw-toggle" onclick="togglePw()">👁</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Sign in to Workspace →</button>
+      <div class="demo-section">
+        <div class="demo-title">⚡ Quick Demo Access</div>
+        <div class="demo-btns">
+          <button class="btn-demo" onclick="demoLogin('student')">🎓 Student Demo</button>
+          <button class="btn-demo" onclick="demoLogin('faculty')">👤 Faculty Demo</button>
+        </div>
+      </div>
+      <div class="login-footer">🔒 Local SQLite Storage · BUBT CSE Standard CGPA Modeling</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP PAGE ===== -->
+<div id="app-page" class="page">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">E</div>
+      <div>
+        <div class="brand-name">EduTrack</div>
+        <div style="font-size:9px;color:var(--text3);">ACADEMIC INTELLIGENCE</div>
+      </div>
+    </div>
+    <div id="student-nav">
+      <div class="sidebar-role">Student Workspace</div>
+      <div class="nav-item active" onclick="showSection('dashboard')"><span class="nav-num">01</span>Dashboard</div>
+      <div class="nav-item" onclick="showSection('trajectory')"><span class="nav-num">02</span>Trajectory Planner</div>
+      <div class="nav-item" onclick="showSection('cgpa')"><span class="nav-num">03</span>CGPA Calculator</div>
+      <div class="nav-item" onclick="showSection('advisor')"><span class="nav-num">04</span>AI Advisor</div>
+      <div class="nav-item" onclick="showSection('analytics')"><span class="nav-num">05</span>Analytics</div>
+      <div class="nav-item" onclick="showSection('attendance')"><span class="nav-num">06</span>Attendance & Schedule</div>
+      <div class="nav-item" onclick="showSection('settings')"><span class="nav-num">07</span>Settings</div>
+    </div>
+    <div id="faculty-nav" style="display:none;">
+      <div class="sidebar-role">Faculty Workspace</div>
+      <div class="nav-item active" onclick="showSection('faculty-dashboard')"><span class="nav-num">01</span>Dashboard</div>
+      <div class="nav-item" onclick="showSection('section-assignments')"><span class="nav-num">02</span>Section Assignments</div>
+    </div>
+    <div class="sidebar-bottom">
+      <div class="user-pill">
+        <div class="avatar" id="sidebar-avatar">MS</div>
+        <div class="user-info">
+          <div class="uname" id="sidebar-name">Mahabub Shaddhow</div>
+          <div class="urole" id="sidebar-role">Student / 20255103311</div>
+        </div>
+      </div>
+      <button class="signout-btn" onclick="signOut()">Sign out / Switch user</button>
+    </div>
+  </div>
+
+  <div class="main-content" id="main-content">
+    <div class="topbar">
+      <div>
+        <div class="breadcrumb" id="breadcrumb"><span>EduTrack</span> › <span>Student Workspace</span> › Dashboard</div>
+        <div class="topbar-title" id="page-title">Your academic journey</div>
+        <div class="topbar-sub" id="page-sub">A clear view of your progress, goals, and next steps.</div>
+      </div>
+      <div class="topbar-actions">
+        <div class="live-badge"><div class="live-dot"></div> Live Workspace</div>
+        <button class="btn-sm" id="topbar-action-btn" onclick="signOut()">Sign out</button>
+        <button class="btn-sm" onclick="alert('Help / Guide coming soon!')">Help / Guide</button>
+      </div>
+    </div>
+
+    <!-- === STUDENT SECTIONS === -->
+    <!-- Dashboard -->
+    <div class="section active" id="section-dashboard">
+      <div class="welcome-banner">
+        <div class="welcome-left">
+          <div class="avatar ava" style="width:44px;height:44px;border-radius:12px;font-size:16px;">MS</div>
+          <div>
+            <div class="w-tags"><span class="tag">Student Workspace</span><span class="tag">B.Sc. in CSE</span><span class="tag blue">Good Standing</span></div>
+            <div class="w-name" id="dash-welcome-name">Welcome back, Mahabub Shaddhow</div>
+            <div class="w-meta" id="dash-welcome-meta">ID: 20255103311 · Fall 2026 · 24/142 Credits (17% Completed)</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div style="text-align:right;margin-right:10px;">
+            <div style="font-size:10px;color:var(--text3);">Degree Progress</div>
+            <div style="font-size:14px;font-weight:700;color:var(--accent2);">142 CR Degree</div>
+            <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;width:100px;margin-top:4px;overflow:hidden;">
+              <div style="height:100%;width:17%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;"></div>
+            </div>
+          </div>
+          <button class="btn-export" onclick="exportTranscript()">📄 Export Transcript (PDF)</button>
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">At a glance · <span style="color:var(--text2);font-weight:normal;">Your academic snapshot</span></div>
+      <div class="stats-grid">
+        <div class="stat-card c-green">
+          <div class="stat-label">Current CGPA</div>
+          <div class="stat-val" id="stat-cgpa">3.22</div>
+          <div class="stat-sub">Weighted across graded courses</div>
+          <div class="stat-bar"><div class="stat-bar-fill bar-green" id="stat-cgpa-bar" style="width:80.5%"></div></div>
+          <div class="stat-hint" id="stat-cgpa-hint" style="color:var(--success);">3.22 / 4.00</div>
+        </div>
+        <div class="stat-card c-blue">
+          <div class="stat-label">Completed Credits</div>
+          <div class="stat-val" id="stat-credits">24</div>
+          <div class="stat-sub">of 142 program credits</div>
+          <div class="stat-bar"><div class="stat-bar-fill bar-blue" id="stat-credits-bar" style="width:17%"></div></div>
+          <div class="stat-hint" id="stat-credits-hint" style="color:var(--accent2);">118 credits remaining</div>
+        </div>
+        <div class="stat-card c-purple">
+          <div class="stat-label">Graduation Goal</div>
+          <div class="stat-val" id="stat-goal">3.85</div>
+          <div class="stat-sub">Your target cumulative GPA</div>
+          <div class="stat-bar"><div class="stat-bar-fill bar-purple" style="width:96%"></div></div>
+          <div class="stat-hint" style="color:var(--accent3);">Adjustable in Settings</div>
+        </div>
+        <div class="stat-card c-amber">
+          <div class="stat-label">Courses to Watch</div>
+          <div class="stat-val" id="stat-watch">0</div>
+          <div class="stat-sub">Recorded below 2.50 grade points</div>
+          <div class="stat-bar"><div class="stat-bar-fill bar-amber" style="width:0%"></div></div>
+          <div class="stat-hint" style="color:var(--success);">No alerts on record</div>
+        </div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Semester trend</div>
+              <div class="card-sub">Weighted GPA by semester</div>
+            </div>
+          </div>
+          <canvas id="trend-chart" height="160"></canvas>
+        </div>
+        <div>
+          <div class="glass-card" style="margin-bottom:14px;">
+            <div class="card-header">
+              <div class="card-title">Class Schedule</div>
+              <div style="font-size:10px;color:var(--text3);">Today's Classes (Thursday)</div>
+            </div>
+            <div id="schedule-container">
+              <div class="schedule-item">
+                <div>
+                  <div class="schedule-time">11:00 – 12:30</div>
+                  <div class="schedule-course">MAT101 · Room 402</div>
+                  <div class="schedule-desc">Differential and Integral Calculus</div>
+                </div>
+              </div>
+              <div class="schedule-item">
+                <div>
+                  <div class="schedule-time">14:00 – 15:30</div>
+                  <div class="schedule-course">CSE101 · Lab 203</div>
+                  <div class="schedule-desc">Introduction to Programming</div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-sm" style="margin-top:10px;width:100%;text-align:center;" onclick="showSection('attendance')">View Full Weekly Schedule →</button>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">Academic insights</div><div style="font-size:10px;color:var(--text3);">Your next step</div></div>
+            <div class="insight-card">
+              <div class="insight-status">On Track</div>
+              <div class="insight-text">Keep your semester pace steady</div>
+              <div class="insight-sub">No low-grade courses are currently flagged in your record.</div>
+            </div>
+            <button class="btn-ai" onclick="showSection('advisor')">⭐ Consult AI Academic Advisor →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trajectory -->
+    <div class="section" id="section-trajectory">
+      <div class="glass-card">
+        <div class="card-header">
+          <div>
+            <div class="card-title" style="font-size:1rem;">Predictive GPA Curve & Graduation Target</div>
+            <div class="card-sub">BUBT CSE Standard Academic Velocity Model</div>
+          </div>
+          <div class="pacing-badge">▲ +0.36 GPA Pacing</div>
+        </div>
+        <div class="chart-wrap"><canvas id="traj-chart"></canvas></div>
+        <div class="traj-stats">
+          <div class="traj-stat">
+            <div class="stat-label">Current CGPA</div>
+            <div class="stat-val" style="font-size:1.6rem;color:var(--success);">3.52</div>
+            <div class="stat-hint" style="color:var(--success);font-size:11px;">▲ S4 Standing (Top 12%)</div>
+          </div>
+          <div class="traj-stat">
+            <div class="stat-label">Target Milestone</div>
+            <div class="stat-val" style="font-size:1.6rem;color:var(--accent3);">3.88</div>
+            <div class="stat-hint" style="color:var(--accent3);font-size:11px;">★ Magna Cum Laude</div>
+          </div>
+          <div class="traj-stat">
+            <div class="stat-label">Credit Velocity</div>
+            <div class="stat-val" style="font-size:1.6rem;color:var(--accent2);">72/142</div>
+            <div class="stat-hint" style="color:var(--accent2);font-size:11px;">51% Degree Completed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CGPA Calculator -->
+    <div class="section" id="section-cgpa">
+      <div class="calc-grid">
+        <div class="glass-card">
+          <div class="card-header"><div class="card-title">Semester GPA Calculator</div></div>
+          <div id="course-list">
+            <div class="course-row" style="margin-bottom:4px;">
+              <div style="font-size:10px;color:var(--text3);">Course</div>
+              <div style="font-size:10px;color:var(--text3);">Grade</div>
+              <div style="font-size:10px;color:var(--text3);">Credits</div>
+              <div></div>
+            </div>
+          </div>
+          <div id="courses-container"></div>
+          <button class="btn-add" onclick="addCourse()">+ Add Course</button>
+          <button class="btn-primary" style="margin-top:12px;" onclick="calcGPA()">Calculate Semester GPA</button>
+          <div class="result-box" id="gpa-result" style="display:none;">
+            <div class="result-gpa" id="gpa-val">0.00</div>
+            <div class="result-label">Semester GPA</div>
+          </div>
+        </div>
+        <div>
+          <div class="glass-card" style="margin-bottom:14px;">
+            <div class="card-title" style="margin-bottom:1rem;">CGPA Projection</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <div class="stat-label">Current CGPA</div>
+                <div style="font-size:1.6rem;font-weight:700;color:var(--success);" id="proj-current-cgpa">3.22</div>
+              </div>
+              <div>
+                <div class="stat-label">Credits Completed</div>
+                <input class="input-setting" value="24" id="done-cr" oninput="projectCGPA()">
+              </div>
+              <div>
+                <div class="stat-label">Total Program Credits</div>
+                <input class="input-setting" value="142" id="total-cr" oninput="projectCGPA()">
+              </div>
+              <div class="result-box">
+                <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">Projected Final CGPA</div>
+                <div class="result-gpa" id="proj-cgpa" style="font-size:2rem;">3.22</div>
+              </div>
+            </div>
+          </div>
+          <div class="glass-card">
+            <div class="card-title" style="margin-bottom:1rem;">Grade Scale Reference</div>
+            <table style="width:100%;font-size:12px;">
+              <tr><th style="text-align:left;padding:4px 0;color:var(--text3);">Grade</th><th style="color:var(--text3);">Points</th><th style="color:var(--text3);">Range</th></tr>
+              <tr><td style="padding:4px 0;color:var(--success);">A+</td><td style="text-align:center;">4.00</td><td style="text-align:right;color:var(--text2);">90–100</td></tr>
+              <tr><td style="padding:4px 0;color:var(--success);">A</td><td style="text-align:center;">3.75</td><td style="text-align:right;color:var(--text2);">85–89</td></tr>
+              <tr><td style="padding:4px 0;color:var(--accent2);">A-</td><td style="text-align:center;">3.50</td><td style="text-align:right;color:var(--text2);">80–84</td></tr>
+              <tr><td style="padding:4px 0;color:var(--accent2);">B+</td><td style="text-align:center;">3.25</td><td style="text-align:right;color:var(--text2);">75–79</td></tr>
+              <tr><td style="padding:4px 0;color:var(--accent2);">B</td><td style="text-align:center;">3.00</td><td style="text-align:right;color:var(--text2);">70–74</td></tr>
+              <tr><td style="padding:4px 0;color:var(--warning);">B-</td><td style="text-align:center;">2.75</td><td style="text-align:right;color:var(--text2);">65–69</td></tr>
+              <tr><td style="padding:4px 0;color:var(--warning);">C+</td><td style="text-align:center;">2.50</td><td style="text-align:right;color:var(--text2);">60–64</td></tr>
+              <tr><td style="padding:4px 0;color:var(--danger);">F</td><td style="text-align:center;">0.00</td><td style="text-align:right;color:var(--text2);">&lt;40</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Advisor -->
+    <div class="section" id="section-advisor">
+      <div class="ai-chat-wrap">
+        <div class="ai-header">
+          <div class="ai-avatar">⭐</div>
+          <div class="ai-title">EduTrack AI Academic Advisor</div>
+          <div class="ai-sub">Your intelligent academic planning assistant, powered by AI</div>
+        </div>
+        <div class="quick-prompts" id="qp-container">
+          <button class="qp" onclick="sendPromptMsg('How can I improve my CGPA this semester?')">How can I improve my CGPA?</button>
+          <button class="qp" onclick="sendPromptMsg('What courses should I take next semester?')">Course recommendations</button>
+          <button class="qp" onclick="sendPromptMsg('Am I on track to reach Magna Cum Laude?')">Am I on track for honours?</button>
+          <button class="qp" onclick="sendPromptMsg('What is my graduation timeline?')">Graduation timeline</button>
+          <button class="qp" onclick="sendPromptMsg('Give me study tips for CSE students')">Study tips for CSE</button>
+        </div>
+        <div class="chat-box" id="chat-box">
+          <div class="msg ai">
+            <div class="msg-ava">AI</div>
+            <div class="msg-bubble">Hello Mahabub! I'm your EduTrack AI Advisor. I can see your current CGPA is 3.22 with 24 credits completed. You're in good standing — want me to help you chart the fastest path to Magna Cum Laude? 🎓</div>
+          </div>
+        </div>
+        <div class="chat-input-wrap">
+          <input class="chat-input" id="chat-input" placeholder="Ask your academic advisor anything..." onkeypress="if(event.key==='Enter')sendChatMsg()">
+          <button class="btn-send" onclick="sendChatMsg()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics -->
+    <div class="section" id="section-analytics">
+      <div class="analytics-grid">
+        <div class="glass-card">
+          <div class="card-header"><div class="card-title">GPA Trend by Semester</div></div>
+          <canvas id="analytics-trend" height="200"></canvas>
+        </div>
+        <div class="glass-card">
+          <div class="card-header"><div class="card-title">Grade Distribution</div></div>
+          <canvas id="grade-dist" height="200"></canvas>
+        </div>
+        <div class="glass-card full-width">
+          <div class="card-header"><div class="card-title">Credit Completion Progress</div><div class="card-sub">142 Credit Program</div></div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px;">
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">24</div>
+              <div style="font-size:10px;color:var(--text3);">Completed</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:700;color:var(--accent2);">18</div>
+              <div style="font-size:10px;color:var(--text3);">In Progress</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:700;color:var(--text2);">100</div>
+              <div style="font-size:10px;color:var(--text3);">Remaining</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:700;color:var(--success);">3.22</div>
+              <div style="font-size:10px;color:var(--text3);">CGPA</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:700;color:var(--accent3);">3.85</div>
+              <div style="font-size:10px;color:var(--text3);">Goal</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:29%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:4px;">
+            <span>0 CR</span><span>29% Complete (42/142 CR)</span><span>142 CR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance & Schedule -->
+    <div class="section" id="section-attendance">
+      <div class="schedule-grid">
+        <div class="glass-card">
+          <div class="card-header"><div class="card-title">Weekly Schedule</div><div class="card-sub">Fall 2026</div></div>
+          <div class="week-header">
+            <div class="day-label">Sun</div><div class="day-label">Mon</div><div class="day-label">Tue</div>
+            <div class="day-label">Wed</div><div class="day-label" style="color:var(--accent);">Thu ●</div>
+          </div>
+          <div class="week-row">
+            <div class="day-slot"></div>
+            <div class="day-slot has-class"><div class="slot-time">9:00</div><div class="slot-course">PHY101</div><div class="slot-room">R301</div></div>
+            <div class="day-slot has-class"><div class="slot-time">11:00</div><div class="slot-course">CSE101</div><div class="slot-room">Lab203</div></div>
+            <div class="day-slot has-class"><div class="slot-time">9:00</div><div class="slot-course">PHY101</div><div class="slot-room">R301</div></div>
+            <div class="day-slot has-class" style="border-color:rgba(0,212,168,0.3);background:rgba(0,212,168,0.1);"><div class="slot-time">11:00</div><div class="slot-course">MAT101</div><div class="slot-room">R402</div></div>
+          </div>
+          <div class="week-row" style="margin-top:4px;">
+            <div class="day-slot has-class"><div class="slot-time">14:00</div><div class="slot-course">ENG101</div><div class="slot-room">R102</div></div>
+            <div class="day-slot has-class"><div class="slot-time">14:00</div><div class="slot-course">MAT101</div><div class="slot-room">R402</div></div>
+            <div class="day-slot"></div>
+            <div class="day-slot has-class"><div class="slot-time">14:00</div><div class="slot-course">CSE101</div><div class="slot-room">R201</div></div>
+            <div class="day-slot has-class" style="border-color:rgba(0,212,168,0.3);background:rgba(0,212,168,0.1);"><div class="slot-time">14:00</div><div class="slot-course">CSE101</div><div class="slot-room">Lab203</div></div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="card-header"><div class="card-title">Attendance Summary</div><div class="card-sub">Current Semester</div></div>
+          <div id="att-list">
+            <div class="att-row">
+              <div class="att-course-name">MAT101</div>
+              <div class="att-bar"><div class="att-fill" style="width:92%;background:var(--success);"></div></div>
+              <div class="att-pct" style="color:var(--success);">92%</div>
+            </div>
+            <div class="att-row">
+              <div class="att-course-name">CSE101</div>
+              <div class="att-bar"><div class="att-fill" style="width:88%;background:var(--accent2);"></div></div>
+              <div class="att-pct" style="color:var(--accent2);">88%</div>
+            </div>
+            <div class="att-row">
+              <div class="att-course-name">PHY101</div>
+              <div class="att-bar"><div class="att-fill" style="width:95%;background:var(--success);"></div></div>
+              <div class="att-pct" style="color:var(--success);">95%</div>
+            </div>
+            <div class="att-row">
+              <div class="att-course-name">ENG101</div>
+              <div class="att-bar"><div class="att-fill" style="width:75%;background:var(--warning);"></div></div>
+              <div class="att-pct" style="color:var(--warning);">75%</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:10px;background:rgba(0,212,168,0.05);border:1px solid rgba(0,212,168,0.1);border-radius:10px;font-size:12px;color:var(--text2);">
+            ✅ Overall attendance: <strong style="color:var(--success);">87.5%</strong> — Good standing. Keep ENG101 above 75%.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="section" id="section-settings">
+      <div class="settings-grid">
+        <div>
+          <div class="glass-card">
+            <div class="settings-nav-item active">Profile</div>
+            <div class="settings-nav-item" onclick="alert('Academic Goals settings')">Academic Goals</div>
+            <div class="settings-nav-item" onclick="alert('Notifications settings')">Notifications</div>
+            <div class="settings-nav-item" onclick="alert('Privacy settings')">Privacy & Data</div>
+            <div class="settings-nav-item" onclick="alert('Appearance settings')">Appearance</div>
+          </div>
+        </div>
+        <div class="glass-card">
+          <div class="settings-section-title">Profile Settings</div>
+          <div class="setting-row">
+            <div><div class="setting-name">Student ID</div><div class="setting-desc">Your unique institutional identifier</div></div>
+            <input class="input-setting" id="setting-student-id" value="20255103311" readonly>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-name">Display Name</div><div class="setting-desc">How your name appears in EduTrack</div></div>
+            <input class="input-setting" id="setting-display-name" value="Mahabub Shaddhow">
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-name">Graduation Goal CGPA</div><div class="setting-desc">Your target cumulative GPA</div></div>
+            <input class="input-setting" id="setting-goal-cgpa" value="3.85" type="number" min="0" max="4" step="0.01">
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-name">Email Notifications</div><div class="setting-desc">Get alerts for grade updates and schedule changes</div></div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-name">AI Advisor Access</div><div class="setting-desc">Enable AI-powered academic recommendations</div></div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-name">Dark Mode</div><div class="setting-desc">Always on for EduTrack</div></div>
+            <button class="toggle on"></button>
+          </div>
+          <button class="btn-primary" style="margin-top:1rem;max-width:200px;" onclick="saveSettings()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- === FACULTY SECTIONS === -->
+    <div class="section" id="section-faculty-dashboard">
+      <div class="faculty-banner">
+        <div style="font-size:11px;color:var(--accent2);font-weight:600;margin-bottom:4px;">WELCOME, FACULTY MEMBER</div>
+        <div style="font-size:1.2rem;font-weight:700;margin-bottom:4px;">Faculty Control Panel</div>
+        <div style="font-size:13px;color:var(--text2);">Search your assigned sections, review class cohorts, and manage student grades.</div>
+      </div>
+      <div class="faculty-stats-grid">
+        <div class="stat-card c-blue">
+          <div class="stat-label">Total Students</div>
+          <div class="stat-val">1</div>
+          <div class="stat-sub">Assigned sections cohort</div>
+          <div class="stat-hint" style="color:var(--accent2);cursor:pointer;" onclick="alert('Roster view')">Roster size ↗</div>
+        </div>
+        <div class="stat-card c-green">
+          <div class="stat-label">Batch Avg CGPA</div>
+          <div class="stat-val">3.22</div>
+          <div class="stat-sub">Cohort academic average</div>
+          <div class="stat-hint" style="color:var(--success);">Scale 4.00</div>
+        </div>
+        <div class="stat-card c-amber">
+          <div class="stat-label">Students at Risk</div>
+          <div class="stat-val">0</div>
+          <div class="stat-sub">Grade &lt; 2.50 or low standing</div>
+          <div class="stat-hint" style="color:var(--success);">Attention needed: none</div>
+        </div>
+        <div class="stat-card c-purple">
+          <div class="stat-label">Honor Roll (≥3.75)</div>
+          <div class="stat-val">0</div>
+          <div class="stat-sub">Top tier performers</div>
+          <div class="stat-hint" style="color:var(--accent3);">Dean's list pace</div>
+        </div>
+      </div>
+      <div class="glass-card">
+        <div class="card-header">
+          <div><div class="card-title">Student Roster</div><div class="card-sub">Searchable · Assigned Sections Only</div></div>
+          <div style="display:flex;gap:8px;">
+            <span style="background:rgba(0,212,168,0.1);border:1px solid rgba(0,212,168,0.2);color:var(--accent);font-size:11px;padding:4px 10px;border-radius:20px;">All</span>
+            <span style="background:var(--glass);border:1px solid var(--glass-border);color:var(--text2);font-size:11px;padding:4px 10px;border-radius:20px;">06</span>
+          </div>
+        </div>
+        <div class="search-bar">
+          <input class="search-input" placeholder="Search student ID, name, section, CGPA, or status...">
+          <span style="font-size:12px;color:var(--text3);">Showing 1 of 1 students</span>
+        </div>
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th>Student ID</th><th>Name</th><th>Section</th><th>CGPA</th><th>Status</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--accent2);">20255103311</td>
+              <td style="font-weight:600;">Mahabub Shaddhow</td>
+              <td>06</td>
+              <td style="color:var(--success);font-weight:600;">3.22</td>
+              <td><span class="status-badge on-track">● On Track</span></td>
+              <td><button class="btn-sm" onclick="alert('View student profile')">View →</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section" id="section-section-assignments">
+      <div class="glass-card">
+        <div class="card-title" style="margin-bottom:1rem;">Section Assignments</div>
+        <table class="roster-table">
+          <thead><tr><th>Section</th><th>Course</th><th>Students</th><th>Schedule</th><th>Room</th></tr></thead>
+          <tbody>
+            <tr><td>06</td><td>MAT101 — Differential and Integral Calculus</td><td>1</td><td>Thu 11:00–12:30</td><td>Room 402</td></tr>
+            <tr><td>06</td><td>CSE101 — Introduction to Programming</td><td>1</td><td>Tue/Thu 14:00</td><td>Lab 203</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- end main-content -->
+</div><!-- end app-page -->
+
+<script>
+var currentRole = 'student';
+var currentUserId = '20255103311';
+var showPw = false;
+var activeStudentData = null;
+
+function setRole(r) {
+  currentRole = r;
+  document.getElementById('role-student').classList.toggle('active', r==='student');
+  document.getElementById('role-faculty').classList.toggle('active', r==='faculty');
+  document.getElementById('id-label').textContent = r==='student' ? 'Student ID' : 'Faculty ID';
+  document.getElementById('login-id').value = r==='student' ? '20255103311' : 'FAC-2026-CSE';
+}
+function togglePw() {
+  showPw = !showPw;
+  var el = document.getElementById('login-pw');
+  el.type = showPw ? 'text' : 'password';
+}
+function demoLogin(role) {
+  setRole(role);
+  if (role === 'student') {
+    document.getElementById('login-id').value = '20255103311';
+    document.getElementById('login-pw').value = 'EduTrack2026!';
+  } else {
+    document.getElementById('login-id').value = 'FACULTY001';
+    document.getElementById('login-pw').value = 'EduTrack2026!';
+  }
+  doLogin();
+}
+
+async function doLogin() {
+  var id = document.getElementById('login-id').value.trim() || '20255103311';
+  var pw = document.getElementById('login-pw').value || 'EduTrack2026!';
+  
+  if (window.pywebview && window.pywebview.api) {
+    try {
+      var res = await window.pywebview.api.authenticate(id, pw, currentRole);
+      if (res && res.success) {
+        currentUserId = id;
+        if (res.role === 'student' && res.student_data) {
+          activeStudentData = res.student_data;
+          applyRealStudentData(res.student_data, res.user);
+        }
+      }
+    } catch(e) {
+      console.log('Using integrated state:', e);
+    }
+  }
+
+  document.getElementById('login-page').classList.remove('active');
+  document.getElementById('app-page').classList.add('active');
+  if (currentRole === 'faculty') {
+    document.getElementById('student-nav').style.display = 'none';
+    document.getElementById('faculty-nav').style.display = 'block';
+    document.getElementById('sidebar-avatar').textContent = 'FM';
+    document.getElementById('sidebar-name').textContent = 'Faculty Member';
+    document.getElementById('sidebar-role').textContent = 'Faculty / FAC-2026-CSE';
+    document.getElementById('topbar-action-btn').textContent = 'Switch User';
+    showSection('faculty-dashboard');
+  } else {
+    showSection('dashboard');
+  }
+  initCharts();
+}
+
+function applyRealStudentData(data, user) {
+  if (user && user.display_name) {
+    document.getElementById('sidebar-name').textContent = user.display_name;
+    document.getElementById('dash-welcome-name').textContent = 'Welcome back, ' + user.display_name;
+    var inits = user.display_name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
+    document.getElementById('sidebar-avatar').textContent = inits;
+  }
+  if (data.metrics) {
+    document.getElementById('stat-cgpa').textContent = Number(data.metrics.current_cgpa || 3.22).toFixed(2);
+    document.getElementById('stat-credits').textContent = data.metrics.credits_completed || 24;
+    document.getElementById('stat-cgpa-hint').textContent = (data.metrics.current_cgpa || 3.22) + ' / 4.00';
+  }
+}
+
+function signOut() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('login-page').classList.add('active');
+  currentRole = 'student';
+  document.getElementById('student-nav').style.display = 'block';
+  document.getElementById('faculty-nav').style.display = 'none';
+}
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  var sec = document.getElementById('section-' + id);
+  if (sec) sec.classList.add('active');
+  var titles = {
+    'dashboard': ['Your academic journey', 'A clear view of your progress, goals, and next steps.', 'EduTrack › Student Workspace › Dashboard'],
+    'trajectory': ['Trajectory Planner', 'AI-powered GPA forecasting and graduation targeting.', 'EduTrack › Student Workspace › Trajectory Planner'],
+    'cgpa': ['CGPA Calculator', 'Calculate and project your cumulative GPA.', 'EduTrack › Student Workspace › CGPA Calculator'],
+    'advisor': ['AI Advisor', 'Your intelligent academic planning assistant.', 'EduTrack › Student Workspace › AI Advisor'],
+    'analytics': ['Analytics', 'Deep dive into your academic performance data.', 'EduTrack › Student Workspace › Analytics'],
+    'attendance': ['Attendance & Schedule', 'Track attendance and manage your class schedule.', 'EduTrack › Student Workspace › Attendance & Schedule'],
+    'settings': ['Settings', 'Manage your profile and preferences.', 'EduTrack › Student Workspace › Settings'],
+    'faculty-dashboard': ['Faculty Control Panel', 'Review students and manage academic records in your assigned sections.', 'EduTrack › Faculty Workspace › Dashboard'],
+    'section-assignments': ['Section Assignments', 'Your assigned course sections and rosters.', 'EduTrack › Faculty Workspace › Section Assignments']
+  };
+  if (titles[id]) {
+    document.getElementById('page-title').textContent = titles[id][0];
+    document.getElementById('page-sub').textContent = titles[id][1];
+    document.getElementById('breadcrumb').innerHTML = titles[id][2].replace(/›/g, '› <span>').replace(/^/, '<span>') + '</span>';
+  }
+  var navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(function(n) {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+id+"'")) n.classList.add('active');
+  });
+  if (id === 'cgpa' && document.getElementById('courses-container').children.length === 0) {
+    addCourse(); addCourse(); addCourse();
+  }
+}
+
+var chartsInited = false;
+var chartInstances = {};
+function initCharts() {
+  if (chartsInited) return;
+  chartsInited = true;
+  var defaults = { color: 'rgba(255,255,255,0.7)', font: { family: "'Segoe UI', system-ui, sans-serif", size: 11 } };
+  Chart.defaults.color = defaults.color;
+  Chart.defaults.font = defaults.font;
+  var gridOpts = { color: 'rgba(255,255,255,0.04)', drawBorder: false };
+
+  // Login preview chart
+  var lc = document.getElementById('login-chart');
+  if (lc) {
+    new Chart(lc, { type: 'line', data: {
+      labels: ['S1','S2','S3','S4','S5','S6 (Proj)'],
+      datasets: [{ data: [2.4,2.6,2.9,3.52,3.72,3.88], borderColor: '#00d4a8', backgroundColor: 'rgba(0,212,168,0.08)', borderWidth: 2, pointBackgroundColor: '#00d4a8', pointRadius: 4, tension: 0.4, fill: true }]
+    }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2, max: 4 } } }});
+  }
+
+  // Trend chart
+  var tc = document.getElementById('trend-chart');
+  if (tc) {
+    new Chart(tc, { type: 'line', data: {
+      labels: ['1','2','3'],
+      datasets: [{ data: [3.25,3.08,3.38], borderColor: '#00d4a8', backgroundColor: 'rgba(0,212,168,0.1)', borderWidth: 2, pointBackgroundColor: '#00d4a8', pointRadius: 5, tension: 0.4, fill: true }]
+    }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2.5, max: 4 } } }});
+  }
+
+  // Trajectory chart
+  var tjc = document.getElementById('traj-chart');
+  if (tjc) {
+    new Chart(tjc, { type: 'line', data: {
+      labels: ['S1','S2','S3','S4','S5','S6 (Proj)'],
+      datasets: [
+        { label: 'GPA Trajectory', data: [2.4,2.6,2.9,3.52,3.72,3.88], borderColor: '#00d4a8', backgroundColor: 'rgba(0,212,168,0.1)', borderWidth: 2.5, pointBackgroundColor: '#00d4a8', pointRadius: 5, tension: 0.4, fill: true },
+        { label: "Dean's Benchmark", data: [3.75,3.75,3.75,3.75,3.75,3.75], borderColor: '#f59e0b', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0 }
+      ]
+    }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: 'rgba(255,255,255,0.5)', font: { size: 11 } } } }, scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2, max: 4.1 } } }});
+  }
+
+  // Analytics trend
+  var at = document.getElementById('analytics-trend');
+  if (at) {
+    new Chart(at, { type: 'bar', data: {
+      labels: ['S1','S2','S3','S4','S5','S6 Proj'],
+      datasets: [{ data: [3.25,3.08,3.38,3.52,3.72,3.88], backgroundColor: ['rgba(0,212,168,0.5)','rgba(0,212,168,0.5)','rgba(0,212,168,0.5)','rgba(0,212,168,0.8)','rgba(14,165,233,0.5)','rgba(14,165,233,0.3)'], borderRadius: 6, borderSkipped: false }]
+    }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2.5, max: 4.1 } } }});
+  }
+
+  // Grade dist
+  var gd = document.getElementById('grade-dist');
+  if (gd) {
+    new Chart(gd, { type: 'doughnut', data: {
+      labels: ['A+','A','A-','B+','B','B-'],
+      datasets: [{ data: [2,3,4,5,3,1], backgroundColor: ['#00d4a8','#0ea5e9','#7c3aed','#f59e0b','#10b981','#ef4444'], borderWidth: 0 }]
+    }, options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'right', labels: { color: 'rgba(255,255,255,0.6)', font: { size: 11 }, padding: 10 } } } }});
+  }
+}
+
+// CGPA Calculator
+var courses = [];
+var gradeMap = { 'A+':4.0,'A':3.75,'A-':3.5,'B+':3.25,'B':3.0,'B-':2.75,'C+':2.5,'C':2.25,'D':2.0,'F':0.0 };
+function addCourse() {
+  var id = Date.now();
+  courses.push(id);
+  var div = document.createElement('div');
+  div.className = 'course-row';
+  div.id = 'cr-' + id;
+  div.innerHTML = '<input class="field-input" style="font-size:12px;padding:6px 10px;" placeholder="Course name" value="CSE' + (100+courses.length) + '">' +
+    '<select class="select-sm" id="grade-'+id+'"><option>A+</option><option>A</option><option selected>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>D</option><option>F</option></select>' +
+    '<input class="input-sm" id="cr-val-'+id+'" value="3" type="number" min="1" max="6">' +
+    '<button onclick="rmCourse('+id+')" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12px;">✕</button>';
+  document.getElementById('courses-container').appendChild(div);
+}
+function rmCourse(id) {
+  var el = document.getElementById('cr-' + id);
+  if (el) el.remove();
+  courses = courses.filter(function(c) { return c !== id; });
+}
+function calcGPA() {
+  var total = 0, cr = 0;
+  courses.forEach(function(id) {
+    var g = document.getElementById('grade-'+id);
+    var c = document.getElementById('cr-val-'+id);
+    if (g && c) {
+      var pts = gradeMap[g.value] || 0;
+      var credits = parseFloat(c.value) || 0;
+      total += pts * credits;
+      cr += credits;
+    }
+  });
+  var gpa = cr > 0 ? (total / cr) : 0;
+  document.getElementById('gpa-val').textContent = gpa.toFixed(2);
+  document.getElementById('gpa-result').style.display = 'block';
+}
+function projectCGPA() {
+  var done = parseFloat(document.getElementById('done-cr').value) || 24;
+  var total = parseFloat(document.getElementById('total-cr').value) || 142;
+  var current = parseFloat(document.getElementById('proj-current-cgpa').textContent) || 3.22;
+  var proj = done > 0 ? ((current * done + 3.8 * (total - done)) / total).toFixed(2) : current.toFixed(2);
+  document.getElementById('proj-cgpa').textContent = proj;
+}
+
+// AI Advisor Chat
+var aiReplies = [
+  'Based on your current 3.22 CGPA and 24 completed credits, you need approximately a 3.47 average in remaining semesters to reach Magna Cum Laude (3.75+). That\'s definitely achievable! Focus on your CSE core courses for maximum grade weight.',
+  'For next semester, I recommend prioritizing Data Structures & Algorithms (CSE201) — it\'s foundational and heavily weighted. Also consider Discrete Mathematics to strengthen your logical reasoning skills.',
+  'Your attendance record looks strong at 87.5% overall. The only concern is ENG101 at 75% — try to attend at least 2 more classes this semester to stay above the minimum threshold.',
+  'To improve your CGPA efficiently: (1) Focus on 3-4 credit courses for maximum impact, (2) Target A or A- in core CSE subjects, (3) Use office hours — most professors appreciate initiative.'
+];
+var replyIdx = 0;
+function sendPromptMsg(text) { document.getElementById('chat-input').value = text; sendChatMsg(); }
+
+async function sendChatMsg() {
+  var input = document.getElementById('chat-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+  var box = document.getElementById('chat-box');
+  box.innerHTML += '<div class="msg user"><div class="msg-ava">MS</div><div class="msg-bubble">' + msg + '</div></div>';
+  input.value = '';
+  box.scrollTop = box.scrollHeight;
+
+  var typingId = 'typing-' + Date.now();
+  box.innerHTML += '<div class="msg ai" id="' + typingId + '"><div class="msg-ava">AI</div><div class="msg-bubble" style="opacity:0.7;">Thinking...</div></div>';
+  box.scrollTop = box.scrollHeight;
+
+  var reply = '';
+  if (window.pywebview && window.pywebview.api) {
+    try {
+      var res = await window.pywebview.api.ask_ai_advisor(msg);
+      if (res && res.advice) {
+        reply = res.advice;
+      }
+    } catch(err) {
+      console.log('Using local fallback:', err);
+    }
+  }
+
+  if (!reply) {
+    reply = aiReplies[replyIdx % aiReplies.length];
+    replyIdx++;
+  }
+
+  var typingEl = document.getElementById(typingId);
+  if (typingEl) typingEl.remove();
+
+  box.innerHTML += '<div class="msg ai"><div class="msg-ava">AI</div><div class="msg-bubble">' + reply + '</div></div>';
+  box.scrollTop = box.scrollHeight;
+}
+
+async function exportTranscript() {
+  if (window.pywebview && window.pywebview.api) {
+    try {
+      var res = await window.pywebview.api.export_pdf_transcript();
+      if (res && res.success) {
+        alert('Transcript PDF successfully generated at:\n' + res.path);
+        return;
+      }
+    } catch(e) {
+      console.log(e);
+    }
+  }
+  alert('Exporting official academic transcript PDF...');
+}
+
+async function saveSettings() {
+  alert('Settings saved successfully!');
+}
+
+// Auto init login chart on page load
+window.addEventListener('load', function() {
+  var lc = document.getElementById('login-chart');
+  if (lc && typeof Chart !== 'undefined') {
+    var gridOpts = { color: 'rgba(255,255,255,0.04)', drawBorder: false };
+    new Chart(lc, {
+      type: 'line',
+      data: {
+        labels: ['S1','S2','S3','S4','S5','S6 (Proj)'],
+        datasets: [{
+          data: [2.4, 2.6, 2.9, 3.52, 3.72, 3.88],
+          borderColor: '#00d4a8',
+          backgroundColor: 'rgba(0,212,168,0.08)',
+          borderWidth: 2,
+          pointBackgroundColor: '#00d4a8',
+          pointRadius: 4,
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { x: { grid: gridOpts }, y: { grid: gridOpts, min: 2, max: 4 } }
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>
