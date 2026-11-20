@@ -1441,46 +1441,8 @@ body.dark-mode .ai-status-badge .badge-dot {
 }
 .ai-drawer-actions {
   display: flex;
-  gap: 7px;
+  gap: 8px;
   align-items: center;
-}
-.ai-lang-toggle {
-  display: flex;
-  align-items: center;
-  background: rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(14, 165, 233, 0.18);
-  border-radius: 16px;
-  padding: 2px;
-  gap: 2px;
-}
-body.dark-mode .ai-lang-toggle {
-  background: rgba(15, 23, 42, 0.8);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-.ai-lang-btn {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-body.dark-mode .ai-lang-btn {
-  color: #94a3b8;
-}
-.ai-lang-btn.active {
-  background: var(--sky);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
-}
-body.dark-mode .ai-lang-btn.active {
-  background: #38bdf8;
-  color: #080c14;
-  font-weight: 800;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 }
 .ai-drawer-btn {
   background: transparent;
@@ -2786,11 +2748,6 @@ body.dark-mode .ai-act-btn:hover {
       </div>
     </div>
     <div class="ai-drawer-actions">
-      <!-- 1-Click Language Switcher Pill -->
-      <div class="ai-lang-toggle" title="Switch AI response language">
-        <button class="ai-lang-btn active" id="ai-lang-btn-en" onclick="setAiLanguage('en')">EN</button>
-        <button class="ai-lang-btn" id="ai-lang-btn-bn" onclick="setAiLanguage('bn')">বাংলা</button>
-      </div>
       <button class="ai-drawer-btn" onclick="clearAiDrawerChat()" title="Reset chat">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
       </button>
@@ -2832,7 +2789,7 @@ body.dark-mode .ai-act-btn:hover {
     <!-- AI GREETING -->
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        <strong>Offline Academic Engine Online.</strong> Ready to simulate grade projections, analyze retake pathways, or audit clearance for BUBT CSE.
+        <strong>Local Academic Engine Active.</strong> Ready to simulate grade projections, analyze retake pathways, or audit exam clearance for BUBT CSE.
       </div>
       <div class="ai-msg-meta">
         <div style="display:flex;align-items:center;gap:6px;">
@@ -2888,7 +2845,7 @@ body.dark-mode .ai-act-btn:hover {
       <button class="ai-slash-pill" onclick="insertSlashCommand('/waiver')"><span class="slash-sym">/</span>waiver</button>
     </div>
     <div class="ai-drawer-input-row">
-      <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrack AI or type /cgpa, /waiver..." onkeydown="handleAiDrawerKey(event)">
+      <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrack AI in English or বাংলায় প্রশ্ন করুন..." onkeydown="handleAiDrawerKey(event)">
       <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
     </div>
   </div>
@@ -3393,16 +3350,9 @@ async function sm(){
 // ═══════════════════════════════════════
 function setAiLanguage(lang) {
   currentAiLang = lang || 'en';
-  var btnEn = document.getElementById('ai-lang-btn-en');
-  var btnBn = document.getElementById('ai-lang-btn-bn');
-  if (btnEn) btnEn.classList.toggle('active', currentAiLang === 'en');
-  if (btnBn) btnBn.classList.toggle('active', currentAiLang === 'bn');
-
   var inp = document.getElementById('ai-drawer-input');
-  if (inp) {
-    inp.placeholder = currentAiLang === 'en'
-      ? 'Ask EduTrackAi in Academic English...'
-      : 'EduTrackAi-কে বাংলায় প্রশ্ন করুন...';
+  if (inp && !inp.value) {
+    inp.placeholder = 'Ask EduTrack AI in English or বাংলায় প্রশ্ন করুন...';
   }
 }
 
@@ -3716,7 +3666,7 @@ function clearAiDrawerChat() {
     <!-- AI GREETING -->
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        <strong>Offline Academic Engine Online.</strong> Ready to simulate grade projections, analyze retake pathways, or audit clearance for BUBT CSE.
+        <strong>Local Academic Engine Active.</strong> Ready to simulate grade projections, analyze retake pathways, or audit exam clearance for BUBT CSE.
       </div>
       <div class="ai-msg-meta">
         <div style="display:flex;align-items:center;gap:6px;">
