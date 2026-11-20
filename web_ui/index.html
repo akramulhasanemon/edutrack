@@ -1183,6 +1183,26 @@ body.dark-mode .sni.active{color:var(--sky2);}
   display:flex;align-items:center;justify-content:space-between;
 }
 
+/* ═══════════ TOAST NOTIFICATION ═══════════ */
+.edutrack-toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--bg-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1.5px solid rgba(56,189,248,.35);box-shadow:0 12px 36px rgba(0,0,0,.45);
+  color:var(--ink);padding:11px 18px;border-radius:14px;
+  font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:10px;
+  z-index:99999;transform:translateY(80px);opacity:0;
+  transition:all 0.28s cubic-bezier(.16,1,.3,1);pointer-events:none;
+}
+.edutrack-toast.show{
+  transform:translateY(0);opacity:1;pointer-events:auto;
+}
+.toast-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(34,197,94,.18);color:#22c55e;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;flex-shrink:0;
+}
+
 /* ═══════════ FACULTY ═══════════ */
 .f-bnr{border-radius:18px;padding:1.6rem 2rem;margin-bottom:1.5rem;background:linear-gradient(135deg,var(--deepest),var(--deep),var(--sky));position:relative;overflow:hidden;box-shadow:0 10px 36px rgba(3,105,161,.2);}
 .f-bnr::before{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);}
@@ -2957,6 +2977,12 @@ body.dark-mode .ai-act-btn:hover {
   </div>
 </div>
 
+<!-- TOAST NOTIFICATION -->
+<div id="edutrack-toast" class="edutrack-toast">
+  <div class="toast-icon" id="toast-icon">✓</div>
+  <div class="toast-msg" id="toast-msg">Action completed successfully</div>
+</div>
+
 <script>
 // ═══════════════════════════════════════
 // SPLASH CONTROLLER
@@ -2993,6 +3019,24 @@ var currentStudentId = '20255103311';
 var activeStudentData = null;
 var currentFacultyId = 'FACULTY001';
 var activeFacultyData = null;
+
+function showToast(msg, isError) {
+  var t = document.getElementById('edutrack-toast');
+  var tm = document.getElementById('toast-msg');
+  var ti = document.getElementById('toast-icon');
+  if (!t || !tm) return;
+  tm.textContent = msg;
+  if (ti) {
+    ti.textContent = isError ? '✕' : '✓';
+    ti.style.background = isError ? 'rgba(239,68,68,.2)' : 'rgba(34,197,94,.18)';
+    ti.style.color = isError ? '#ef4444' : '#22c55e';
+  }
+  t.classList.add('show');
+  clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(function() {
+    t.classList.remove('show');
+  }, 3200);
+}
 
 function populateStudentDashboard(data) {
   if (!data) return;
@@ -3576,16 +3620,33 @@ function loadEnrolledIntoCalc(){
   if (!cc) return;
   cc.innerHTML = '';
   cList = [];
-  var enrolled = [
-    { name: 'CSE201 - Data Structures', grade: 'A', cr: 3 },
-    { name: 'MAT101 - Calculus', grade: 'A-', cr: 3 },
-    { name: 'PHY101 - Physics', grade: 'A+', cr: 3 },
-    { name: 'CSE102 - Java Programming', grade: 'A-', cr: 3 },
-    { name: 'ENG101 - English Communication', grade: 'B+', cr: 3 }
-  ];
-  enrolled.forEach(function(c){
-    addC(c.name, c.grade, c.cr);
-  });
+  if (activeStudentData && activeStudentData.enrollments && activeStudentData.enrollments.length > 0) {
+    var enrollments = activeStudentData.enrollments;
+    // Get distinct courses from the latest semester or active list
+    var maxSem = '1';
+    enrollments.forEach(function(e){
+      if (String(e.semester_no) > maxSem) maxSem = String(e.semester_no);
+    });
+    var targetList = enrollments.filter(function(e){ return String(e.semester_no) === maxSem; });
+    if (targetList.length === 0) targetList = enrollments.slice(-4);
+
+    targetList.forEach(function(c){
+      var label = c.course_code + ' - ' + (c.course_title || '');
+      addC(label, c.letter_grade || 'A', c.credit_hours || 3);
+    });
+    showToast('✓ Loaded BUBT Semester ' + maxSem + ' courses into calculator');
+  } else {
+    var fallback = [
+      { name: 'CSE201 - Data Structures', grade: 'A', cr: 3 },
+      { name: 'MAT101 - Differential Calculus', grade: 'A-', cr: 3 },
+      { name: 'CSE203 - Discrete Mathematics', grade: 'B+', cr: 3 },
+      { name: 'ENG101 - English Language', grade: 'A', cr: 3 }
+    ];
+    fallback.forEach(function(c){
+      addC(c.name, c.grade, c.cr);
+    });
+    showToast('✓ Loaded standard BUBT CSE courses');
+  }
 }
 
 function calcGPA(){
@@ -3603,13 +3664,15 @@ function calcGPA(){
 }
 
 function runProjection(){
-  var curr = 3.22;
-  var done = parseFloat(document.getElementById('proj-cr-done').value) || 24;
-  var tot = parseFloat(document.getElementById('proj-cr-tot').value) || 142;
+  var curr = (activeStudentData && activeStudentData.cgpa) ? activeStudentData.cgpa : 3.22;
+  var done = parseFloat(document.getElementById('proj-cr-done').value) || (activeStudentData ? activeStudentData.completed_credits : 24);
+  var tot = parseFloat(document.getElementById('proj-cr-tot').value) || (activeStudentData ? activeStudentData.program_credits : 142);
   var rem = Math.max(0, tot - done);
-  var target = 3.85;
-  var proj = tot > 0 ? (((curr * done) + (3.75 * rem)) / tot) : curr;
-  document.getElementById('proj-final-val').textContent = proj.toFixed(2);
+  var target = (activeStudentData && activeStudentData.target_cgpa) ? activeStudentData.target_cgpa : 3.85;
+  var proj = tot > 0 ? (((curr * done) + (target * rem)) / tot) : curr;
+  var projEl = document.getElementById('proj-final-val');
+  if (projEl) projEl.textContent = proj.toFixed(2);
+  showToast('✓ BUBT Degree Trajectory Projected: ' + proj.toFixed(2) + ' CGPA');
 }
 
 // ═══════════════════════════════════════
@@ -4040,16 +4103,21 @@ function insertSlashCommand(cmd) {
 }
 
 async function exportTranscript() {
+  showToast('⏳ Generating official BUBT transcript PDF...');
   if (window.pywebview && window.pywebview.api) {
     try {
       var res = await window.pywebview.api.export_pdf_transcript(currentStudentId);
       if (res && res.success) {
-        alert('Transcript PDF successfully generated at:\n' + res.path);
+        showToast('✓ BUBT Transcript PDF generated: ' + (res.filename || 'transcript.pdf'));
         return;
       }
-    } catch(e) {}
+    } catch(e) {
+      console.error(e);
+      showToast('✕ PDF Export Notice: ' + e, true);
+      return;
+    }
   }
-  alert('Exporting official academic transcript PDF (BUBT CSE Standard)...');
+  showToast('✓ BUBT CSE Academic Transcript PDF Ready');
 }
 
 function switchSettingTab(tab, el) {
@@ -4100,14 +4168,16 @@ async function saveSettings() {
           var stg = document.getElementById('stat-goal'); if(stg) stg.textContent = goal.toFixed(2);
           var hudTgt = document.querySelector('.val-indigo'); if(hudTgt) hudTgt.textContent = goal.toFixed(2);
         }
-        alert('Settings and AI configuration saved successfully.');
+        showToast('✓ Settings & AI configuration saved successfully');
         return;
       }
     } catch(e) {
       console.error('Settings save error:', e);
+      showToast('✕ Error saving settings: ' + e, true);
+      return;
     }
   }
-  alert('Preferences saved successfully!');
+  showToast('✓ Preferences saved locally');
 }
 
 function populateFacultyDashboard(data) {
@@ -4314,22 +4384,40 @@ function updateTrajSim(val) {
   if (sliderValEl) sliderValEl.textContent = target.toFixed(2);
   if (targetValEl) targetValEl.textContent = target.toFixed(2);
 
-  // Compute required SGPA: current done = 42 CR with 3.22 CGPA. Remaining = 100 CR.
-  // Target * 142 - (3.22 * 42) = required points for remaining 100 CR.
-  var currentPoints = 3.22 * 42;
-  var targetTotalPoints = target * 142;
-  var neededRemainingPoints = targetTotalPoints - currentPoints;
-  var requiredSgpa = Math.min(4.00, Math.max(2.00, neededRemainingPoints / 100));
+  var currCgpa = (activeStudentData && activeStudentData.cgpa) ? activeStudentData.cgpa : 3.22;
+  var creditsDone = (activeStudentData && activeStudentData.completed_credits) ? activeStudentData.completed_credits : 24;
+  var totalProgCredits = (activeStudentData && activeStudentData.program_credits) ? activeStudentData.program_credits : 142;
+  var creditsRemaining = Math.max(0, totalProgCredits - creditsDone);
 
-  if (reqGpaEl) reqGpaEl.textContent = requiredSgpa.toFixed(2) + ' SGPA';
-  if (s5El) s5El.textContent = Math.min(4.00, requiredSgpa).toFixed(2) + ' (Req)';
-  if (s6El) s6El.textContent = Math.min(4.00, requiredSgpa + 0.05).toFixed(2) + ' (Req)';
+  // BUBT CSE Math: Target * 142 - (currCgpa * creditsDone) = needed points
+  var currentPoints = currCgpa * creditsDone;
+  var targetTotalPoints = target * totalProgCredits;
+  var neededRemainingPoints = targetTotalPoints - currentPoints;
+  var rawRequiredSgpa = creditsRemaining > 0 ? (neededRemainingPoints / creditsRemaining) : currCgpa;
+  var requiredSgpa = Math.min(4.00, Math.max(2.00, rawRequiredSgpa));
+  var isAchievable = rawRequiredSgpa <= 4.00;
+
+  if (reqGpaEl) {
+    if (!isAchievable) {
+      reqGpaEl.textContent = '> 4.00 (Exceeds Max)';
+      reqGpaEl.style.color = 'var(--danger)';
+    } else {
+      reqGpaEl.textContent = requiredSgpa.toFixed(2) + ' SGPA';
+      reqGpaEl.style.color = 'var(--deep)';
+    }
+  }
+  if (s5El) s5El.textContent = Math.min(4.00, Math.max(2.00, requiredSgpa)).toFixed(2) + ' (Req)';
+  if (s6El) s6El.textContent = Math.min(4.00, Math.max(2.00, requiredSgpa + 0.05)).toFixed(2) + ' (Req)';
 
   var verdict = 'Regular Degree Pace';
   var color = 'var(--sky)';
   var honorTitle = 'Honours Standing';
 
-  if (target >= 3.90) {
+  if (!isAchievable) {
+    honorTitle = 'Exceeds 4.00 Ceiling';
+    verdict = 'Target requires >4.00 SGPA · Consider retaking D/F courses to raise baseline CGPA';
+    color = 'var(--danger)';
+  } else if (target >= 3.90) {
     honorTitle = 'Chancellor / Dean\'s Honor';
     verdict = 'Chairman\'s / Dean\'s Honor · 50%–100% Waiver Target';
     color = '#8b5cf6';
