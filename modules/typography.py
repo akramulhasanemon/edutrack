@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import customtkinter as ctk
+# Lazy import customtkinter only if legacy font helpers are called
 import tkinter as tk
 
 
@@ -10,25 +10,25 @@ DEFAULT_ACCENT_THEME = "Default Blue"
 
 ACCENT_THEMES = {
     "Default Blue": {
-        "primary": "#3B82F6",
-        "primary_hover": "#2563EB",
+        "primary": "#2563EB",
+        "primary_hover": "#1D4ED8",
         "accent": "#38BDF8",
-        "card": "#111D30",
-        "card_alt": "#16243A",
+        "card": "#0C1729",
+        "card_alt": "#101F37",
     },
     "Emerald": {
         "primary": "#10B981",
         "primary_hover": "#059669",
         "accent": "#34D399",
-        "card": "#10251F",
-        "card_alt": "#173229",
+        "card": "#091D17",
+        "card_alt": "#0E2920",
     },
     "Purple": {
         "primary": "#8B5CF6",
         "primary_hover": "#7C3AED",
         "accent": "#C4B5FD",
-        "card": "#1B1730",
-        "card_alt": "#26203D",
+        "card": "#141026",
+        "card_alt": "#1C1736",
     },
 }
 
@@ -69,13 +69,14 @@ def readable_font_size(size: int) -> int:
 
 def app_font(
     *, size: int, family: str = "Segoe UI", weight: str = "normal"
-) -> ctk.CTkFont:
+):
     """Create an application font using the shared accessible size scale."""
+    import customtkinter as ctk
     readable_size = readable_font_size(size)
     return ctk.CTkFont(family=family, size=readable_size, weight=weight)
 
 
-def maximize_window(window: ctk.CTk) -> None:
+def maximize_window(window) -> None:
     """Open window maximized across platforms (Windows 'zoomed', Linux/Mac fallback).
     Also binds F11 to toggle borderless fullscreen and Escape to return to maximized mode.
     """
@@ -120,6 +121,7 @@ def maximize_window(window: ctk.CTk) -> None:
         apply_maximize()
 
     def toggle_fullscreen(_event: tk.Event | None = None) -> str:
+        nonlocal is_fullscreen
         if is_fullscreen:
             exit_fullscreen()
         else:
