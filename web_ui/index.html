@@ -1247,6 +1247,22 @@ body.dark-mode .ai-drawer-avatar {
   align-items: center;
   gap: 8px;
   line-height: 1.2;
+  white-space: nowrap;
+}
+.hud-status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: hudPulse 2s infinite;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+@keyframes hudPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
 }
 .ai-status-badge {
   display: inline-flex;
@@ -1436,68 +1452,315 @@ body.dark-mode .ai-msg-meta .tech-tag {
   border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
-.ai-quick-prompts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 6px;
+/* ═══════════ CYBER TELEMETRY HUD & BENTO GRID ═══════════ */
+.ai-hud-card {
+  background: rgba(240, 249, 255, 0.7);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.08);
+  position: relative;
+  overflow: hidden;
 }
-.ai-chip {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-  color: var(--deep);
-  font-size: 11.5px;
-  font-weight: 600;
-  padding: 6px 13px;
-  border-radius: 16px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+body.dark-mode .ai-hud-card {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(8, 12, 20, 0.98));
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.ai-hud-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #0284c7, #6366f1, #10b981);
+}
+body.dark-mode .ai-hud-card::before {
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #34d399);
+}
+.ai-hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+}
+.ai-hud-tag {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: #0284c7;
+  text-transform: uppercase;
 }
-body.dark-mode .ai-chip {
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
-  color: #cbd5e1;
-}
-.ai-chip:hover {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: var(--sky);
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
-  transform: translateY(-1px);
-}
-body.dark-mode .ai-chip:hover {
-  background: rgba(22, 33, 58, 0.95);
-  border-color: rgba(56, 189, 248, 0.4);
+body.dark-mode .ai-hud-tag {
   color: #38bdf8;
 }
+.hud-pulse-ring {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0284c7;
+  box-shadow: 0 0 6px #0284c7;
+  animation: hudPulse 2s infinite;
+}
+body.dark-mode .hud-pulse-ring {
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+.ai-hud-sem {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+body.dark-mode .ai-hud-sem {
+  color: #64748b;
+}
+.ai-hud-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(14, 165, 233, 0.12);
+}
+body.dark-mode .ai-hud-grid {
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.ai-hud-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ai-hud-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+body.dark-mode .ai-hud-lbl {
+  color: #64748b;
+}
+.ai-hud-val {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+}
+body.dark-mode .ai-hud-val {
+  color: #f1f5f9;
+}
+.ai-hud-val small {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+body.dark-mode .ai-hud-val small {
+  color: #64748b;
+}
+.val-cyan { color: #0284c7; }
+body.dark-mode .val-cyan { color: #38bdf8; }
+.val-indigo { color: #4f46e5; }
+body.dark-mode .val-indigo { color: #a5b4fc; }
+.val-green { color: #059669; }
+body.dark-mode .val-green { color: #34d399; }
+.ai-hud-footer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(14, 165, 233, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+body.dark-mode .ai-hud-footer {
+  border-top-color: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+}
+.hud-next-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+body.dark-mode .hud-next-text strong {
+  color: #f8fafc;
+}
+
+/* ═══════════ 2x2 BENTO INTERACTIVE ACTION GRID ═══════════ */
+.ai-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 4px;
+}
+.ai-bento-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(14, 165, 233, 0.16);
+  border-radius: 12px;
+  padding: 11px 12px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+  overflow: hidden;
+}
+body.dark-mode .ai-bento-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+.ai-bento-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--sky);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.18);
+}
+body.dark-mode .ai-bento-card:hover {
+  background: rgba(22, 33, 58, 0.92);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(56, 189, 248, 0.12);
+}
+.bento-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bento-icon-box {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+.bento-cyan { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
+body.dark-mode .bento-cyan { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); }
+.bento-indigo { background: rgba(99, 102, 241, 0.12); color: #4f46e5; }
+body.dark-mode .bento-indigo { background: rgba(129, 140, 248, 0.15); color: #818cf8; border: 1px solid rgba(129, 140, 248, 0.25); }
+.bento-emerald { background: rgba(16, 185, 129, 0.12); color: #059669; }
+body.dark-mode .bento-emerald { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.25); }
+.bento-amber { background: rgba(245, 158, 11, 0.12); color: #d97706; }
+body.dark-mode .bento-amber { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.25); }
+.bento-arrow {
+  font-size: 12px;
+  color: var(--muted);
+  transition: transform 0.2s, color 0.2s;
+}
+body.dark-mode .bento-arrow { color: #64748b; }
+.ai-bento-card:hover .bento-arrow {
+  color: var(--deep);
+  transform: translate(2px, -2px);
+}
+body.dark-mode .ai-bento-card:hover .bento-arrow {
+  color: #38bdf8;
+  transform: translate(2px, -2px);
+}
+.bento-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.2px;
+}
+body.dark-mode .bento-title {
+  color: #f1f5f9;
+}
+.bento-desc {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+body.dark-mode .bento-desc {
+  color: #94a3b8;
+}
+
+/* ═══════════ SLASH COMMAND PILLS & FOOTER ═══════════ */
 .ai-drawer-footer {
-  padding: 1rem 1.2rem;
+  padding: 0.85rem 1.1rem;
   border-top: 1px solid rgba(14, 165, 233, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+body.dark-mode .ai-drawer-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 12, 20, 0.95);
+}
+.ai-slash-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ai-slash-bar::-webkit-scrollbar { display: none; }
+.ai-slash-pill {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 6px;
+  color: var(--deep);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+body.dark-mode .ai-slash-pill {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+}
+.ai-slash-pill:hover {
+  background: rgba(14, 165, 233, 0.15);
+  border-color: var(--sky);
+  color: var(--ink);
+}
+body.dark-mode .ai-slash-pill:hover {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+.ai-slash-pill .slash-sym {
+  color: var(--deep);
+  margin-right: 1px;
+}
+body.dark-mode .ai-slash-pill .slash-sym {
+  color: #38bdf8;
+}
+.ai-drawer-input-row {
   display: flex;
   gap: 8px;
   align-items: center;
+  width: 100%;
 }
 .ai-drawer-input {
   flex: 1;
   background: var(--input-bg);
   border: var(--input-border);
   border-radius: 12px;
-  padding: 11px 15px;
+  padding: 10px 14px;
   color: var(--ink);
-  font-size: 13.5px;
+  font-size: 13px;
   font-family: inherit;
   outline: none;
   transition: all 0.2s;
 }
 .ai-drawer-input:focus {
   border-color: var(--sky);
+}
+body.dark-mode .ai-drawer-input:focus {
+  border-color: #38bdf8;
 }
 .ai-drawer-send {
   width: 40px;
@@ -2377,11 +2640,10 @@ body.dark-mode .em-glass{
     <div class="ai-drawer-title-group">
       <div class="ai-drawer-avatar">⚡</div>
       <div>
-        <div class="ai-drawer-name">
-          <span>EduTrack AI</span>
-          <span class="ai-status-badge"><span class="badge-dot"></span>Offline Neural Brain</span>
+        <div class="ai-drawer-name">EduTrack Copilot</div>
+        <div class="ai-drawer-sub">
+          <span class="hud-status-dot"></span> BUBT Neural Engine · 100% Offline
         </div>
-        <div class="ai-drawer-sub">Autonomous Academic Copilot · BUBT CSE</div>
       </div>
     </div>
     <div class="ai-drawer-actions">
@@ -2396,33 +2658,98 @@ body.dark-mode .em-glass{
   </div>
 
   <div class="ai-drawer-body" id="ai-drawer-body">
+    <!-- ACADEMIC TELEMETRY HUD -->
+    <div class="ai-hud-card">
+      <div class="ai-hud-top">
+        <div class="ai-hud-tag"><span class="hud-pulse-ring"></span> Live Telemetry</div>
+        <div class="ai-hud-sem">BUBT CSE · SEMESTER 4</div>
+      </div>
+      <div class="ai-hud-grid">
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">CGPA</span>
+          <span class="ai-hud-val val-cyan">3.22</span>
+        </div>
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">Target</span>
+          <span class="ai-hud-val val-indigo">3.85</span>
+        </div>
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">Attendance</span>
+          <span class="ai-hud-val val-green">87.5%</span>
+        </div>
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">Credits</span>
+          <span class="ai-hud-val">24<small>/142</small></span>
+        </div>
+      </div>
+      <div class="ai-hud-footer">
+        <span>⏰</span>
+        <span class="hud-next-text">Next Class: <strong>MAT101 (Diff. Calculus)</strong> · 11:00 AM (Room 402)</span>
+      </div>
+    </div>
+
+    <!-- AI GREETING -->
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrack AI</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
-        Currently your <strong>CGPA is 3.22</strong> across <strong>24 credits completed</strong>. Your degree target is <strong>3.85 CGPA</strong>.<br><br>
-        How can I guide your course pacing, exam preparation, or degree trajectory today?
+        ⚡ <strong>Offline Academic Engine Online.</strong> Ready to simulate grade projections, analyze retake pathways, or audit clearance for BUBT CSE.
       </div>
       <div class="ai-msg-meta">
         <div style="display:flex;align-items:center;gap:6px;">
-          <span>EduTrack AI</span>
+          <span>Autonomous Heuristics</span>
           <span>·</span>
-          <span class="tech-tag">⚡ 100% Offline BUBT Neural Brain</span>
+          <span class="tech-tag">⚡ 0ms Latency</span>
         </div>
       </div>
     </div>
 
-    <div class="ai-quick-prompts">
-      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')"><span class="em-glass">🎯</span> How to raise CGPA to 3.85?</div>
-      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')"><span class="em-glass">📅</span> 7-Day Study Timetable</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')"><span class="em-glass">🔄</span> Retake Strategy & GPA Jump</div>
-      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')"><span class="em-glass">⚡</span> High-Yield Exam Protocol</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')"><span class="em-glass">📋</span> Attendance Clearance Audit</div>
+    <!-- 2x2 BENTO ACTION GRID -->
+    <div class="ai-bento-grid">
+      <div class="ai-bento-card" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-cyan">🎯</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">GPA Booster</div>
+        <div class="bento-desc">Roadmap to 3.85 Goal</div>
+      </div>
+      <div class="ai-bento-card" onclick="askEduTrackAi('Course Retake Strategy & Impact')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-indigo">🔄</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">Retake Simulator</div>
+        <div class="bento-desc">Replace D/F Grades</div>
+      </div>
+      <div class="ai-bento-card" onclick="askEduTrackAi('Attendance Clearance Audit')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-emerald">🛡️</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">Exam Clearance</div>
+        <div class="bento-desc">Attendance &amp; Admit Audit</div>
+      </div>
+      <div class="ai-bento-card" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-amber">⚡</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">7-Day Protocol</div>
+        <div class="bento-desc">BUBT High-Yield Plan</div>
+      </div>
     </div>
   </div>
 
   <div class="ai-drawer-footer">
-    <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrack AI in Academic English or বাংলা..." onkeydown="handleAiDrawerKey(event)">
-    <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send">➤</button>
+    <div class="ai-slash-bar">
+      <button class="ai-slash-pill" onclick="insertSlashCommand('/cgpa')"><span class="slash-sym">/</span>cgpa</button>
+      <button class="ai-slash-pill" onclick="insertSlashCommand('/retake')"><span class="slash-sym">/</span>retake</button>
+      <button class="ai-slash-pill" onclick="insertSlashCommand('/routine')"><span class="slash-sym">/</span>routine</button>
+      <button class="ai-slash-pill" onclick="insertSlashCommand('/waiver')"><span class="slash-sym">/</span>waiver</button>
+    </div>
+    <div class="ai-drawer-input-row">
+      <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask Copilot or click /command above..." onkeydown="handleAiDrawerKey(event)">
+      <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send">➤</button>
+    </div>
   </div>
 </div>
 
@@ -3007,9 +3334,6 @@ async function sendAiDrawerMsg() {
       '<button class="ai-act-btn" onclick="copyAiBubble(this)" title="Copy Response">📋 Copy</button>' +
       '<button class="ai-act-btn" onclick="speakAiBubble(this)" title="Read Aloud">🔊 Listen</button>' +
     '</div>';
-      '<button class="ai-act-btn" onclick="copyAiBubble(this)" title="Copy Response">📋 Copy</button>' +
-      '<button class="ai-act-btn" onclick="speakAiBubble(this)" title="Read Aloud">🔊 Listen</button>' +
-    '</div>';
 
   aiDiv.appendChild(bubbleDiv);
   aiDiv.appendChild(metaDiv);
@@ -3114,43 +3438,181 @@ function formatAiText(text) {
 }
 
 function generateLocalAiResponse(query, lang) {
-  var q = (query || '').toLowerCase();
+  var q = (query || '').toLowerCase().trim();
   var isBn = (lang === 'bn') || /[\u0980-\u09FF]/.test(query);
 
   if (isBn) {
-    return '🤖 <strong>EduTrackAi অফলাইন একাডেমিক গাইডেন্স:</strong><br><br>' +
-      'আপনার বর্তমান CGPA ৩.২২ (সম্পন্ন ক্রেডিট: ২৪)। ৩-ক্রেডিটের থিওরি কোর্সগুলোতে (যেমন CSE201, MAT101) বিশেষ জোর দিন এবং রিটেক সিমুলেটর দিয়ে সিজিপিএ জাম্প পরীক্ষা করুন!';
+    if (q.includes('retake') || q.includes('রিটেক')) {
+      return '🔄 **BUBT রিটেক স্ট্র্যাটেজি ও CGPA জাম্প:**\n\n' +
+        '• BUBT নিয়মানুযায়ী D (2.00) বা F (0.00) গ্রেডের কোর্স রিটেক দিলে আগের গ্রেড প্রতিস্থাপিত হয়ে সরাসরি নতুন গ্রেড পয়েন্ট যুক্ত হয়।\n' +
+        '• যদি আপনি ৩-ক্রেডিটের একটি D গ্রেড কোর্সে রিটেক দিয়ে A (3.75) অর্জন করেন, তবে আপনার মোট অর্জিত গ্রেড পয়েন্ট (GP) তাৎক্ষণিকভাবে ৫.২৫ বৃদ্ধি পাবে!\n' +
+        '• পরামর্শ: এই সেমিস্টারে সর্বোচ্চ ১টি রিটেক নিন যাতে নতুন কোর্সের রেজাল্টে প্রভাব না পড়ে।';
+    }
+    if (q.includes('waiver') || q.includes('ওয়েভার') || q.includes('ফি')) {
+      return '💰 **BUBT মেধা ওয়েভার ও স্কলারশিপ নীতিমালা:**\n\n' +
+        '• সেমিস্টার ফাইনাল CGPA ৩.৮০+ থাকলে পরবর্তী সেমিস্টারের টিউশন ফিতে মেধা ওয়েভারের জন্য আবেদন করা যায়।\n' +
+        '• শর্ত: নিয়মিত সেমিস্টারে নূন্যতম ১২ ক্রেডিট সম্পন্ন করতে হবে এবং কোনো কোর্সে রিটেক বা ড্রপ থাকা যাবে না।\n' +
+        '• আপনার লক্ষ্য ৩.৮৫ CGPA বজায় রাখলে আপনি সর্বোচ্চ ক্যাটাগরির ওয়েভার নিশ্চয়ন করতে পারবেন!';
+    }
+    if (q.includes('attendance') || q.includes('উপস্থিতি') || q.includes('clearance')) {
+      return '🛡️ **BUBT উপস্থিতি ও এক্সাম ক্লিয়ারেন্স অডিট:**\n\n' +
+        '• সেমিস্টার ফাইনাল পরীক্ষায় বসার জন্য প্রতি কোর্সে নূন্যতম ৭০% ক্লাসে উপস্থিতি বাধ্যতামূলক।\n' +
+        '• আপনার বর্তমান গড় উপস্থিতি **৮৭.৫%**, যা গ্রিন জোনে এবং নিরাপদ ক্লিয়ারেন্সে আছে।\n' +
+        '• প্রতিটি ল্যাব কোর্সে শতভাগ উপস্থিতি প্র্যাকটিক্যাল ভাইভাতে অতিরিক্ত ৫-১০ মার্ক নিশ্চিত করে।';
+    }
+    if (q.includes('timetable') || q.includes('routine') || q.includes('রুটিন') || q.includes('7-day')) {
+      return '📅 **৭-দিনের হাই-ইল্ড স্টাডি প্রোটোকল (BUBT CSE):**\n\n' +
+        '• **সোম-মঙ্গল (Core Theory):** MAT101 ক্যালকুলাস প্রবলেম সলভিং ও থিওরেম রিভিশন (প্রতিদিন ২ ঘণ্টা)।\n' +
+        '• **বুধ-বৃহস্পতি (Coding & Systems):** CSE101/CSE201 অ্যালগরিদম ড্রাই-রান ও হ্যান্ডস-অন কোডিং।\n' +
+        '• **শুক্র-শনি (Deep Work & Quizzes):** বিগত ৩ বছরের মিডটার্ম প্রশ্ন সমাধান ও কুইজ সেলফ-টেস্ট।\n' +
+        '• **রবিবার (Review & Audit):** অনুপস্থিত নোট ব্যাকলগ কভার এবং পরবর্তী সপ্তাহের অ্যাসাইনমেন্ট রিভিশন।';
+    }
+    return '🤖 **EduTrack Copilot অফলাইন একাডেমিক গাইডেন্স (BUBT CSE):**\n\n' +
+      'আপনার বর্তমান CGPA **৩.২২** (সম্পন্ন ক্রেডিট: ২৪ / ১৪২)। লক্ষ্য ৩.৮৫ অর্জনে পরবর্তী সেমিস্টারগুলোতে গড়ে ৩.৭৫+ GPA প্রয়োজন।\n\n' +
+      'নিচের দ্রুত কমান্ড বা অ্যাকশন কার্ড ব্যবহার করে স্পেসিফিক সিমুলেশন দেখুন!';
   }
-  return '🤖 <strong>EduTrackAi Academic Diagnostic (BUBT CSE):</strong><br><br>' +
-    'Your current cumulative CGPA stands at <strong>3.22</strong> across 24 completed credits. To attain your 3.85 goal, prioritize 3-credit core engineering lectures and maintain consistent active recall.';
+
+  // English Responses
+  if (q.includes('retake') || q.includes('/retake')) {
+    return '🔄 **BUBT Course Retake Strategy & CGPA Multiplier:**\n\n' +
+      '• Under BUBT academic regulations, retaking a course with a grade of **D (2.00)** or **F (0.00)** replaces the previous grade point in your cumulative calculation.\n' +
+      '• **Impact Simulation:** Upgrading a 3-credit D (6.0 GP) to an A (11.25 GP) adds **+5.25 net grade points**, increasing your cumulative CGPA immediately without adding extra credit burden.\n' +
+      '• **Recommendation:** Limit retakes to max 1 course per semester alongside regular 12-credit loads to avoid study fatigue.';
+  }
+  if (q.includes('waiver') || q.includes('/waiver')) {
+    return '💰 **BUBT Tuition Waiver & Academic Scholarship Framework:**\n\n' +
+      '• **Merit Waiver Tier:** Maintaining a semester CGPA of **3.80 – 4.00** qualifies for 20%–50% tuition waiver for the subsequent semester.\n' +
+      '• **Eligibility Criteria:** You must register and complete a minimum of **12 credits** in the semester without any course drops or disciplinary flags.\n' +
+      '• **Strategy:** Pacing toward your **3.85 target** directly places you within the BUBT Dean\'s Merit Honor Roll scholarship threshold.';
+  }
+  if (q.includes('attendance') || q.includes('clearance')) {
+    return '🛡️ **BUBT Attendance Clearance Audit:**\n\n' +
+      '• **Policy:** A minimum of **70% attendance** is mandatory in every course to receive the Semester Final Exam Admit Card.\n' +
+      '• **Current Status:** Your cumulative attendance stands at **87.5%** (Safe Green Tier).\n' +
+      '• **Pro Tip:** In laboratory courses, 90%+ attendance awards full marks in class participation and lab viva assessment.';
+  }
+  if (q.includes('timetable') || q.includes('routine') || q.includes('/routine') || q.includes('7-day')) {
+    return '📅 **7-Day High-Yield Academic Protocol (BUBT CSE):**\n\n' +
+      '• **Mon – Tue (Core Calculus & Math):** Solve 10 problem sets for MAT101 (Limits, Continuity & Derivative applications).\n' +
+      '• **Wed – Thu (System Programming):** Hands-on pointer arithmetic and memory structures in CSE101/CSE201.\n' +
+      '• **Fri – Sat (Past Papers & Mock Quizzes):** Timed solving of past 3 semesters\' midterm question banks.\n' +
+      '• **Sun (Buffer & Clearance):** Clean up lab reports and audit lecture slide summaries for the upcoming week.';
+  }
+  if (q.includes('cgpa') || q.includes('/cgpa') || q.includes('raise') || q.includes('3.85')) {
+    return '🎯 **GPA Booster Roadmap to 3.85 Target (BUBT CSE):**\n\n' +
+      '• **Trajectory Math:** Currently at **3.22 CGPA across 24 credits**. With 118 credits remaining, achieving 3.85 requires an average semester GPA of **~3.88** across S5–S8.\n' +
+      '• **Strategic Levers:**\n' +
+      '  1. Earn **A / A+ (3.75 - 4.00)** in heavy 3.0-credit core engineering lectures.\n' +
+      '  2. Maximize practical scores in 1.5-credit labs where scoring A+ is systematically higher with full attendance.\n' +
+      '  3. Retake any prior D/C- grades to instantly lift baseline grade points.';
+  }
+
+  return '🤖 **EduTrack Copilot Academic Diagnostic (BUBT CSE):**\n\n' +
+    'Your current cumulative CGPA stands at **3.22** across **24 completed credits** (Target: 3.85).\n\n' +
+    'Use the quick actions or type commands like `/cgpa`, `/retake`, `/routine`, or `/waiver` for targeted academic intelligence.';
 }
 
 function clearAiDrawerChat() {
   var body = document.getElementById('ai-drawer-body');
   if (!body) return;
   body.innerHTML = `
+    <!-- ACADEMIC TELEMETRY HUD -->
+    <div class="ai-hud-card">
+      <div class="ai-hud-top">
+        <div class="ai-hud-tag"><span class="hud-pulse-ring"></span> Live Telemetry</div>
+        <div class="ai-hud-sem">BUBT CSE · SEMESTER 4</div>
+      </div>
+      <div class="ai-hud-grid">
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">CGPA</span>
+          <span class="ai-hud-val val-cyan">3.22</span>
+        </div>
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">Target</span>
+          <span class="ai-hud-val val-indigo">3.85</span>
+        </div>
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">Attendance</span>
+          <span class="ai-hud-val val-green">87.5%</span>
+        </div>
+        <div class="ai-hud-item">
+          <span class="ai-hud-lbl">Credits</span>
+          <span class="ai-hud-val">24<small>/142</small></span>
+        </div>
+      </div>
+      <div class="ai-hud-footer">
+        <span>⏰</span>
+        <span class="hud-next-text">Next Class: <strong>MAT101 (Diff. Calculus)</strong> · 11:00 AM (Room 402)</span>
+      </div>
+    </div>
+
+    <!-- AI GREETING -->
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrack AI</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
-        Currently your <strong>CGPA is 3.22</strong> across <strong>24 credits completed</strong>. Your degree target is <strong>3.85 CGPA</strong>.<br><br>
-        How can I guide your course pacing, exam preparation, or degree trajectory today?
+        ⚡ <strong>Offline Academic Engine Online.</strong> Ready to simulate grade projections, analyze retake pathways, or audit clearance for BUBT CSE.
       </div>
       <div class="ai-msg-meta">
         <div style="display:flex;align-items:center;gap:6px;">
-          <span>EduTrack AI</span>
+          <span>Autonomous Heuristics</span>
           <span>·</span>
-          <span class="tech-tag">⚡ 100% Offline BUBT Neural Brain</span>
+          <span class="tech-tag">⚡ 0ms Latency</span>
         </div>
       </div>
     </div>
-    <div class="ai-quick-prompts">
-      <div class="ai-chip" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')"><span class="em-glass">🎯</span> How to raise CGPA to 3.85?</div>
-      <div class="ai-chip" onclick="askEduTrackAi('7-Day Study Timetable')"><span class="em-glass">📅</span> 7-Day Study Timetable</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Course Retake Strategy & Impact')"><span class="em-glass">🔄</span> Retake Strategy & GPA Jump</div>
-      <div class="ai-chip" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')"><span class="em-glass">⚡</span> High-Yield Exam Protocol</div>
-      <div class="ai-chip" onclick="askEduTrackAi('Attendance Clearance Audit')"><span class="em-glass">📋</span> Attendance Clearance Audit</div>
+
+    <!-- 2x2 BENTO ACTION GRID -->
+    <div class="ai-bento-grid">
+      <div class="ai-bento-card" onclick="askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-cyan">🎯</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">GPA Booster</div>
+        <div class="bento-desc">Roadmap to 3.85 Goal</div>
+      </div>
+      <div class="ai-bento-card" onclick="askEduTrackAi('Course Retake Strategy & Impact')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-indigo">🔄</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">Retake Simulator</div>
+        <div class="bento-desc">Replace D/F Grades</div>
+      </div>
+      <div class="ai-bento-card" onclick="askEduTrackAi('Attendance Clearance Audit')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-emerald">🛡️</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">Exam Clearance</div>
+        <div class="bento-desc">Attendance &amp; Admit Audit</div>
+      </div>
+      <div class="ai-bento-card" onclick="askEduTrackAi('High-Yield Exam Preparation Framework')">
+        <div class="bento-top">
+          <div class="bento-icon-box bento-amber">⚡</div>
+          <span class="bento-arrow">↗</span>
+        </div>
+        <div class="bento-title">7-Day Protocol</div>
+        <div class="bento-desc">BUBT High-Yield Plan</div>
+      </div>
     </div>
   `;
+}
+
+function insertSlashCommand(cmd) {
+  var input = document.getElementById('ai-drawer-input');
+  if (!input) return;
+  if (cmd === '/cgpa') {
+    askEduTrackAi('How can I raise my CGPA from 3.22 to 3.85?');
+  } else if (cmd === '/retake') {
+    askEduTrackAi('Course Retake Strategy & Impact');
+  } else if (cmd === '/routine') {
+    askEduTrackAi('7-Day Study Timetable');
+  } else if (cmd === '/waiver') {
+    askEduTrackAi('What are the BUBT tuition waiver rules and minimum CGPA required?');
+  } else {
+    input.value = cmd + ' ';
+    input.focus();
+  }
 }
 
 async function exportTranscript() {
