@@ -456,3 +456,32 @@ class DesktopBridgeAPI:
             "target_cgpa": target_cgpa,
             "gemini_api_key": gemini_api_key,
         })
+
+    # -------------------------------------------------------------------------
+    # Attendance Tracking & Clearance
+    # -------------------------------------------------------------------------
+    def update_attendance_record(
+        self,
+        student_id: str = "",
+        course_code: str = "",
+        attended_classes: int = 0,
+        total_classes: int = 0,
+    ) -> dict[str, Any]:
+        """Update attendance record in SQLite database and return recalculated status."""
+        uid = student_id or (self._current_user["user_id"] if self._current_user else "20255103311")
+        try:
+            tot = max(0, int(total_classes))
+            att = max(0, min(int(attended_classes), tot))
+            AcademicCRUD.save_attendance(uid, course_code, tot, att)
+            records = AcademicCRUD.get_attendance(uid)
+            total_att = sum(r.get("total_classes", 0) for r in records)
+            attended = sum(r.get("attended_classes", 0) for r in records)
+            overall = round((attended / total_att) * 100, 1) if total_att > 0 else 0.0
+            return {
+                "success": True,
+                "attendance": records,
+                "overall_attendance": overall,
+                "message": f"Updated attendance for {course_code}."
+            }
+        except Exception as exc:
+            return {"success": False, "error": str(exc)}

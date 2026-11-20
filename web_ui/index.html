@@ -2609,30 +2609,21 @@ body.dark-mode .ai-act-btn:hover {
       <div class="section" id="sec-attendance">
         <div class="att-g">
           <div class="gc">
-            <div class="gc-h"><div class="gc-t">Weekly Schedule</div><div class="gc-s">Fall 2026 · BUBT CSE</div></div>
-            <div class="wgh"><div class="wgl">Sun</div><div class="wgl">Mon</div><div class="wgl">Tue</div><div class="wgl">Wed</div><div class="wgl" style="color:var(--sky)">Thu ●</div></div>
-            <div class="wrow">
-              <div class="dsl"></div>
-              <div class="dsl has"><div class="dt">9:00</div><div class="dc">PHY101</div><div class="dr">R301</div></div>
-              <div class="dsl has"><div class="dt">11:00</div><div class="dc">CSE101</div><div class="dr">Lab203</div></div>
-              <div class="dsl has"><div class="dt">9:00</div><div class="dc">PHY101</div><div class="dr">R301</div></div>
-              <div class="dsl today"><div class="dt">11:00</div><div class="dc">MAT101</div><div class="dr">R402</div></div>
-            </div>
-            <div class="wrow">
-              <div class="dsl has"><div class="dt">14:00</div><div class="dc">ENG101</div><div class="dr">R102</div></div>
-              <div class="dsl has"><div class="dt">14:00</div><div class="dc">MAT101</div><div class="dr">R402</div></div>
-              <div class="dsl"></div>
-              <div class="dsl has"><div class="dt">14:00</div><div class="dc">CSE101</div><div class="dr">R201</div></div>
-              <div class="dsl today"><div class="dt">14:00</div><div class="dc">CSE101</div><div class="dr">Lab203</div></div>
+            <div class="gc-h"><div class="gc-t">Weekly Schedule &amp; Routine</div><div class="gc-s" id="att-routine-sub">Fall 2026 · BUBT CSE</div></div>
+            <div id="att-routine-container">
+              <!-- Dynamically populated from SQLite routines table -->
+              <div style="padding:1rem;color:var(--muted);font-size:13px;text-align:center;">Loading class schedule...</div>
             </div>
           </div>
           <div class="gc">
-            <div class="gc-h"><div class="gc-t">Attendance Clearance Summary</div><div class="gc-s">Current Semester</div></div>
-            <div class="att-r"><div class="att-nm">MAT101</div><div class="att-b"><div class="att-f" style="width:92%;background:var(--ok)"></div></div><div class="att-p" style="color:var(--ok)">92%</div></div>
-            <div class="att-r"><div class="att-nm">CSE101</div><div class="att-b"><div class="att-f" style="width:88%;background:var(--sky)"></div></div><div class="att-p" style="color:var(--sky)">88%</div></div>
-            <div class="att-r"><div class="att-nm">PHY101</div><div class="att-b"><div class="att-f" style="width:95%;background:var(--ok)"></div></div><div class="att-p" style="color:var(--ok)">95%</div></div>
-            <div class="att-r"><div class="att-nm">ENG101</div><div class="att-b"><div class="att-f" style="width:75%;background:var(--warn)"></div></div><div class="att-p" style="color:var(--warn)">75%</div></div>
-            <div style="margin-top:12px;padding:11px 13px;background:rgba(14,165,233,.08);backdrop-filter:blur(8px);border:1px solid rgba(14,165,233,.18);border-radius:11px;font-size:12px;color:var(--mid);">Overall Attendance: <strong style="color:var(--deep)">87.5%</strong> — Satisfies 75% BUBT examination clearance policy.</div>
+            <div class="gc-h"><div class="gc-t">Attendance Clearance Summary</div><div class="gc-s">Mandatory 75% BUBT Examination Policy</div></div>
+            <div id="att-course-list">
+              <!-- Dynamically populated from SQLite attendance table -->
+              <div style="padding:1rem;color:var(--muted);font-size:13px;text-align:center;">Loading course attendance...</div>
+            </div>
+            <div id="att-overall-card" style="margin-top:14px;padding:12px 14px;background:rgba(14,165,233,.08);backdrop-filter:blur(8px);border:1px solid rgba(14,165,233,.18);border-radius:12px;font-size:12.5px;color:var(--mid);">
+              Overall Attendance: <strong id="att-overall-val" style="color:var(--deep)">87.5%</strong> — <span id="att-overall-msg">Satisfies 75% examination clearance policy.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2990,6 +2981,160 @@ function populateStudentDashboard(data) {
   var setId = document.getElementById('set-id'); if (setId) setId.value = sid;
   var setName = document.getElementById('set-name'); if (setName) setName.value = sname;
   var setGoal = document.getElementById('set-goal'); if (setGoal) setGoal.value = goalStr;
+
+  // Render dynamic attendance & schedule
+  renderAttendanceAndSchedule(data);
+}
+
+function renderAttendanceAndSchedule(data) {
+  if (!data) return;
+
+  // 1. Render Weekly Routine
+  var rContainer = document.getElementById('att-routine-container');
+  if (rContainer) {
+    var routines = data.routines || [];
+    if (routines.length === 0) {
+      rContainer.innerHTML = '<div style="padding:1.5rem;color:var(--muted);font-size:13px;text-align:center;">No scheduled classes found in database.</div>';
+    } else {
+      var dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+      var grouped = {};
+      routines.forEach(function(r) {
+        var d = r.day || 'Monday';
+        if (!grouped[d]) grouped[d] = [];
+        grouped[d].push(r);
+      });
+
+      var html = '<div style="display:flex;flex-direction:column;gap:12px;">';
+      dayOrder.forEach(function(day) {
+        var dayRoutines = grouped[day];
+        if (dayRoutines && dayRoutines.length > 0) {
+          var isToday = (day.toLowerCase() === todayName.toLowerCase());
+          html += '<div style="background:var(--input-bg);border:var(--border-card);border-radius:14px;padding:12px 14px;' + (isToday ? 'border-left:4px solid var(--sky2);background:rgba(14,165,233,0.06);' : '') + '">';
+          html += '  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">';
+          html += '    <span style="font-size:12.5px;font-weight:700;color:var(--ink);">' + day + '</span>';
+          if (isToday) {
+            html += '    <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;background:var(--sky);color:#fff;">Today</span>';
+          }
+          html += '  </div>';
+          html += '  <div style="display:flex;flex-direction:column;gap:6px;">';
+          dayRoutines.forEach(function(item) {
+            html += '    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-card);border:var(--border-card);border-radius:10px;font-size:12.5px;">';
+            html += '      <div style="display:flex;align-items:center;gap:10px;">';
+            html += '        <span style="font-weight:800;color:var(--sky);min-width:65px;">' + (item.course_code || '') + '</span>';
+            html += '        <span style="color:var(--ink2);font-weight:500;">' + (item.course_title || '') + '</span>';
+            html += '      </div>';
+            html += '      <div style="display:flex;align-items:center;gap:14px;font-size:11.5px;color:var(--muted);">';
+            html += '        <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1.5px;margin-right:4px;display:inline-block;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>' + (item.time || '') + '</span>';
+            html += '        <span style="font-weight:600;color:var(--ink);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1.5px;margin-right:4px;display:inline-block;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>' + (item.room || '') + '</span>';
+            html += '      </div>';
+            html += '    </div>';
+          });
+          html += '  </div>';
+          html += '</div>';
+        }
+      });
+      html += '</div>';
+      rContainer.innerHTML = html;
+    }
+  }
+
+  // 2. Render Attendance Clearance Summary
+  var aContainer = document.getElementById('att-course-list');
+  if (aContainer) {
+    var records = data.attendance || [];
+    if (records.length === 0) {
+      aContainer.innerHTML = '<div style="padding:1.5rem;color:var(--muted);font-size:13px;text-align:center;">No attendance records found for current semester.</div>';
+    } else {
+      var aHtml = '<div style="display:flex;flex-direction:column;gap:12px;">';
+      records.forEach(function(rec) {
+        var pct = rec.attendance_percentage || (rec.total_classes > 0 ? (rec.attended_classes / rec.total_classes * 100) : 0);
+        pct = Math.round(pct * 10) / 10;
+        var isCleared = (pct >= 75.0);
+        var statusColor = isCleared ? 'var(--ok)' : (pct >= 65 ? 'var(--warn)' : 'var(--err)');
+        var statusBadge = isCleared 
+          ? '<span style="font-size:10px;font-weight:700;color:var(--ok);padding:2px 8px;border-radius:12px;background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.25);">✓ Cleared (≥75%)</span>'
+          : '<span style="font-size:10px;font-weight:700;color:var(--err);padding:2px 8px;border-radius:12px;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.25);">⚠ Shortage (<75%)</span>';
+
+        aHtml += '<div style="background:var(--bg-card);border:var(--border-card);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-card);">';
+        aHtml += '  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">';
+        aHtml += '    <div>';
+        aHtml += '      <strong style="font-size:14px;color:var(--ink);margin-right:8px;">' + rec.course_code + '</strong>';
+        aHtml += '      <span style="font-size:12px;color:var(--muted);">' + (rec.course_title || '') + '</span>';
+        aHtml += '    </div>';
+        aHtml += '    <div>' + statusBadge + '</div>';
+        aHtml += '  </div>';
+
+        // Progress bar
+        aHtml += '  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">';
+        aHtml += '    <div style="flex:1;height:8px;background:rgba(14,165,233,0.1);border-radius:6px;overflow:hidden;">';
+        aHtml += '      <div style="height:100%;width:' + Math.min(100, pct) + '%;background:' + statusColor + ';border-radius:6px;transition:width 0.3s ease;"></div>';
+        aHtml += '    </div>';
+        aHtml += '    <strong style="font-size:13px;color:' + statusColor + ';min-width:48px;text-align:right;">' + pct.toFixed(1) + '%</strong>';
+        aHtml += '  </div>';
+
+        // Stats & Quick Adjust Action Buttons
+        aHtml += '  <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--mid);padding-top:6px;border-top:1px solid rgba(14,165,233,0.08);">';
+        aHtml += '    <span>Present: <strong>' + rec.attended_classes + '</strong> of <strong>' + rec.total_classes + '</strong> classes</span>';
+        aHtml += '    <div style="display:flex;gap:6px;">';
+        aHtml += '      <button class="btn-xs" onclick="adjustLiveAttendance(\'' + rec.course_code + '\', 1, 1)" title="Mark another attended class" style="padding:3px 8px;font-size:11px;background:rgba(5,150,105,0.12);color:var(--ok);border:1px solid rgba(5,150,105,0.25);cursor:pointer;">+ Present</button>';
+        aHtml += '      <button class="btn-xs" onclick="adjustLiveAttendance(\'' + rec.course_code + '\', 0, 1)" title="Mark missed class" style="padding:3px 8px;font-size:11px;background:rgba(220,38,38,0.12);color:var(--err);border:1px solid rgba(220,38,38,0.25);cursor:pointer;">+ Missed</button>';
+        aHtml += '    </div>';
+        aHtml += '  </div>';
+        aHtml += '</div>';
+      });
+      aHtml += '</div>';
+      aContainer.innerHTML = aHtml;
+    }
+
+    // Overall attendance banner
+    var overallVal = data.overall_attendance || 87.5;
+    var ovEl = document.getElementById('att-overall-val');
+    var msgEl = document.getElementById('att-overall-msg');
+    if (ovEl) {
+      ovEl.textContent = overallVal + '%';
+      ovEl.style.color = (overallVal >= 75.0) ? 'var(--ok)' : 'var(--err)';
+    }
+    if (msgEl) {
+      msgEl.textContent = (overallVal >= 75.0)
+        ? 'Satisfies mandatory 75% BUBT examination clearance policy.'
+        : 'Warning: Below mandatory 75% threshold! Risk of exam debarment.';
+    }
+  }
+}
+
+async function adjustLiveAttendance(courseCode, addAttended, addTotal) {
+  if (!activeStudentData || !activeStudentData.attendance) return;
+  var rec = activeStudentData.attendance.find(function(r){ return r.course_code === courseCode; });
+  if (!rec) return;
+
+  var newAtt = rec.attended_classes + addAttended;
+  var newTot = rec.total_classes + addTotal;
+
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.update_attendance_record) {
+    try {
+      var res = await window.pywebview.api.update_attendance_record(currentStudentId, courseCode, newAtt, newTot);
+      if (res && res.success) {
+        activeStudentData.attendance = res.attendance;
+        activeStudentData.overall_attendance = res.overall_attendance;
+        renderAttendanceAndSchedule(activeStudentData);
+        var hudAtt = document.querySelector('.val-green');
+        if (hudAtt) hudAtt.textContent = res.overall_attendance + '%';
+        return;
+      }
+    } catch(err) {
+      console.error('Attendance update error:', err);
+    }
+  }
+
+  // Fallback update in-memory
+  rec.attended_classes = newAtt;
+  rec.total_classes = newTot;
+  rec.attendance_percentage = newTot > 0 ? (newAtt / newTot * 100) : 0;
+  var totalAll = activeStudentData.attendance.reduce(function(acc, r){ return acc + r.total_classes; }, 0);
+  var attAll = activeStudentData.attendance.reduce(function(acc, r){ return acc + r.attended_classes; }, 0);
+  activeStudentData.overall_attendance = totalAll > 0 ? (Math.round((attAll / totalAll * 100) * 10) / 10) : 0;
+  renderAttendanceAndSchedule(activeStudentData);
 }
 
 function safeGetStorage(key, fallback) {
