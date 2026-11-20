@@ -7,6 +7,7 @@ from collections.abc import Mapping, Sequence
 from typing import Any
 
 from modules.grading import calculate_weighted_cgpa, grade_point_for_enrollment
+from modules.academic_brain import BUBTAcademicBrain
 
 
 def build_student_academic_profile(
@@ -83,6 +84,15 @@ class AIAdvisorEngine:
         profile.setdefault("graded_credits", completed_credits)
         profile.setdefault("weak_courses", list(weak_courses or []))
 
+        # 0. Quick casual greetings & core trajectory calculations (instant 0ms response)
+        q_trim = user_query.strip().lower()
+        if any(w in q_trim for w in (
+            "kmn aso", "kmn acho", "kemon aso", "kemon acho", "kmn", "ki obostha", "ki khobor",
+            "valo aso", "bhalo aso", "hi", "hello", "hey", "salam", "assalamu", "how are you",
+            "improve my cgpa", "raise my cgpa", "target cgpa", "reach my target"
+        )):
+            return self._local_advice(profile, user_query, language=language)
+
         # 1. Try Gemini Cloud if configured
         if self.client is not None:
             try:
@@ -107,12 +117,33 @@ class AIAdvisorEngine:
                     "using personalized local coaching."
                 )
 
-        # 2. Try Local Ollama LLM if available on localhost:11434 (100% offline)
+        # 2. Try In-App Embedded Generative LLM (Llama 3.2 1B in models/ folder - 100% Offline)
+        try:
+            from modules.offline_llm import EmbeddedOfflineLLM
+            embedded = EmbeddedOfflineLLM.get_instance()
+            if embedded.is_available():
+                system_instr = (
+                    f"You are EduTrack AI, an autonomous academic intelligence copilot for B.Sc. in CSE at BUBT (Bangladesh University of Business and Technology). "
+                    f"Student Name: {student_name}, Current CGPA: {current_cgpa}, Completed Credits: {completed_credits}/142. "
+                    "Be friendly, helpful, and precise. Answer any coding question, programming logic, theory, math, or study advice fluently in English, Bengali, or Banglish as requested."
+                )
+                gen_text = embedded.generate(
+                    prompt=user_query,
+                    system_instruction=system_instr,
+                    max_tokens=350,
+                    threads=8
+                )
+                if gen_text and len(gen_text.strip()) > 8:
+                    return gen_text.strip()
+        except Exception:
+            pass
+
+        # 3. Try Local Ollama LLM if available on localhost:11434 (100% offline)
         ollama_response = self._try_query_ollama(profile, user_query, conversation, language=language)
         if ollama_response:
             return ollama_response
 
-        # 3. Fallback to Deep Academic Inference Engine (offline rule-based reasoning)
+        # 4. Fallback to Deep Academic Inference Engine (offline rule-based reasoning)
         return self._local_advice(profile, user_query, language=language)
 
     @classmethod
@@ -205,9 +236,18 @@ class AIAdvisorEngine:
         cgpa_display = f"{cgpa:.2f}" if isinstance(cgpa, (int, float)) else "N/A"
         rem_credits = max(prog_credits - credits, 0.0)
 
-        # Determine language mode: default is English unless explicitly bn or Bengali unicode is used
+        # Determine language mode: default is English unless explicitly bn, Bengali unicode, or Banglish words
+        banglish_indicators = {
+            "kmn", "aso", "acho", "asen", "achen", "kemon", "obostha", "khobor",
+            "valo", "bhalo", "ki", "kivabe", "korbo", "korte", "parbo", "lagbe",
+            "pora", "porbo", "shomoy", "mon", "boshe", "na", "amar", "tumi",
+            "apni", "bhai", "vai", "dost", "bro", "voy", "lagtese", "hobe",
+            "kichu", "bolen", "dao", "dhonnobad", "thik", "ase", "ache", "acha"
+        }
+        words = set(re.findall(r"[a-zA-Z]+", question.lower()))
+        is_banglish = bool(words.intersection(banglish_indicators))
         has_bengali_unicode = bool(re.search(r"[\u0980-\u09FF]", question))
-        is_bn = (str(language).lower() == "bn") or has_bengali_unicode
+        is_bn = (str(language).lower() == "bn") or has_bengali_unicode or is_banglish
 
         # 1. Trajectory calculation
         req_gpa: float | None = None
@@ -241,32 +281,12 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"Hello {name}! 👋 আমি EduTrackAi, ভালো আছি এবং আপনার যেকোনো একাডেমিক সহায়তার জন্য প্রস্তুত!\n\n"
-                    f"📊 আপনার বর্তমান প্রোফাইল (BUBT CSE):\n"
-                    f"• Current CGPA: {cgpa_display} (Target: {target:.2f})\n"
-                    f"• Graded Credits: {credits:g} / {prog_credits:g} Credits Completed\n\n"
-                    "আজকে আপনি কী বিষয়ে জানতে চান? যেমন:\n"
-                    "1. 🎯 CGPA গোল অর্জনের স্ট্র্যাটেজি ('How to reach my target CGPA')\n"
-                    "2. 📅 ৭ দিনের পার্সোনালাইজড স্টাডি রুটিন ('7-Day Study Timetable')\n"
-                    "3. 🔄 কোন কোর্স রিটেক দিলে সর্বোচ্চ CGPA বাড়বে ('Retake Strategy')\n"
-                    "4. ⚡ পরীক্ষার আগের হাই-ইম্প্যাক্ট রিভিশন টেকনিক ('Exam Preparation')\n"
-                    "5. 🧪 অফলাইন মেশিন লার্নিং সিমুলেশন ('Offline ML Lab')\n\n"
-                    "যেকোনো প্রশ্ন লিখুন অথবা কুইক অ্যাকশন বাটনে ক্লিক করুন!"
+                    f"Hello {name}! 👋 আমি EduTrack AI (EduTrackAi), আলহামদুলিল্লাহ ভালো আছি। আপনি কেমন আছেন?\n\n"
+                    f"আজকে আপনার BUBT CSE পড়াশোনা, কোর্স প্ল্যান বা অন্য কোনো বিষয়ে কোনো সহায়তা লাগবে কি? নির্দ্বিধায় বলুন!"
                 )
             return (
-                f"Hello {name}! 👋 I am EduTrackAi, your autonomous offline academic advisor and machine learning copilot for B.Sc. in CSE at BUBT.\n"
-                "I am operating at 100% capacity with 0ms network latency.\n\n"
-                f"📊 Academic Diagnostic Snapshot:\n"
-                f"• Current Cumulative CGPA: {cgpa_display} (Target: {target:.2f})\n"
-                f"• Completed Graded Credits: {credits:g} / {prog_credits:g} B.Sc. in CSE\n"
-                f"• Academic Standing: Good Standing · BUBT Degree Regulations\n\n"
-                "How can I assist your degree progress today? You can ask:\n"
-                f"1. 🎯 \"How can I raise my CGPA to {target:.2f}?\" (Mathematical trajectory & credit pacing)\n"
-                "2. 📅 \"7-Day Study Timetable\" (Personalized weekly engineering routine)\n"
-                "3. 🔄 \"Retake Strategy\" (Course grade replacement simulator & point boost)\n"
-                "4. ⚡ \"High-Yield Exam Preparation\" (Active recall & exam revision protocol)\n"
-                "5. 🧪 \"Offline ML Diagnostic\" (Explainable Random Forest risk assessment)\n\n"
-                "Type your query below or click any quick prompt to begin!"
+                f"Hello {name}! 👋 I am EduTrack AI (EduTrackAi), doing great and ready to assist you!\n\n"
+                f"How are you doing today? How can I assist with your BUBT CSE coursework, study routine, or degree planning?"
             )
 
         if any(q_lower.startswith(w) or q_lower == w for w in (
@@ -324,7 +344,7 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"আমি EduTrackAi — BUBT CSE শিক্ষার্থীদের জন্য তৈরি স্বায়ত্তশাসিত অফলাইন একাডেমিক ইন্টেলিজেন্স সিস্টেম! 🎓\n\n"
+                    f"আমি EduTrack AI (EduTrackAi) — BUBT CSE শিক্ষার্থীদের জন্য তৈরি স্বায়ত্তশাসিত অফলাইন একাডেমিক ইন্টেলিজেন্স সিস্টেম! 🎓\n\n"
                     f"আমি আপনার এনরোল করা কোর্স, CGPA রেকর্ড, ক্লাসের শিডিউল ও অ্যাটেনডেন্সের উপর ভিত্তি করে রিয়েল-টাইম অফলাইন বিশ্লেষণ প্রদান করি (কোনো ইন্টারনেট প্রয়োজন নেই)।\n\n"
                     "আমার মূল সক্ষমতাসমূহ:\n"
                     f"1. 🎯 Trajectory Planner: আপনার {target:.2f} CGPA লক্ষ্যে পৌঁছাতে সামনের ক্রেডিটগুলোতে গড়ে কত GPA পেতে হবে তা হিসাব করা।\n"
@@ -335,7 +355,7 @@ class AIAdvisorEngine:
                     "যেকোনো প্রশ্ন লিখে এন্টার (Enter) প্রেস করুন!"
                 )
             return (
-                f"I am EduTrackAi — an autonomous offline Academic Intelligence Copilot engineered specifically for B.Sc. in CSE students at BUBT! 🎓\n\n"
+                f"I am EduTrack AI (EduTrackAi) — an autonomous offline Academic Intelligence Copilot engineered specifically for B.Sc. in CSE students at BUBT! 🎓\n\n"
                 "System Architecture & Capabilities:\n"
                 "• ⚡ 100% Offline & Zero Network Latency: Runs completely on-device without cloud dependency, guaranteeing full privacy and instantaneous feedback.\n"
                 f"• 🎯 Trajectory Planner: Dynamically evaluates your required GPA pacing to hit your {target:.2f} CGPA goal across your remaining {rem_credits:g} credits.\n"
@@ -344,6 +364,32 @@ class AIAdvisorEngine:
                 "• ⚠️ BUBT Attendance Watchdog: Monitors class attendance against the university's mandatory 75% exam clearance policy.\n"
                 "• 🧪 Machine Learning Simulation Lab: Employs a 100-estimator Random Forest ensemble with Explainable AI (XAI) feature attribution and Pareto optimization.\n\n"
                 "Feel free to ask any academic question or explore the simulation tools!"
+            )
+
+        # --- 4.5. BUBT CSE DOMAIN BRAIN: PREREQUISITES, WAIVERS & FINE-TUNED DATASET ---
+        brain = BUBTAcademicBrain.get_instance()
+        prereq_match = brain.evaluate_prerequisite(question)
+        if prereq_match:
+            return prereq_match
+
+        for item in brain.training_qa:
+            inst = item.get("instruction", "").lower()
+            inst_words = set(re.findall(r"\w+", inst))
+            query_words = set(re.findall(r"\w+", q_lower))
+            overlap = inst_words.intersection(query_words)
+            if len(overlap) >= 3 or (len(query_words) <= 3 and len(overlap) >= 2):
+                return item.get("response", "")
+
+        if any(w in q_lower for w in ("waiver", "scholarship", "ওয়েভার", "ওয়েভারের শর্ত", "টাকা ছাড়")):
+            return (
+                "🏆 **BUBT টিউশন ফি ওয়েভার ও স্কলারশিপ নীতিমালা**\n\n"
+                "BUBT-তে সেমিস্টার ফাইনাল ফলাফলের ওপর ভিত্তি করে নিম্নোক্ত হারে ওয়েভার প্রদান করা হয়:\n"
+                "• **SGPA 4.00:** ৫০% থেকে ১০০% টিউশন ফি ওয়েভার (Chairman's / Dean's Honor Roll)\n"
+                "• **SGPA 3.80 - 3.99:** ২৫% থেকে ৫০% মেরিট ওয়েভার\n\n"
+                "📌 **বাধ্যতামূলক ৩টি শর্ত:**\n"
+                "১. সংশ্লিষ্ট সেমিস্টারে ন্যূনতম ১২ ক্রেডিট এনরোল থাকতে হবে।\n"
+                "২. কোনো কোর্সে F বা Incomplete (I) গ্রেড থাকা যাবে না।\n"
+                "৩. ক্লাসে ন্যূনতম ৭৫% উপস্থিতি সন্তোষজনক হতে হবে।"
             )
 
         # --- 5. MOTIVATION, STRESS, PROCRASTINATION & FOCUS ---
@@ -364,7 +410,7 @@ class AIAdvisorEngine:
                     "ধারাবাহিকতাই সেরা সাফল্য এনে দেয়। আজ থেকেই শুরু করুন!"
                 )
             return (
-                f"💡 ACADEMIC MOMENTUM & COGNITIVE FOCUS COACHING ({name})\n\n"
+                f"💡 ACADEMIC MOMENTUM & MOTIVATION FOCUS COACHING ({name})\n\n"
                 "Computer Science and Engineering curricula are cognitively demanding. Experiencing stress, exam anxiety, or study fatigue is natural, but systematic execution always overcomes doubt:\n\n"
                 f"• Verified Academic Baseline: You have already completed {credits:g} graded credits with a current CGPA of {cgpa_display}. You have the proven capacity to handle advanced engineering coursework.\n\n"
                 "📌 3 Cognitive Execution Rules:\n"
@@ -582,7 +628,7 @@ class AIAdvisorEngine:
             "daily plan", "study schedule", "routine dao", "রুটিন", "পড়ার সময়", "পড়াশোনা"
         )):
             if is_bn:
-                lines.append(f"📅 পার্সোনালাইজড ৭ দিনের স্টাডি রুটিন ({name})")
+                lines.append(f"📅 পার্সোনালাইজড ৭ দিনের স্টাডি রুটিন / WEEKLY TIMETABLE ({name})")
                 lines.append(
                     f"আপনার বর্তমান প্রোফাইল ({credits:g} ক্রেডিট, CGPA {cgpa_display})-এর ভিত্তিতে ইঞ্জিনিয়ারিং থিওরি ও ল্যাবের ভারসাম্যপূর্ণ সাপ্তাহিক রুটিন:"
                 )

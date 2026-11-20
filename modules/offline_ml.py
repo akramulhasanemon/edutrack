@@ -48,8 +48,10 @@ class AcademicMLPipeline:
     _instance: AcademicMLPipeline | None = None
 
     def __init__(self) -> None:
+        self.scaler = None
         self.regressor = None
         self.classifier = None
+        self.feature_importances_ = None
         self.feature_names = [
             "attendance_pct",
             "midterm_pct",
@@ -148,8 +150,10 @@ class AcademicMLPipeline:
         if model_path.exists():
             try:
                 bundle = joblib.load(model_path)
+                self.scaler = bundle.get("scaler")
                 self.regressor = bundle.get("regressor")
                 self.classifier = bundle.get("classifier")
+                self.feature_importances_ = bundle.get("feature_importances_")
                 if self.regressor and self.classifier:
                     return
             except Exception:
@@ -204,12 +208,21 @@ class AcademicMLPipeline:
         features = [[att, mid, cnt, crd, cgpa, rig]]
 
         if self.regressor and self.classifier:
-            predicted_marks = float(self.regressor.predict(features)[0])
-            risk_probs = self.classifier.predict_proba(features)[0]  # [Low, Moderate, Critical]
-            risk_idx = int(self.classifier.predict(features)[0])
+            feat_input = self.scaler.transform(features) if getattr(self, "scaler", None) else features
+            predicted_marks = float(self.regressor.predict(feat_input)[0])
+            risk_probs = self.classifier.predict_proba(feat_input)[0]  # [Low, Moderate, Critical]
+            risk_idx = int(self.classifier.predict(feat_input)[0])
 
-            # Feature importances (MDI) from the Random Forest
-            raw_importances = self.regressor.feature_importances_
+            # Feature attribution (MDI or Neural Connection Weights)
+            raw_importances = getattr(self, "feature_importances_", None)
+            if raw_importances is None:
+                raw_importances = getattr(self.regressor, "feature_importances_", None)
+            if raw_importances is None and hasattr(self.regressor, "coefs_"):
+                first_w = np.abs(self.regressor.coefs_[0]).sum(axis=1)
+                raw_importances = first_w / np.sum(first_w)
+            if raw_importances is None:
+                raw_importances = [0.25, 0.40, 0.20, 0.05, 0.05, 0.05]
+
             feature_importances = {
                 "Midterm Exam Score": round(float(raw_importances[1]) * 100.0, 1),
                 "Attendance Regularity": round(float(raw_importances[0]) * 100.0, 1),

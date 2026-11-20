@@ -37,46 +37,46 @@
 }
 
 /* ═══════════════════════════════════════
-   DARK MODE OVERRIDES
+   LINEAR / RAYCAST DARK MODE (DEFAULT)
 ═══════════════════════════════════════ */
 body.dark-mode{
-  --bg-page:#060e1a;
-  --bg-main:linear-gradient(160deg,#060e1a 0%,#09172a 50%,#040a14 100%);
-  --bg-card:rgba(13,27,49,.65);
-  --bg-card-hover:rgba(18,36,65,.8);
-  --border-card:1.5px solid rgba(56,189,248,.18);
-  --shadow-card:0 4px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);
-  --shadow-hover:0 16px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(56,189,248,.2);
-  --topbar-bg:rgba(9,23,42,.85);
-  --topbar-border:1px solid rgba(56,189,248,.14);
-  --input-bg:rgba(14,30,54,.7);
-  --input-border:1.5px solid rgba(56,189,248,.22);
-  --lc-bg:rgba(10,24,45,.75);
-  --lc-border:1.5px solid rgba(56,189,248,.25);
-  --ink:#f0f9ff;
-  --ink2:#bae6fd;
-  --mid:#7dd3fc;
+  --bg-page:#080c14;
+  --bg-main:radial-gradient(ellipse 70% 40% at 75% 0%, rgba(56,189,248,0.06), transparent 70%), #080c14;
+  --bg-card:rgba(15,23,42,0.72);
+  --bg-card-hover:rgba(22,33,58,0.85);
+  --border-card:1px solid rgba(255,255,255,0.08);
+  --shadow-card:0 4px 20px -2px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
+  --shadow-hover:0 12px 32px -4px rgba(0,0,0,0.7), 0 0 20px rgba(56,189,248,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+  --topbar-bg:rgba(8,12,20,0.82);
+  --topbar-border:1px solid rgba(255,255,255,0.07);
+  --input-bg:rgba(15,23,42,0.65);
+  --input-border:1px solid rgba(255,255,255,0.12);
+  --lc-bg:rgba(11,15,25,0.85);
+  --lc-border:1px solid rgba(255,255,255,0.08);
+  --ink:#f8fafc;
+  --ink2:#cbd5e1;
+  --mid:#94a3b8;
   --muted:#64748b;
-  --light:#0f2b48;
-  --white:#0d1f35;
-  --chart-grid:rgba(255,255,255,.06);
+  --light:rgba(255,255,255,0.04);
+  --white:#0f172a;
+  --chart-grid:rgba(255,255,255,0.05);
   --chart-text:#94a3b8;
-  --chat-bg:rgba(10,24,45,.6);
-  --chat-ai-bubble:rgba(15,33,60,.85);
-  --drawer-bg:linear-gradient(155deg, rgba(8,16,32,0.96) 0%, rgba(4,9,20,0.98) 100%);
-  --drawer-border:1px solid rgba(0,212,168,0.38);
-  --drawer-text:#f0f9ff;
+  --chat-bg:rgba(11,15,25,0.7);
+  --chat-ai-bubble:rgba(15,23,42,0.85);
+  --drawer-bg:rgba(11,15,25,0.96);
+  --drawer-border:1px solid rgba(255,255,255,0.08);
+  --drawer-text:#f8fafc;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg-page);color:var(--ink);overflow-x:hidden;transition:background .25s ease,color .25s ease;}
+html,body{height:100%;margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg-page);color:var(--ink);overflow:hidden;transition:background .25s ease,color .25s ease;}
 
 /* ═══════════════════════════════════════
    SPLASH SCREEN
 ═══════════════════════════════════════ */
 #splash{
   position:fixed;inset:0;z-index:9999;overflow:hidden;
-  background:linear-gradient(135deg,#0c4a6e 0%,#0369a1 40%,#0ea5e9 70%,#38bdf8 100%);
+  background:radial-gradient(circle at 50% 35%, #0f172a 0%, #080c14 100%);
   display:flex;align-items:center;justify-content:center;
   transition:opacity .65s ease,visibility .65s;
 }
@@ -113,7 +113,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 /* ═══════════════════════════════════════
    PAGES SYSTEM
 ═══════════════════════════════════════ */
-.page{display:none;min-height:100vh;}
+.page{display:none;height:100vh;overflow:hidden;}
 .page.active{display:flex;}
 
 /* ═══════════════════════════════════════
@@ -123,9 +123,10 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   position:relative;overflow:hidden;
   background:linear-gradient(135deg,#ddeeff 0%,#b8e4fb 30%,#7ecff5 60%,#2ea8e0 90%,#0d8cc9 100%);
   align-items:stretch;
+  overflow-y:auto;
 }
 body.dark-mode #login-page{
-  background:linear-gradient(135deg,#031224 0%,#07223f 30%,#0c3b6b 60%,#0369a1 90%,#075985 100%);
+  background:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.12), transparent 70%), #080c14;
 }
 
 .lb-rings{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
@@ -171,7 +172,7 @@ body.dark-mode .lh-h1 em{color:var(--sky2);}
   border:1.5px solid rgba(255,255,255,.55);border-radius:16px;
   padding:14px 18px;min-width:118px;
 }
-body.dark-mode .lhst{background:rgba(10,25,48,.5);border-color:rgba(56,189,248,.2);}
+body.dark-mode .lhst{background:rgba(15,23,42,.65);border-color:rgba(255,255,255,.08);}
 .lhst-v{font-size:1.55rem;font-weight:900;color:var(--ink);line-height:1;}
 .lhst-l{font-size:9px;text-transform:uppercase;letter-spacing:.9px;color:var(--mid);margin-top:3px;}
 .lhst-t{font-size:10px;color:var(--ok);font-weight:700;margin-top:3px;}
@@ -180,7 +181,7 @@ body.dark-mode .lhst{background:rgba(10,25,48,.5);border-color:rgba(56,189,248,.
   border:1.5px solid rgba(255,255,255,.5);border-radius:18px;
   padding:1.3rem 1.5rem;max-width:500px;
 }
-body.dark-mode .lh-chart{background:rgba(10,25,48,.5);border-color:rgba(56,189,248,.2);}
+body.dark-mode .lh-chart{background:rgba(15,23,42,.65);border-color:rgba(255,255,255,.08);}
 .lhc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
 .lhc-t{font-size:11px;font-weight:700;color:var(--ink2);}
 .lhc-b{font-size:10px;padding:3px 10px;border-radius:20px;background:rgba(5,150,105,.14);border:1px solid rgba(5,150,105,.25);color:var(--ok);font-weight:700;}
@@ -216,10 +217,10 @@ body.dark-mode .lc-sec{color:var(--sky2);}
   transform:scale(1.04);
 }
 body.dark-mode .theme-pill-btn{
-  background:rgba(14,30,54,.65);
-  border-color:rgba(56,189,248,.25);
-  box-shadow:0 2px 8px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.1);
-  color:#bae6fd;
+  background:rgba(15,23,42,.85);
+  border-color:rgba(255,255,255,.12);
+  box-shadow:0 2px 8px rgba(0,0,0,.4), inset 0 1px 1px rgba(255,255,255,.08);
+  color:#f8fafc;
 }
 .theme-icon{
   display:inline-flex;align-items:center;justify-content:center;
@@ -273,9 +274,9 @@ body.dark-mode .fg a{color:var(--sky2);}
   display:flex;align-items:center;justify-content:center;gap:6px;
 }
 body.dark-mode .btn-dm{
-  background:rgba(14,30,54,.65);
-  border-color:rgba(56,189,248,.3);
-  box-shadow:0 4px 16px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.12);
+  background:rgba(15,23,42,.75);
+  border-color:rgba(255,255,255,.1);
+  box-shadow:0 4px 16px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.06);
   color:var(--sky2);
 }
 .btn-dm:hover{
@@ -285,21 +286,22 @@ body.dark-mode .btn-dm{
   transform:translateY(-2px);
 }
 body.dark-mode .btn-dm:hover{
-  background:rgba(14,30,54,.95);
-  box-shadow:0 6px 20px rgba(0,0,0,0.5);
+  background:rgba(22,33,58,.95);
+  border-color:var(--sky);
+  box-shadow:0 6px 20px rgba(0,0,0,0.6);
 }
 .lc-ft{font-size:10.5px;color:var(--muted);text-align:center;margin-top:1.3rem;line-height:1.5;}
 
 /* ═══════════════════════════════════════
    APP SHELL
 ═══════════════════════════════════════ */
-#app-page{flex-direction:row;background:var(--bg-main);}
+#app-page{flex-direction:row;background:var(--bg-main);height:100vh;overflow:hidden;}
 
 /* Sidebar */
 .sidebar{
-  width:236px;min-height:100vh;flex-shrink:0;
+  width:236px;height:100vh;flex-shrink:0;
   background:linear-gradient(180deg,var(--deepest) 0%,var(--deeper) 50%,var(--deep) 100%);
-  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;position:relative;overflow:hidden;
   box-shadow:4px 0 24px rgba(3,105,161,.12);z-index:20;
 }
 .sidebar::before{content:'';position:absolute;top:-100px;left:-100px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none;}
@@ -321,8 +323,53 @@ body.dark-mode .btn-dm:hover{
 .btn-so{width:100%;padding:8.5px;border-radius:9px;border:1px solid rgba(255,255,255,.14);background:transparent;color:rgba(255,255,255,.55);font-size:12px;cursor:pointer;transition:var(--t);font-weight:600;}
 .btn-so:hover{background:rgba(220,38,38,.16);color:#fca5a5;border-color:rgba(220,38,38,.3);}
 
+body.dark-mode .sidebar {
+  background: #070a11;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+}
+body.dark-mode .sb-brand {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+body.dark-mode .sb-ico {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+}
+body.dark-mode .nav-i {
+  color: #94a3b8;
+}
+body.dark-mode .nav-i:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #f8fafc;
+}
+body.dark-mode .nav-i.active {
+  background: rgba(56, 189, 248, 0.08);
+  color: #38bdf8;
+  border-left-color: #38bdf8;
+}
+body.dark-mode .nav-n {
+  color: #475569;
+}
+body.dark-mode .sb-bot {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+body.dark-mode .u-pill {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+body.dark-mode .btn-so {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+body.dark-mode .btn-so:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 /* Main workspace */
-.main{flex:1;overflow-y:auto;background:var(--bg-main);min-height:100vh;}
+.main{flex:1;height:100vh;overflow-y:auto;overflow-x:hidden;background:var(--bg-main);scroll-behavior:smooth;}
 .topbar{
   background:var(--topbar-bg);backdrop-filter:blur(28px) saturate(180%);
   border-bottom:var(--topbar-border);padding:.9rem 2rem;
@@ -335,9 +382,9 @@ body.dark-mode .btn-dm:hover{
 .live-p{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.22);font-size:12px;color:var(--ok);font-weight:700;}
 .ldot{width:6.5px;height:6.5px;border-radius:50%;background:var(--ok);animation:pulse 2s infinite;}
 .btn-xs{padding:7px 14px;border-radius:9px;border:1px solid rgba(14,165,233,.2);background:rgba(255,255,255,.75);color:var(--deep);font-size:12.5px;cursor:pointer;transition:var(--t);font-weight:600;}
-body.dark-mode .btn-xs{background:rgba(14,30,54,.7);border-color:rgba(56,189,248,.2);color:var(--sky2);}
+body.dark-mode .btn-xs{background:rgba(15,23,42,.75);border-color:rgba(255,255,255,.1);color:#cbd5e1;}
 .btn-xs:hover{background:#fff;transform:translateY(-1px);}
-body.dark-mode .btn-xs:hover{background:rgba(14,30,54,.95);}
+body.dark-mode .btn-xs:hover{background:rgba(22,33,58,.95);border-color:rgba(56,189,248,.35);color:#f8fafc;}
 
 /* Zoom & Font Scale Controller */
 .zoom-ctrl{
@@ -346,7 +393,7 @@ body.dark-mode .btn-xs:hover{background:rgba(14,30,54,.95);}
   border-radius:20px;padding:2px 7px;gap:3px;user-select:none;
 }
 body.dark-mode .zoom-ctrl{
-  background:rgba(14,30,54,.7);border-color:rgba(56,189,248,.3);
+  background:rgba(15,23,42,.75);border-color:rgba(255,255,255,.1);
 }
 .zoom-btn{
   background:transparent;border:none;color:var(--deep);
@@ -432,6 +479,11 @@ body.dark-mode .zoom-val{color:#e0f2fe;}
   position:relative;
   background:linear-gradient(135deg,var(--deepest) 0%,var(--deeper) 35%,var(--deep) 65%,var(--sky) 100%);
 }
+body.dark-mode .w-hero{
+  background:linear-gradient(135deg, #090e17 0%, #111a2e 50%, #0d1527 100%);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 16px 40px -10px rgba(0,0,0,0.7);
+}
 .w-hero::after {
   content:'';position:absolute;inset:0;
   background:linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.07) 50%, transparent 80%);
@@ -458,14 +510,20 @@ body.dark-mode .zoom-val{color:#e0f2fe;}
 .w-av:hover{transform:scale(1.06) rotate(3deg);}
 .w-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
 .wtg{font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+body.dark-mode .wtg{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#cbd5e1;}
 .w-nm{font-size:1.35rem;font-weight:800;color:#fff;}
 .w-mt{font-size:13px;color:rgba(255,255,255,.75);margin-top:2px;}
 .w-btns{display:flex;gap:9px;flex-shrink:0;}
 .wbtn{padding:10px 18px;border-radius:11px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14);backdrop-filter:blur(6px);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:var(--t);}
+body.dark-mode .wbtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#f1f5f9;}
 .wbtn:hover{background:rgba(255,255,255,.24);transform:translateY(-1px);}
+body.dark-mode .wbtn:hover{background:rgba(255,255,255,.12);border-color:rgba(56,189,248,.4);}
 .wbtn.s{background:rgba(255,255,255,.92);color:var(--deepest);border-color:transparent;}
+body.dark-mode .wbtn.s{background:#38bdf8;color:#080c14;font-weight:800;border-color:transparent;}
 .wbtn.s:hover{background:#fff;transform:translateY(-1px);}
+body.dark-mode .wbtn.s:hover{background:#7dd3fc;box-shadow:0 0 16px rgba(56,189,248,.4);}
 .w-strip{background:rgba(0,0,0,.16);backdrop-filter:blur(6px);padding:.9rem 2.2rem;display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;}
+body.dark-mode .w-strip{background:rgba(0,0,0,.35);border-top:1px solid rgba(255,255,255,0.05);}
 .wsi{display:flex;align-items:center;gap:10px;}
 .wsi-l{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;font-weight:600;}
 .wsi-v{font-size:14px;font-weight:800;color:#fff;}
@@ -532,9 +590,9 @@ body.dark-mode .ritag.b{color:var(--sky2);}
   filter:drop-shadow(0 2px 5px rgba(0,0,0,0.06));
 }
 body.dark-mode .gsc-ico{
-  background:rgba(14,30,54,0.55);
-  border-color:rgba(56,189,248,0.28);
-  box-shadow:0 4px 16px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.12);
+  background:rgba(15,23,42,0.85);
+  border-color:rgba(255,255,255,0.08);
+  box-shadow:0 4px 16px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.06);
 }
 .gsc:hover .gsc-ico{
   transform:scale(1.12) translateY(-2px) rotate(4deg);
@@ -544,18 +602,23 @@ body.dark-mode .gsc-ico{
 .gsc:nth-child(2) .gsc-ico{background:linear-gradient(135deg,rgba(3,105,161,0.18),rgba(255,255,255,0.5));}
 .gsc:nth-child(3) .gsc-ico{background:linear-gradient(135deg,rgba(7,89,133,0.16),rgba(255,255,255,0.5));}
 .gsc:nth-child(4) .gsc-ico{background:linear-gradient(135deg,rgba(5,150,105,0.18),rgba(255,255,255,0.5));}
-body.dark-mode .gsc:nth-child(1) .gsc-ico{background:linear-gradient(135deg,rgba(14,165,233,0.25),rgba(14,30,54,0.6));}
-body.dark-mode .gsc:nth-child(2) .gsc-ico{background:linear-gradient(135deg,rgba(3,105,161,0.22),rgba(14,30,54,0.6));}
-body.dark-mode .gsc:nth-child(3) .gsc-ico{background:linear-gradient(135deg,rgba(7,89,133,0.2),rgba(14,30,54,0.6));}
-body.dark-mode .gsc:nth-child(4) .gsc-ico{background:linear-gradient(135deg,rgba(5,150,105,0.22),rgba(14,30,54,0.6));}
+body.dark-mode .gsc:nth-child(1) .gsc-ico{background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,0.25);}
+body.dark-mode .gsc:nth-child(2) .gsc-ico{background:rgba(129,140,248,0.12);border-color:rgba(129,140,248,0.25);}
+body.dark-mode .gsc:nth-child(3) .gsc-ico{background:rgba(52,211,153,0.12);border-color:rgba(52,211,153,0.25);}
+body.dark-mode .gsc:nth-child(4) .gsc-ico{background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.25);}
+body.dark-mode .gsc:nth-child(1)::before{background:linear-gradient(90deg, #38bdf8, #818cf8);}
+body.dark-mode .gsc:nth-child(2)::before{background:linear-gradient(90deg, #818cf8, #c084fc);}
+body.dark-mode .gsc:nth-child(3)::before{background:linear-gradient(90deg, #34d399, #10b981);}
+body.dark-mode .gsc:nth-child(4)::before{background:linear-gradient(90deg, #fbbf24, #f87171);}
 .gsc-lbl{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;font-weight:700;}
 .gsc-val{font-size:2.2rem;font-weight:900;line-height:1;margin-bottom:5px;}
 .gsc:nth-child(1) .gsc-val{color:var(--sky);}
 .gsc:nth-child(2) .gsc-val{color:var(--deep);}
-body.dark-mode .gsc:nth-child(2) .gsc-val{color:var(--sky2);}
+body.dark-mode .gsc:nth-child(2) .gsc-val{color:#818cf8;}
 .gsc:nth-child(3) .gsc-val{color:var(--deepest);}
-body.dark-mode .gsc:nth-child(3) .gsc-val{color:#93c5fd;}
+body.dark-mode .gsc:nth-child(3) .gsc-val{color:#34d399;}
 .gsc:nth-child(4) .gsc-val{color:var(--ok);}
+body.dark-mode .gsc:nth-child(4) .gsc-val{color:#fbbf24;}
 .gsc-sub{font-size:13px;color:var(--mid);margin-bottom:10px;font-weight:500;}
 .gsc-bar{height:4px;background:rgba(14,165,233,.12);border-radius:2px;overflow:hidden;margin-bottom:6px;}
 .gsc-fill{height:100%;border-radius:2px;animation:fillGrow 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;}
@@ -749,6 +812,73 @@ body.dark-mode .btn-link{color:var(--sky2);}
 .tj-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:1.4rem;}
 .tjs{background:var(--bg-card);backdrop-filter:blur(20px);border:var(--border-card);border-radius:14px;padding:1.2rem;box-shadow:var(--shadow-card);}
 
+/* Trajectory Roadmap & Target Simulator */
+.tj-roadmap-card {
+  margin-top: 1.4rem;
+  padding: 1.4rem;
+  border-radius: 18px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: var(--border-card);
+  box-shadow: var(--shadow-card);
+}
+.tj-sim-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+  margin-top: 1.2rem;
+}
+@media(max-width: 1050px) {
+  .tj-sim-grid { grid-template-columns: 1fr; }
+}
+.roadmap-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.roadmap-tbl th {
+  text-align: left;
+  padding: 9px 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  border-bottom: 1.5px solid rgba(14, 165, 233, 0.14);
+}
+.roadmap-tbl td {
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.08);
+  color: var(--ink);
+  font-weight: 600;
+}
+.roadmap-tbl tr:last-child td { border-bottom: none; }
+.roadmap-tbl tr:hover td { background: rgba(14, 165, 233, 0.04); }
+.tj-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.tj-badge.done { background: rgba(5, 150, 105, 0.12); color: var(--ok); border: 1px solid rgba(5, 150, 105, 0.25); }
+.tj-badge.curr { background: rgba(14, 165, 233, 0.14); color: var(--sky); border: 1px solid rgba(14, 165, 233, 0.35); }
+.tj-badge.proj { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.25); }
+.tj-sim-box {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(3, 105, 161, 0.04));
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 14px;
+  padding: 16px;
+}
+.tj-slider {
+  width: 100%;
+  margin: 12px 0 8px;
+  accent-color: var(--sky);
+}
+
 /* ═══════════ CGPA CALCULATOR ═══════════ */
 .calc-g{display:grid;grid-template-columns:1fr 310px;gap:1.5rem;}
 .cr-row{display:grid;grid-template-columns:1fr 85px 65px 32px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(14,165,233,.08);}
@@ -775,6 +905,11 @@ body.dark-mode .btn-add{color:var(--sky2);}
   position:relative;overflow:hidden;
   box-shadow:0 10px 36px rgba(3,105,161,.2);
 }
+body.dark-mode .ai-bnr{
+  background:linear-gradient(135deg, #090e17 0%, #111a2e 50%, #0d1527 100%);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 16px 40px -10px rgba(0,0,0,0.7);
+}
 .ai-bnr::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% -10%,rgba(255,255,255,.1),transparent 60%);}
 .ai-av{
   width:62px;height:62px;border-radius:50%;
@@ -787,6 +922,11 @@ body.dark-mode .btn-add{color:var(--sky2);}
   display:flex;align-items:center;justify-content:center;
   font-size:28px;position:relative;
   filter:drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+}
+body.dark-mode .ai-av{
+  background:linear-gradient(135deg, #1e293b, #0f172a);
+  border-color:rgba(56,189,248,0.35);
+  box-shadow:0 0 20px rgba(56,189,248,0.25);
 }
 .ai-nm{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:4px;}
 .ai-s{font-size:13px;color:rgba(255,255,255,.75);}
@@ -804,10 +944,10 @@ body.dark-mode .btn-add{color:var(--sky2);}
   display:inline-flex;align-items:center;gap:5px;
 }
 body.dark-mode .qp{
-  background:rgba(14,30,54,0.55);
-  border-color:rgba(56,189,248,0.25);
-  box-shadow:0 2px 8px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.1);
-  color:var(--sky2);
+  background:rgba(15,23,42,0.7);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 2px 8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.05);
+  color:#cbd5e1;
 }
 .qp:hover{
   background:rgba(255,255,255,0.85);
@@ -815,13 +955,28 @@ body.dark-mode .qp{
   box-shadow:0 4px 14px rgba(14,165,233,0.22);
   transform:translateY(-1px) scale(1.02);
 }
-body.dark-mode .qp:hover{background:rgba(14,30,54,0.9);}
+body.dark-mode .qp:hover{
+  background:rgba(22,33,58,0.95);
+  border-color:rgba(56,189,248,0.4);
+  color:#38bdf8;
+}
 .chat-box{background:var(--chat-bg);backdrop-filter:blur(16px);border:var(--border-card);border-radius:var(--r);padding:1.3rem;min-height:300px;max-height:360px;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-card);}
 .msg{display:flex;gap:9px;}
 .msg.u{flex-direction:row-reverse;}
 .mb{max-width:76%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.6;}
 .msg.ai .mb{background:var(--chat-ai-bubble);backdrop-filter:blur(10px);border:1px solid rgba(14,165,233,.14);color:var(--ink);}
+body.dark-mode .msg.ai .mb{
+  background:rgba(15,23,42,0.85);
+  border:1px solid rgba(255,255,255,0.08);
+  border-left:3px solid #38bdf8;
+  color:#f1f5f9;
+}
 .msg.u .mb{background:linear-gradient(135deg,var(--deepest),var(--deep),var(--sky));color:#fff;}
+body.dark-mode .msg.u .mb{
+  background:linear-gradient(135deg, #1e293b, #0f172a);
+  border:1px solid rgba(56,189,248,0.3);
+  color:#ffffff;
+}
 .mav{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
 .msg.ai .mav{background:rgba(14,165,233,.12);color:var(--deep);}
 body.dark-mode .msg.ai .mav{color:var(--sky2);}
@@ -922,14 +1077,20 @@ body.dark-mode .sni.active{color:var(--sky2);}
   align-items: center;
   gap: 10px;
   user-select: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.ai-bubble-container.drawer-open {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(30px);
 }
 .ai-bubble-pill {
   background: var(--bg-card);
   border: 1px solid rgba(14,165,233,0.35);
   backdrop-filter: blur(20px);
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 30px;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--ink);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 0 16px rgba(14,165,233, 0.15);
@@ -940,14 +1101,19 @@ body.dark-mode .sni.active{color:var(--sky2);}
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 body.dark-mode .ai-bubble-pill {
-  background: rgba(10, 22, 40, 0.9);
-  border-color: rgba(0, 212, 168, 0.35);
-  color: #f0f9ff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 212, 168, 0.2);
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .ai-bubble-pill:hover {
   transform: translateX(-3px);
   border-color: var(--sky);
+}
+body.dark-mode .ai-bubble-pill:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 0 16px rgba(56, 189, 248, 0.2);
 }
 .ai-bubble-pill .dot {
   width: 8px;
@@ -957,9 +1123,13 @@ body.dark-mode .ai-bubble-pill {
   box-shadow: 0 0 8px var(--ok);
   animation: ai-pulse-glow 2s infinite;
 }
+body.dark-mode .ai-bubble-pill .dot {
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+}
 .ai-bubble-btn {
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
   border: 2px solid rgba(255, 255, 255, 0.6);
@@ -972,47 +1142,52 @@ body.dark-mode .ai-bubble-pill {
   position: relative;
 }
 body.dark-mode .ai-bubble-btn {
-  background: linear-gradient(135deg, #00d4a8 0%, #0ea5e9 100%);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 26px rgba(0, 212, 168, 0.45);
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
 }
 .ai-bubble-btn:hover {
   transform: scale(1.08) rotate(6deg);
 }
 .ai-bubble-btn svg {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   fill: #fff;
 }
 body.dark-mode .ai-bubble-btn svg {
-  fill: #060d1a;
+  fill: #080c14;
 }
 @keyframes ai-pulse-glow {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.4; transform: scale(0.85); }
 }
 
-/* Chat Drawer Modal */
+/* Linear / Raycast Slide-Over AI Panel */
 .ai-drawer {
   position: fixed;
-  bottom: 88px;
-  right: 28px;
-  width: 445px;
-  max-width: calc(100vw - 40px);
-  height: 610px;
-  max-height: calc(100vh - 110px);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 440px;
+  max-width: 92vw;
+  height: 100vh;
+  max-height: 100vh;
   background: var(--drawer-bg);
-  border: var(--drawer-border);
-  border-radius: 22px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 0 50px rgba(14, 165, 233, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(36px);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 20px 0 0 20px;
+  box-shadow: -12px 0 48px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
   display: flex;
   flex-direction: column;
   z-index: 10000;
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
-  transform: translateY(22px) scale(0.96);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(110%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
 .ai-drawer::before {
@@ -1021,22 +1196,21 @@ body.dark-mode .ai-bubble-btn svg {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #0ea5e9 0%, #38bdf8 50%, #8b5cf6 100%);
+  height: 2px;
+  background: linear-gradient(90deg, #38bdf8 0%, #818cf8 50%, #34d399 100%);
   z-index: 10;
 }
 .ai-drawer.open {
-  opacity: 1;
   pointer-events: auto;
-  transform: translateY(0) scale(1);
+  transform: translateX(0);
 }
 .ai-drawer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.1rem 1.25rem 0.95rem;
-  border-bottom: 1px solid rgba(14,165,233, 0.14);
-  background: rgba(255, 255, 255, 0.05);
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.5);
   position: relative;
   gap: 10px;
 }
@@ -1046,8 +1220,8 @@ body.dark-mode .ai-bubble-btn svg {
   gap: 12px;
 }
 .ai-drawer-avatar {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 12px;
   background: linear-gradient(135deg, #0ea5e9, #0369a1);
   display: flex;
@@ -1055,17 +1229,18 @@ body.dark-mode .ai-bubble-btn svg {
   justify-content: center;
   color: #fff;
   font-weight: 900;
-  font-size: 17px;
+  font-size: 16px;
   box-shadow: 0 4px 18px rgba(14, 165, 233, 0.4);
   position: relative;
   flex-shrink: 0;
 }
 body.dark-mode .ai-drawer-avatar {
-  background: linear-gradient(135deg, #00d4a8, #0ea5e9);
-  color: #060d1a;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  color: #080c14;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
 }
 .ai-drawer-name {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 800;
   color: var(--drawer-text);
   display: flex;
@@ -1088,9 +1263,9 @@ body.dark-mode .ai-drawer-avatar {
   text-transform: uppercase;
 }
 body.dark-mode .ai-status-badge {
-  background: rgba(0, 212, 168, 0.12);
-  border-color: rgba(0, 212, 168, 0.35);
-  color: #00d4a8;
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.25);
+  color: #34d399;
 }
 .ai-status-badge .badge-dot {
   width: 5px;
@@ -1098,6 +1273,10 @@ body.dark-mode .ai-status-badge {
   border-radius: 50%;
   background: var(--ok);
   box-shadow: 0 0 6px var(--ok);
+}
+body.dark-mode .ai-status-badge .badge-dot {
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
 }
 .ai-drawer-sub {
   font-size: 10.5px;
@@ -1119,6 +1298,10 @@ body.dark-mode .ai-status-badge {
   padding: 2px;
   gap: 2px;
 }
+body.dark-mode .ai-lang-toggle {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
 .ai-lang-btn {
   border: none;
   background: transparent;
@@ -1130,14 +1313,19 @@ body.dark-mode .ai-status-badge {
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
+body.dark-mode .ai-lang-btn {
+  color: #94a3b8;
+}
 .ai-lang-btn.active {
   background: var(--sky);
   color: #fff;
   box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
 }
 body.dark-mode .ai-lang-btn.active {
-  background: #00d4a8;
-  color: #060d1a;
+  background: #38bdf8;
+  color: #080c14;
+  font-weight: 800;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 }
 .ai-drawer-btn {
   background: transparent;
@@ -1145,13 +1333,24 @@ body.dark-mode .ai-lang-btn.active {
   color: var(--muted);
   font-size: 16px;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
+}
+.ai-drawer-btn:hover {
+  background: rgba(14,165,233, 0.1);
+  color: var(--ink);
+}
+body.dark-mode .ai-drawer-btn {
+  color: #94a3b8;
+}
+body.dark-mode .ai-drawer-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
 }
 .ai-drawer-btn:hover {
   background: rgba(14,165,233, 0.1);
@@ -1195,8 +1394,11 @@ body.dark-mode .ai-lang-btn.active {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 body.dark-mode .ai-msg.ai .ai-msg-bubble {
-  border-left-color: #00d4a8;
-  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #38bdf8;
+  color: #f1f5f9;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 .ai-msg.user .ai-msg-bubble {
   background: linear-gradient(135deg, var(--deepest), var(--deep), var(--sky));
@@ -1205,25 +1407,33 @@ body.dark-mode .ai-msg.ai .ai-msg-bubble {
   border-bottom-right-radius: 4px;
   box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
 }
+body.dark-mode .ai-msg.user .ai-msg-bubble {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
 .ai-msg-meta {
   font-size: 10px;
   color: var(--muted);
-  margin-top: 5px;
-  padding: 0 6px;
+  margin-top: 6px;
+  padding: 0 4px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 8px;
 }
 .ai-msg-meta .tech-tag {
   color: var(--deep);
   font-size: 9.5px;
   background: rgba(14, 165, 233, 0.1);
-  padding: 1px 5px;
+  padding: 1px 6px;
   border-radius: 4px;
 }
 body.dark-mode .ai-msg-meta .tech-tag {
-  color: #00d4a8;
-  background: rgba(0, 212, 168, 0.08);
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .ai-quick-prompts {
@@ -1250,10 +1460,10 @@ body.dark-mode .ai-msg-meta .tech-tag {
   gap: 5px;
 }
 body.dark-mode .ai-chip {
-  background: rgba(14, 30, 54, 0.55);
-  border-color: rgba(56, 189, 248, 0.25);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  color: var(--sky2);
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
 }
 .ai-chip:hover {
   background: rgba(255, 255, 255, 0.75);
@@ -1262,7 +1472,9 @@ body.dark-mode .ai-chip {
   transform: translateY(-1px);
 }
 body.dark-mode .ai-chip:hover {
-  background: rgba(14, 30, 54, 0.85);
+  background: rgba(22, 33, 58, 0.95);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
 }
 .ai-drawer-footer {
   padding: 1rem 1.2rem;
@@ -1307,6 +1519,98 @@ body.dark-mode .ai-chip:hover {
   box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
 }
 
+/* ═══════════ ULTRA-MODERN AI ACTIONS & STREAMING ═══════════ */
+.ai-type-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  background: var(--sky);
+  margin-left: 3px;
+  vertical-align: middle;
+  border-radius: 2px;
+  animation: cursorBlink 0.75s infinite;
+}
+body.dark-mode .ai-type-cursor { background: #38bdf8; }
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.ai-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0 4px;
+}
+.ai-action-card {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 3px 10px rgba(14, 165, 233, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.dark-mode .ai-action-card {
+  background: rgba(15, 23, 42, 0.75);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.ai-action-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--sky);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.22);
+}
+.ai-action-card .a-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ai-action-card .a-sub {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.ai-msg-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.ai-act-btn {
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: all 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.ai-act-btn:hover {
+  color: var(--sky);
+  background: rgba(14, 165, 233, 0.12);
+}
+body.dark-mode .ai-act-btn {
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+body.dark-mode .ai-act-btn:hover {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
 /* ═══════════ GLASSY EMOJI & ICON SYSTEM ═══════════ */
 .em-glass{
   display:inline-flex;align-items:center;justify-content:center;
@@ -1347,7 +1651,7 @@ body.dark-mode .em-glass{
 }
 </style>
 </head>
-<body>
+<body class="dark-mode">
 
 <!-- SPLASH SCREEN -->
 <div id="splash">
@@ -1390,7 +1694,7 @@ body.dark-mode .em-glass{
     <div class="lc-top-bar">
       <div class="lc-sec"><span class="em-glass">🔒</span> Secure Academic Workspace</div>
       <button class="theme-pill-btn" onclick="toggleTheme()" id="login-theme-btn" title="Toggle Light / Dark Mode">
-        <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
+        <span class="theme-icon">☀️</span> <span class="theme-text">Light</span>
       </button>
     </div>
     <h2 class="lc-h2">Sign in to EduTrack</h2>
@@ -1449,7 +1753,7 @@ body.dark-mode .em-glass{
           <button class="zoom-btn" onclick="adjustZoom(0.05)" title="Increase text size (Ctrl + +)">A+</button>
         </div>
         <button class="theme-pill-btn" onclick="toggleTheme()" id="topbar-theme-btn" title="Toggle Light / Dark Mode">
-          <span class="theme-icon">🌙</span> <span class="theme-text">Dark Mode</span>
+          <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
         </button>
         <div class="live-p"><div class="ldot"></div>Live Workspace</div>
         <button class="btn-xs" onclick="signOut()">Sign out</button>
@@ -1735,8 +2039,126 @@ body.dark-mode .em-glass{
           <div style="position:relative;height:300px;margin-top:1rem;"><canvas id="traj"></canvas></div>
           <div class="tj-stats">
             <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Current CGPA</div><div style="font-size:1.6rem;font-weight:900;color:var(--sky);">3.52</div><div style="font-size:11px;color:var(--ok);">▲ S4 Standing (Top 12%)</div></div>
-            <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Target Milestone</div><div style="font-size:1.6rem;font-weight:900;color:var(--deepest);">3.88</div><div style="font-size:11px;color:var(--deep);">★ Magna Cum Laude</div></div>
+            <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Target Milestone</div><div style="font-size:1.6rem;font-weight:900;color:var(--deepest);" id="tj-target-val">3.88</div><div style="font-size:11px;color:var(--deep);" id="tj-target-tag">★ Magna Cum Laude</div></div>
             <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Credit Velocity</div><div style="font-size:1.6rem;font-weight:900;color:var(--deep);">72/142</div><div style="font-size:11px;color:var(--sky);">51% Degree Completed</div></div>
+          </div>
+        </div>
+
+        <!-- Trajectory Semester Roadmap & Interactive Pacing Engine -->
+        <div class="tj-roadmap-card">
+          <div class="gc-h">
+            <div>
+              <div class="gc-t">Degree Velocity &amp; Semester Roadmap</div>
+              <div class="gc-s">BUBT 4-Year B.Sc. in CSE Academic Path (142 Total Credits)</div>
+            </div>
+            <span class="ci-summary-badge">8 Semesters · 142 Credits Total</span>
+          </div>
+
+          <div class="tj-sim-grid">
+            <div style="overflow-x:auto;">
+              <table class="roadmap-tbl">
+                <thead>
+                  <tr>
+                    <th>Semester</th>
+                    <th>Term Window</th>
+                    <th>Credits</th>
+                    <th>Term GPA</th>
+                    <th>Cumulative</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Semester 1</td>
+                    <td>Fall 2024</td>
+                    <td>15 CR</td>
+                    <td>3.25</td>
+                    <td>3.25</td>
+                    <td><span class="tj-badge done">✓ Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Semester 2</td>
+                    <td>Spring 2025</td>
+                    <td>15 CR</td>
+                    <td>3.08</td>
+                    <td>3.17</td>
+                    <td><span class="tj-badge done">✓ Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td>Semester 3</td>
+                    <td>Summer 2025</td>
+                    <td>12 CR</td>
+                    <td>3.38</td>
+                    <td>3.22</td>
+                    <td><span class="tj-badge done">✓ Completed</span></td>
+                  </tr>
+                  <tr>
+                    <td style="color:var(--sky);font-weight:800;">Semester 4</td>
+                    <td style="color:var(--sky);font-weight:800;">Fall 2026 (Current)</td>
+                    <td>15 CR</td>
+                    <td>3.65 (Proj)</td>
+                    <td>3.34</td>
+                    <td><span class="tj-badge curr">⚡ In Progress</span></td>
+                  </tr>
+                  <tr>
+                    <td>Semester 5</td>
+                    <td>Spring 2027</td>
+                    <td>18 CR</td>
+                    <td id="s5-req-gpa">3.82 (Req)</td>
+                    <td>3.50</td>
+                    <td><span class="tj-badge proj">🎯 Target</span></td>
+                  </tr>
+                  <tr>
+                    <td>Semester 6</td>
+                    <td>Summer 2027</td>
+                    <td>18 CR</td>
+                    <td id="s6-req-gpa">3.85 (Req)</td>
+                    <td>3.62</td>
+                    <td><span class="tj-badge proj">🎯 Target</span></td>
+                  </tr>
+                  <tr>
+                    <td>Semester 7</td>
+                    <td>Fall 2027</td>
+                    <td>21 CR</td>
+                    <td>3.90 (Req)</td>
+                    <td>3.74</td>
+                    <td><span class="tj-badge proj">🎯 Capstone Prep</span></td>
+                  </tr>
+                  <tr>
+                    <td>Semester 8</td>
+                    <td>Spring 2028</td>
+                    <td>28 CR</td>
+                    <td>3.90 (Req)</td>
+                    <td>3.88</td>
+                    <td><span class="tj-badge proj">🎓 Graduation</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Interactive Target Simulator -->
+            <div class="tj-sim-box">
+              <div style="font-size:13.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;">
+                <span>🎯</span> Graduation CGPA Target
+              </div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px;">Slide to dynamically compute required pacing</div>
+              
+              <div style="display:flex;align-items:baseline;gap:8px;margin-top:14px;">
+                <span id="slider-target-val" style="font-size:2.2rem;font-weight:900;color:var(--sky);line-height:1;">3.88</span>
+                <span style="font-size:12px;color:var(--muted);font-weight:600;">/ 4.00 CGPA</span>
+              </div>
+              <input type="range" class="tj-slider" min="3.25" max="4.00" step="0.01" value="3.88" id="traj-slider" oninput="updateTrajSim(this.value)">
+
+              <div style="margin-top:14px;padding:12px;border-radius:10px;background:var(--bg-card);border:1px solid rgba(14,165,233,.18);">
+                <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;font-weight:700;">Required Semester GPA (S5 → S8)</div>
+                <div id="sim-req-gpa" style="font-size:1.4rem;font-weight:900;color:var(--deep);margin-top:3px;">3.85 SGPA</div>
+                <div id="sim-verdict" style="font-size:11px;color:var(--ok);font-weight:600;margin-top:4px;">★ On track for Magna Cum Laude</div>
+              </div>
+
+              <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.4;">
+                Achieving this requires maintaining an average of <strong>4 A's and 1 A+</strong> across remaining 70 credits.
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1745,7 +2167,13 @@ body.dark-mode .em-glass{
       <div class="section" id="sec-cgpa">
         <div class="calc-g">
           <div class="gc">
-            <div class="gc-h"><div class="gc-t">Semester GPA Calculator</div></div>
+            <div class="gc-h">
+              <div>
+                <div class="gc-t">Semester GPA Calculator</div>
+                <div class="gc-s">Simulate expected term grade point average (BUBT Scale)</div>
+              </div>
+              <button class="btn-xs" onclick="loadEnrolledIntoCalc()" style="font-size:11.5px;padding:5px 11px;">⚡ Load Active Courses</button>
+            </div>
             <div style="display:grid;grid-template-columns:1fr 85px 65px 32px;gap:7px;padding:5px 0;border-bottom:1.5px solid rgba(14,165,233,.12);margin-bottom:2px;">
               <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Course</div>
               <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Grade</div>
@@ -1851,28 +2279,53 @@ body.dark-mode .em-glass{
       <div class="section" id="sec-settings">
         <div class="set-g">
           <div class="gc">
-            <div class="sni active">Profile</div>
-            <div class="sni">Academic Goals</div>
-            <div class="sni">Notifications</div>
-            <div class="sni">Privacy &amp; Data</div>
-            <div class="sni">Appearance &amp; Theme</div>
+            <div class="sni active" onclick="switchSettingTab('profile', this)">Profile</div>
+            <div class="sni" onclick="switchSettingTab('goals', this)">Academic Goals</div>
+            <div class="sni" onclick="switchSettingTab('notif', this)">Notifications</div>
+            <div class="sni" onclick="switchSettingTab('theme', this)">Appearance &amp; Theme</div>
+            <div class="sni" onclick="switchSettingTab('ai', this)">AI &amp; Cloud Intelligence</div>
           </div>
           <div class="gc">
-            <div class="gc-h"><div class="gc-t">Workspace Settings</div></div>
-            <div class="set-r"><div><div class="set-nm">Student ID</div><div class="set-dc">Institutional identifier</div></div><input class="inp-s2" id="set-id" value="20255103311" readonly></div>
-            <div class="set-r"><div><div class="set-nm">Display Name</div><div class="set-dc">How your name appears in EduTrack</div></div><input class="inp-s2" id="set-name" value="Mahabub Shaddhow"></div>
-            <div class="set-r"><div><div class="set-nm">Graduation Goal CGPA</div><div class="set-dc">Target cumulative GPA</div></div><input class="inp-s2" id="set-goal" value="3.85" type="number" step="0.01"></div>
-            <div class="set-r"><div><div class="set-nm">Email Notifications</div><div class="set-dc">Grade updates and schedule alerts</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
-            <div class="set-r"><div><div class="set-nm">Dark Mode Theme</div><div class="set-dc">Switch between Radiant Sky Light Mode and Midnight Cyber Glass</div></div><button class="tog" id="set-dark-tog" onclick="toggleTheme()"></button></div>
-            <div class="set-r"><div><div class="set-nm">Interface Scale / Text Size</div><div class="set-dc">Adjust visual text size and UI proportions (100% to 135%)</div></div>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <button class="btn-xs" onclick="adjustZoom(-0.05)" style="padding:4px 9px;">A−</button>
-                <span id="set-zoom-val" style="font-size:13px;font-weight:700;color:var(--deep);min-width:44px;text-align:center;">110%</span>
-                <button class="btn-xs" onclick="adjustZoom(0.05)" style="padding:4px 9px;">A+</button>
+            <div class="gc-h"><div class="gc-t" id="set-panel-title">Profile Settings</div></div>
+            
+            <!-- Profile Tab -->
+            <div class="set-tab-panel" id="set-tab-profile">
+              <div class="set-r"><div><div class="set-nm">Student ID</div><div class="set-dc">Institutional identifier (Permanent)</div></div><input class="inp-s2" id="set-id" value="20255103311" readonly></div>
+              <div class="set-r"><div><div class="set-nm">Display Name</div><div class="set-dc">How your name appears in EduTrack workspace</div></div><input class="inp-s2" id="set-name" value="Mahabub Shaddhow"></div>
+              <div class="set-r"><div><div class="set-nm">Department</div><div class="set-dc">Academic program affiliation</div></div><span style="font-weight:700;color:var(--deep);">BUBT CSE</span></div>
+            </div>
+
+            <!-- Academic Goals Tab -->
+            <div class="set-tab-panel" id="set-tab-goals" style="display:none;">
+              <div class="set-r"><div><div class="set-nm">Graduation Goal CGPA</div><div class="set-dc">Target cumulative GPA for Dean's honor roll / waiver pacing</div></div><input class="inp-s2" id="set-goal" value="3.85" type="number" step="0.01"></div>
+              <div class="set-r"><div><div class="set-nm">Total Program Credits</div><div class="set-dc">Standard BUBT CSE curriculum requirement</div></div><span style="font-weight:700;color:var(--sky);">142 Credits</span></div>
+            </div>
+
+            <!-- Notifications Tab -->
+            <div class="set-tab-panel" id="set-tab-notif" style="display:none;">
+              <div class="set-r"><div><div class="set-nm">Email Notifications</div><div class="set-dc">Grade updates, waiver milestones, and exam schedule alerts</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+              <div class="set-r"><div><div class="set-nm">Attendance Warning Alert</div><div class="set-dc">Notifies when attendance drops below 80%</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+            </div>
+
+            <!-- Appearance Tab -->
+            <div class="set-tab-panel" id="set-tab-theme" style="display:none;">
+              <div class="set-r"><div><div class="set-nm">Dark Mode Theme</div><div class="set-dc">Switch between Radiant Sky Light Mode and Midnight Cyber Glass</div></div><button class="tog" id="set-dark-tog" onclick="toggleTheme()"></button></div>
+              <div class="set-r"><div><div class="set-nm">Interface Scale / Text Size</div><div class="set-dc">Adjust visual text size and UI proportions (85% to 140%)</div></div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <button class="btn-xs" onclick="adjustZoom(-0.05)" style="padding:4px 9px;">A−</button>
+                  <span id="set-zoom-val" style="font-size:13px;font-weight:700;color:var(--deep);min-width:44px;text-align:center;">100%</span>
+                  <button class="btn-xs" onclick="adjustZoom(0.05)" style="padding:4px 9px;">A+</button>
+                </div>
               </div>
             </div>
-            <div class="set-r"><div><div class="set-nm">AI Academic Advisor</div><div class="set-dc">Enable 100% offline local machine learning coaching</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
-            <button class="btn-sign" style="max-width:160px;padding:10px;margin-top:1rem;" onclick="saveSettings()">Save Changes</button>
+
+            <!-- AI Tab -->
+            <div class="set-tab-panel" id="set-tab-ai" style="display:none;">
+              <div class="set-r"><div><div class="set-nm">AI Academic Advisor</div><div class="set-dc">Enable 100% offline local machine learning coaching</div></div><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+              <div class="set-r"><div><div class="set-nm">Google Gemini API Key (Optional)</div><div class="set-dc">Enter Gemini API key to activate cloud reasoning &amp; live AI advisory (Leave blank for offline AI)</div></div><input class="inp-s2" id="set-gemini-key" placeholder="AIzaSy..." type="password" style="width:220px;"></div>
+            </div>
+
+            <button class="btn-sign" style="max-width:160px;padding:10px;margin-top:1.2rem;" onclick="saveSettings()">Save Changes</button>
           </div>
         </div>
       </div>
@@ -1909,26 +2362,26 @@ body.dark-mode .em-glass{
 <div class="ai-bubble-container" id="ai-bubble-container">
   <div class="ai-bubble-pill" onclick="toggleAiDrawer()">
     <span class="dot"></span>
-    <span>Consult EduTrackAi</span>
+    <span>⚡ AI Copilot</span>
   </div>
-  <div class="ai-bubble-btn" onclick="toggleAiDrawer()" title="Open EduTrackAi Drawer">
+  <div class="ai-bubble-btn" onclick="toggleAiDrawer()" title="Open EduTrack AI Copilot">
     <svg viewBox="0 0 24 24">
       <path d="M12 2a1 1 0 0 1 1 1v1.07A8.001 8.001 0 0 1 20 12a1 1 0 0 1-2 0 6 6 0 0 0-5-5.917V7a1 1 0 0 1-2 0v-.917A6 6 0 0 0 6 12a1 1 0 0 1-2 0 8.001 8.001 0 0 1 7-7.93V3a1 1 0 0 1 1-1zm0 8a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-7 8a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1zm3 3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1z"/>
     </svg>
   </div>
 </div>
 
-<!-- FLOATING CYBER DRAWER -->
+<!-- SLIDE-OVER CYBER DRAWER -->
 <div class="ai-drawer" id="edutrack-ai-drawer">
   <div class="ai-drawer-header">
     <div class="ai-drawer-title-group">
-      <div class="ai-drawer-avatar">AI</div>
+      <div class="ai-drawer-avatar">⚡</div>
       <div>
         <div class="ai-drawer-name">
-          <span>EduTrackAi</span>
-          <span class="ai-status-badge"><span class="badge-dot"></span>0ms Offline ML</span>
+          <span>EduTrack AI</span>
+          <span class="ai-status-badge"><span class="badge-dot"></span>Offline Neural Brain</span>
         </div>
-        <div class="ai-drawer-sub">Autonomous Academic Intelligence · BUBT CSE</div>
+        <div class="ai-drawer-sub">Autonomous Academic Copilot · BUBT CSE</div>
       </div>
     </div>
     <div class="ai-drawer-actions">
@@ -1938,21 +2391,23 @@ body.dark-mode .em-glass{
         <button class="ai-lang-btn" id="ai-lang-btn-bn" onclick="setAiLanguage('bn')">বাংলা</button>
       </div>
       <button class="ai-drawer-btn" onclick="clearAiDrawerChat()" title="Reset chat">🔄</button>
-      <button class="ai-drawer-btn" onclick="toggleAiDrawer()" title="Close">✕</button>
+      <button class="ai-drawer-btn" onclick="toggleAiDrawer()" title="Close drawer">✕</button>
     </div>
   </div>
 
   <div class="ai-drawer-body" id="ai-drawer-body">
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrackAi</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
+        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrack AI</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
         Currently your <strong>CGPA is 3.22</strong> across <strong>24 credits completed</strong>. Your degree target is <strong>3.85 CGPA</strong>.<br><br>
         How can I guide your course pacing, exam preparation, or degree trajectory today?
       </div>
       <div class="ai-msg-meta">
-        <span>EduTrackAi</span>
-        <span>·</span>
-        <span class="tech-tag">🟢 100% On-Device ML</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span>EduTrack AI</span>
+          <span>·</span>
+          <span class="tech-tag">⚡ 100% Offline BUBT Neural Brain</span>
+        </div>
       </div>
     </div>
 
@@ -1966,7 +2421,7 @@ body.dark-mode .em-glass{
   </div>
 
   <div class="ai-drawer-footer">
-    <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrackAi in Academic English or বাংলা..." onkeydown="handleAiDrawerKey(event)">
+    <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrack AI in Academic English or বাংলা..." onkeydown="handleAiDrawerKey(event)">
     <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send">➤</button>
   </div>
 </div>
@@ -2074,11 +2529,11 @@ function safeSetStorage(key, val) {
 
 // Initialize Theme
 (function(){
-  var savedTheme = safeGetStorage('edutrack_theme', 'light');
-  if (savedTheme === 'dark') {
-    applyTheme(true);
-  } else {
+  var savedTheme = safeGetStorage('edutrack_theme', 'dark');
+  if (savedTheme === 'light') {
     applyTheme(false);
+  } else {
+    applyTheme(true);
   }
 })();
 
@@ -2349,14 +2804,33 @@ function addC(name, grade, cr){
   }).join('');
   var cName = name || ('CSE' + (100 + cList.length));
   var cCr = cr || 3;
-  d.innerHTML='<input class="fi" style="font-size:12px;padding:6px 10px;" value="'+cName+'"><select class="sl-s" id="g-'+id+'">'+o+'</select><input class="in-s" id="c-'+id+'" value="'+cCr+'" type="number" min="1" max="6"><button onclick="rmC('+id+')" style="background:rgba(220,38,38,.09);border:1px solid rgba(220,38,38,.18);color:var(--err);padding:5px 7px;border-radius:7px;cursor:pointer;font-size:11px;">✕</button>';
+  d.innerHTML='<input class="fi" style="font-size:12px;padding:6px 10px;" value="'+cName+'"><select class="sl-s" id="g-'+id+'" onchange="calcGPA()">'+o+'</select><input class="in-s" id="c-'+id+'" value="'+cCr+'" type="number" min="1" max="6" oninput="calcGPA()"><button onclick="rmC('+id+')" style="background:rgba(220,38,38,.09);border:1px solid rgba(220,38,38,.18);color:var(--err);padding:5px 7px;border-radius:7px;cursor:pointer;font-size:11px;">✕</button>';
   document.getElementById('cc').appendChild(d);
+  calcGPA();
 }
 
 function rmC(id){
   var el=document.getElementById('cr-'+id);
   if(el)el.remove();
   cList=cList.filter(function(c){return c!==id;});
+  calcGPA();
+}
+
+function loadEnrolledIntoCalc(){
+  var cc = document.getElementById('cc');
+  if (!cc) return;
+  cc.innerHTML = '';
+  cList = [];
+  var enrolled = [
+    { name: 'CSE201 - Data Structures', grade: 'A', cr: 3 },
+    { name: 'MAT101 - Calculus', grade: 'A-', cr: 3 },
+    { name: 'PHY101 - Physics', grade: 'A+', cr: 3 },
+    { name: 'CSE102 - Java Programming', grade: 'A-', cr: 3 },
+    { name: 'ENG101 - English Communication', grade: 'B+', cr: 3 }
+  ];
+  enrolled.forEach(function(c){
+    addC(c.name, c.grade, c.cr);
+  });
 }
 
 function calcGPA(){
@@ -2440,8 +2914,10 @@ function setAiLanguage(lang) {
 
 function toggleAiDrawer() {
   var drawer = document.getElementById('edutrack-ai-drawer');
+  var bubble = document.getElementById('ai-bubble-container');
   if (!drawer) return;
   drawer.classList.toggle('open');
+  if (bubble) bubble.classList.toggle('drawer-open', drawer.classList.contains('open'));
   if (drawer.classList.contains('open')) {
     setTimeout(function() {
       var inp = document.getElementById('ai-drawer-input');
@@ -2458,8 +2934,10 @@ function handleAiDrawerKey(e) {
 
 function askEduTrackAi(promptText) {
   var drawer = document.getElementById('edutrack-ai-drawer');
+  var bubble = document.getElementById('ai-bubble-container');
   if (drawer && !drawer.classList.contains('open')) {
     drawer.classList.add('open');
+    if (bubble) bubble.classList.add('drawer-open');
   }
   var inp = document.getElementById('ai-drawer-input');
   if (inp) inp.value = promptText;
@@ -2483,16 +2961,20 @@ async function sendAiDrawerMsg() {
   var typingDiv = document.createElement('div');
   typingDiv.className = 'ai-msg ai';
   typingDiv.id = 'ai-drawer-typing';
-  var typingText = currentAiLang === 'bn' ? 'EduTrackAi অফলাইনে বিশ্লেষণ করছে...' : 'EduTrackAi is analyzing on-device...';
+  var typingText = currentAiLang === 'bn' ? 'EduTrack AI চিন্তা করছে...' : 'EduTrack AI is reasoning...';
   typingDiv.innerHTML = '<div class="ai-msg-bubble" style="display:flex;align-items:center;gap:8px;color:var(--sky);"><span style="font-size:12px;font-weight:600;">' + typingText + '</span><span class="dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);animation:ai-pulse-glow 1s infinite;"></span></div>';
   body.appendChild(typingDiv);
   body.scrollTop = body.scrollHeight;
 
   var reply = '';
+  var isCloud = false;
   if (window.pywebview && window.pywebview.api && window.pywebview.api.ask_ai_advisor) {
     try {
       var res = await window.pywebview.api.ask_ai_advisor(query, '20255103311', currentAiLang);
-      if (typeof res === 'string') reply = res;
+      if (typeof res === 'string' && res.trim()) {
+        reply = res;
+        isCloud = true;
+      }
     } catch(err) {
       console.log('AI Advisor Bridge error:', err);
     }
@@ -2505,11 +2987,116 @@ async function sendAiDrawerMsg() {
   var indicator = document.getElementById('ai-drawer-typing');
   if (indicator) indicator.remove();
 
+  // Create stream message bubble
   var aiDiv = document.createElement('div');
   aiDiv.className = 'ai-msg ai';
-  aiDiv.innerHTML = '<div class="ai-msg-bubble">' + formatAiText(reply) + '</div><div class="ai-msg-meta"><span>EduTrackAi</span><span>·</span><span class="tech-tag">🟢 0ms Offline ML</span></div>';
+  var bubbleDiv = document.createElement('div');
+  bubbleDiv.className = 'ai-msg-bubble';
+  var contentSpan = document.createElement('span');
+  var cursorSpan = document.createElement('span');
+  cursorSpan.className = 'ai-type-cursor';
+  bubbleDiv.appendChild(contentSpan);
+  bubbleDiv.appendChild(cursorSpan);
+
+  // Modern Meta controls (Copy to clipboard, voice TTS, Badge)
+  var metaDiv = document.createElement('div');
+  metaDiv.className = 'ai-msg-meta';
+  var tagText = '⚡ Offline Neural Brain';
+  metaDiv.innerHTML = '<div style="display:flex;align-items:center;gap:6px;"><span>EduTrack AI</span><span>·</span><span class="tech-tag">' + tagText + '</span></div>' +
+    '<div class="ai-msg-actions">' +
+      '<button class="ai-act-btn" onclick="copyAiBubble(this)" title="Copy Response">📋 Copy</button>' +
+      '<button class="ai-act-btn" onclick="speakAiBubble(this)" title="Read Aloud">🔊 Listen</button>' +
+    '</div>';
+      '<button class="ai-act-btn" onclick="copyAiBubble(this)" title="Copy Response">📋 Copy</button>' +
+      '<button class="ai-act-btn" onclick="speakAiBubble(this)" title="Read Aloud">🔊 Listen</button>' +
+    '</div>';
+
+  aiDiv.appendChild(bubbleDiv);
+  aiDiv.appendChild(metaDiv);
   body.appendChild(aiDiv);
   body.scrollTop = body.scrollHeight;
+
+  // Real-time typewriter streaming
+  streamAiResponse(reply, contentSpan, cursorSpan, body);
+}
+
+function copyAiBubble(btn) {
+  var bubble = btn.closest('.ai-msg').querySelector('.ai-msg-bubble');
+  if (!bubble) return;
+  var text = bubble.innerText || bubble.textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var oldText = btn.innerHTML;
+    btn.innerHTML = '✓ Copied';
+    btn.style.color = 'var(--ok)';
+    setTimeout(function() {
+      btn.innerHTML = oldText;
+      btn.style.color = '';
+    }, 1800);
+  }).catch(function() {
+    alert('Copied to clipboard:\n' + text);
+  });
+}
+
+function speakAiBubble(btn) {
+  var bubble = btn.closest('.ai-msg').querySelector('.ai-msg-bubble');
+  if (!bubble || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var text = bubble.innerText || bubble.textContent;
+  var utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1.05;
+  window.speechSynthesis.speak(utter);
+  btn.style.color = 'var(--sky)';
+  utter.onend = function() { btn.style.color = ''; };
+}
+
+function streamAiResponse(fullText, targetEl, cursorEl, scrollParent) {
+  var formatted = formatAiText(fullText);
+  var i = 0;
+  var step = Math.max(12, Math.floor(formatted.length / 22));
+  var timer = setInterval(function() {
+    i += step;
+    if (i >= formatted.length) {
+      clearInterval(timer);
+      targetEl.innerHTML = formatted;
+      if (cursorEl) cursorEl.remove();
+      attachContextualTiles(fullText, targetEl.parentElement);
+      if (scrollParent) scrollParent.scrollTop = scrollParent.scrollHeight;
+    } else {
+      targetEl.innerHTML = formatted.substring(0, i);
+      if (scrollParent) scrollParent.scrollTop = scrollParent.scrollHeight;
+    }
+  }, 16);
+}
+
+function attachContextualTiles(text, parentBubble) {
+  var t = text.toLowerCase();
+  var cardsHtml = '';
+  if (t.includes('cgpa') || t.includes('target') || t.includes('grade')) {
+    cardsHtml += `
+      <div class="ai-action-card" onclick="go('trajectory'); toggleAiDrawer();">
+        <div class="a-title">🎯 Trajectory Planner</div>
+        <div class="a-sub">Calculate S1 → S8 target pacing &amp; Dean's roll</div>
+      </div>
+      <div class="ai-action-card" onclick="go('cgpa'); toggleAiDrawer();">
+        <div class="a-title">🧮 CGPA Calculator</div>
+        <div class="a-sub">Simulate semester grade point average</div>
+      </div>
+    `;
+  }
+  if (t.includes('attendance') || t.includes('routine') || t.includes('class')) {
+    cardsHtml += `
+      <div class="ai-action-card" onclick="go('attendance'); toggleAiDrawer();">
+        <div class="a-title">📋 75% Attendance Audit</div>
+        <div class="a-sub">Audit exam sitting clearance per course</div>
+      </div>
+    `;
+  }
+  if (cardsHtml) {
+    var grid = document.createElement('div');
+    grid.className = 'ai-card-grid';
+    grid.innerHTML = cardsHtml;
+    parentBubble.appendChild(grid);
+  }
 }
 
 function escapeHtml(text) {
@@ -2544,14 +3131,16 @@ function clearAiDrawerChat() {
   body.innerHTML = `
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrackAi</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
+        👋 <strong>Greetings, CSE Student!</strong> I am <strong>EduTrack AI</strong>, your autonomous offline academic intelligence copilot for <strong>BUBT CSE</strong>.<br><br>
         Currently your <strong>CGPA is 3.22</strong> across <strong>24 credits completed</strong>. Your degree target is <strong>3.85 CGPA</strong>.<br><br>
         How can I guide your course pacing, exam preparation, or degree trajectory today?
       </div>
       <div class="ai-msg-meta">
-        <span>EduTrackAi</span>
-        <span>·</span>
-        <span class="tech-tag">🟢 100% On-Device ML</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span>EduTrack AI</span>
+          <span>·</span>
+          <span class="tech-tag">⚡ 100% Offline BUBT Neural Brain</span>
+        </div>
       </div>
     </div>
     <div class="ai-quick-prompts">
@@ -2577,7 +3166,37 @@ async function exportTranscript() {
   alert('Exporting official academic transcript PDF (BUBT CSE Standard)...');
 }
 
-function saveSettings() {
+function switchSettingTab(tab, el) {
+  document.querySelectorAll('.sni').forEach(function(s){ s.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  document.querySelectorAll('.set-tab-panel').forEach(function(p){ p.style.display = 'none'; });
+  var target = document.getElementById('set-tab-' + tab);
+  if (target) target.style.display = 'block';
+  var titles = {
+    profile: 'Profile Settings',
+    goals: 'Academic Goals & Degree Targets',
+    notif: 'Notification Preferences',
+    theme: 'Appearance & UI Proportions',
+    ai: 'AI & Cloud Intelligence Settings'
+  };
+  var pt = document.getElementById('set-panel-title');
+  if (pt && titles[tab]) pt.textContent = titles[tab];
+}
+
+async function saveSettings() {
+  var name = (document.getElementById('set-name').value || '').trim();
+  var goal = parseFloat(document.getElementById('set-goal').value) || 3.85;
+  var geminiKey = (document.getElementById('set-gemini-key') ? document.getElementById('set-gemini-key').value : '').trim();
+
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.update_settings) {
+    try {
+      var res = await window.pywebview.api.update_settings('20255103311', name, goal, geminiKey);
+      if (res && res.success) {
+        alert('✨ Settings & AI configuration saved successfully!');
+        return;
+      }
+    } catch(e) {}
+  }
   alert('Preferences saved successfully!');
 }
 
@@ -2589,17 +3208,89 @@ function filterFacultyRoster() {
   });
 }
 
+function updateTrajSim(val) {
+  var target = parseFloat(val);
+  var sliderValEl = document.getElementById('slider-target-val');
+  var targetValEl = document.getElementById('tj-target-val');
+  var targetTagEl = document.getElementById('tj-target-tag');
+  var reqGpaEl = document.getElementById('sim-req-gpa');
+  var verdictEl = document.getElementById('sim-verdict');
+  var s5El = document.getElementById('s5-req-gpa');
+  var s6El = document.getElementById('s6-req-gpa');
+
+  if (sliderValEl) sliderValEl.textContent = target.toFixed(2);
+  if (targetValEl) targetValEl.textContent = target.toFixed(2);
+
+  // Compute required SGPA: current done = 42 CR with 3.22 CGPA. Remaining = 100 CR.
+  // Target * 142 - (3.22 * 42) = required points for remaining 100 CR.
+  var currentPoints = 3.22 * 42;
+  var targetTotalPoints = target * 142;
+  var neededRemainingPoints = targetTotalPoints - currentPoints;
+  var requiredSgpa = Math.min(4.00, Math.max(2.00, neededRemainingPoints / 100));
+
+  if (reqGpaEl) reqGpaEl.textContent = requiredSgpa.toFixed(2) + ' SGPA';
+  if (s5El) s5El.textContent = Math.min(4.00, requiredSgpa).toFixed(2) + ' (Req)';
+  if (s6El) s6El.textContent = Math.min(4.00, requiredSgpa + 0.05).toFixed(2) + ' (Req)';
+
+  var verdict = '★ Regular Degree Pace';
+  var color = 'var(--sky)';
+  var honorTitle = '★ Honours Standing';
+
+  if (target >= 3.90) {
+    honorTitle = '🏆 Summa Cum Laude (Top 1%)';
+    verdict = '🏆 Summa Cum Laude · 50% Tuition Waiver Target';
+    color = '#8b5cf6';
+  } else if (target >= 3.75) {
+    honorTitle = '★ Magna Cum Laude';
+    verdict = '★ Dean\'s Honor Roll · 25% Tuition Waiver Target';
+    color = 'var(--ok)';
+  } else if (target >= 3.50) {
+    honorTitle = '★ Cum Laude';
+    verdict = '★ Cum Laude · 15% Tuition Waiver Target';
+    color = 'var(--sky)';
+  } else {
+    honorTitle = '● Good Academic Standing';
+    verdict = '● Standard Graduation Clearance';
+    color = 'var(--muted)';
+  }
+
+  if (targetTagEl) {
+    targetTagEl.textContent = honorTitle;
+    targetTagEl.style.color = color;
+  }
+  if (verdictEl) {
+    verdictEl.textContent = verdict;
+    verdictEl.style.color = color;
+  }
+
+  // Update Trajectory Chart line if loaded
+  var trajEl = document.getElementById('traj');
+  if (trajEl && trajEl._chartInstance) {
+    var chart = trajEl._chartInstance;
+    chart.data.datasets[0].data[5] = target;
+    chart.update('none');
+  }
+}
+
 // ═══════════════════════════════════════
 // CHART.JS INITIALIZATIONS
 // ═══════════════════════════════════════
-var anDone=false;
 function initAn(){
-  if(anDone)return;
-  anDone=true;
+  var anTEl = document.getElementById('an-t');
+  var anDEl = document.getElementById('an-d');
+  if(!anTEl || !anDEl) return;
+  if(anTEl.offsetParent === null) {
+    setTimeout(initAn, 60);
+    return;
+  }
+
+  if(anTEl._chartInstance) anTEl._chartInstance.destroy();
+  if(anDEl._chartInstance) anDEl._chartInstance.destroy();
+
   var gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(14,165,233,.08)';
   var g={color:gridColor,drawBorder:false};
 
-  new Chart(document.getElementById('an-t'),{
+  anTEl._chartInstance = new Chart(anTEl,{
     type:'bar',
     data:{
       labels:['S1','S2','S3','S4','S5','S6 P'],
@@ -2617,7 +3308,7 @@ function initAn(){
     }
   });
 
-  new Chart(document.getElementById('an-d'),{
+  anDEl._chartInstance = new Chart(anDEl,{
     type:'doughnut',
     data:{
       labels:['A+','A','A-','B+','B','B-'],
