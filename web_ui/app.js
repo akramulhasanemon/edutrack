@@ -16,8 +16,12 @@ function showToast(message, type) {
   if (!container) return;
   var toast = document.createElement('div');
   toast.className = 'toast-msg ' + type;
-  var icon = type === 'success' ? '✔' : (type === 'danger' ? '✖' : 'ℹ');
-  toast.innerHTML = '<span style="font-size:14px;font-weight:700;">' + icon + '</span><span>' + message + '</span>';
+  var iconSvg = type === 'success' 
+    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;display:inline-block;"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+    : (type === 'danger'
+      ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;display:inline-block;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
+      : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;display:inline-block;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>');
+  toast.innerHTML = '<span style="display:flex;align-items:center;">' + iconSvg + '</span><span>' + message + '</span>';
   container.appendChild(toast);
   setTimeout(function() {
     toast.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
@@ -287,7 +291,7 @@ function applyFacultyData(data, user) {
         '<td>' + (s.section || '06') + '</td>' +
         '<td style="color:' + (isAtRisk ? 'var(--danger)' : 'var(--success)') + ';font-weight:600;">' + (s.cgpa ? s.cgpa.toFixed(2) : '3.22') + '</td>' +
         '<td>' + statusBadge + '</td>' +
-        '<td><button class="btn-sm" onclick="exportStudentTranscript(\'' + s.student_id + '\')">Transcript 📄</button></td>';
+        '<td><button class="btn-sm" onclick="exportStudentTranscript(\'' + s.student_id + '\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px;display:inline-block;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>Transcript</button></td>';
       tbody.appendChild(tr);
     });
   }
@@ -401,7 +405,7 @@ function initLoginChart() {
         ctx.save();
         ctx.fillStyle = '#f59e0b';
         ctx.font = '600 10px "Segoe UI", sans-serif';
-        ctx.fillText("★ BUBT Merit Waiver Benchmark (3.80)", xScale.left + 12, y380 - 6);
+        ctx.fillText("BUBT Merit Waiver Benchmark (3.80)", xScale.left + 12, y380 - 6);
         ctx.restore();
 
         // 2. Vertical dashed guide line from S4 (index 3) to bottom
@@ -433,10 +437,10 @@ function initLoginChart() {
           ctx.restore();
         }
 
-        // 3. Callout box: ★ GOAL • 3.88 at S6 (index 5)
+        // 3. Callout box: GOAL • 3.88 at S6 (index 5)
         var ptS6 = meta.data[5];
         if (ptS6) {
-          var text2 = '★ GOAL • 3.88';
+          var text2 = 'GOAL • 3.88';
           ctx.save();
           ctx.font = '700 9.5px "Segoe UI", sans-serif';
           var tWidth2 = ctx.measureText(text2).width;
@@ -654,7 +658,7 @@ function addCourse() {
   div.innerHTML = '<input class="field-input" style="font-size:12px;padding:6px 10px;" placeholder="Course code" value="CSE' + (200 + courses.length) + '">' +
     '<select class="select-sm" id="grade-' + id + '"><option>A+</option><option>A</option><option selected>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>D</option><option>F</option></select>' +
     '<input class="input-sm" id="cr-val-' + id + '" value="3" type="number" min="1" max="6">' +
-    '<button onclick="rmCourse(' + id + ')" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12px;">✕</button>';
+    '<button onclick="rmCourse(' + id + ')" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:13px;" title="Remove">&times;</button>';
   var container = document.getElementById('courses-container');
   if (container) container.appendChild(div);
 }

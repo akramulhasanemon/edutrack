@@ -252,19 +252,19 @@ class AcademicMLPipeline:
         recommendations: list[str] = []
         if att < 75.0:
             recommendations.append(
-                f"🚨 URGENT: Attendance ({att:.1f}%) is below BUBT's 75% exam clearance threshold! Attend next 4 consecutive classes without absence."
+                f"URGENT: Attendance ({att:.1f}%) is below BUBT's 75% exam clearance threshold! Attend next 4 consecutive classes without absence."
             )
         if mid < 60.0:
             recommendations.append(
-                f"⚠️ Midterm score ({mid:.1f}%) is pulling down your final projection. You need at least 82% in the Semester Final to secure an A- or higher."
+                f"Warning: Midterm score ({mid:.1f}%) is pulling down your final projection. You need at least 82% in the Semester Final to secure an A- or higher."
             )
         if predicted_marks >= 75.0:
             recommendations.append(
-                f"🌟 Excellent Trajectory: You are on track for an {letter_grade} ({grade_point:.2f} GP). Maintain continuous submission of all lab reports."
+                f"Excellent Trajectory: You are on track for an {letter_grade} ({grade_point:.2f} GP). Maintain continuous submission of all lab reports."
             )
         else:
             recommendations.append(
-                f"📈 Grade Boost Strategy: Target 85%+ on upcoming assignments to shift from {letter_grade} into the 3.50+ Dean Honor zone."
+                f"Grade Boost Strategy: Target 85%+ on upcoming assignments to shift from {letter_grade} into the 3.50+ Dean Honor zone."
             )
 
         latency_ms = round((time.perf_counter() - start_time) * 1000.0, 2)
