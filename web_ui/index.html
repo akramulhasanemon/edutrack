@@ -867,6 +867,10 @@ body.dark-mode .btn-link{color:var(--sky2);}
 .tj-badge.done { background: rgba(5, 150, 105, 0.12); color: var(--ok); border: 1px solid rgba(5, 150, 105, 0.25); }
 .tj-badge.curr { background: rgba(14, 165, 233, 0.14); color: var(--sky); border: 1px solid rgba(14, 165, 233, 0.35); }
 .tj-badge.proj { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.25); }
+.tj-badge.grad { background: rgba(139, 92, 246, 0.16); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.35); }
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+.badge-dot.pulse { animation: badgePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes badgePulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.8); } }
 .tj-sim-box {
   background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(3, 105, 161, 0.04));
   border: 1px solid rgba(14, 165, 233, 0.2);
@@ -1944,7 +1948,7 @@ body.dark-mode .em-glass{
     <p class="lh-p">AI-driven GPA forecasting, semester trajectory modeling, and degree velocity intelligence — purpose-built for BUBT CSE.</p>
     <div class="lh-stats">
       <div class="lhst"><div class="lhst-v">3.52</div><div class="lhst-l">Current CGPA</div><div class="lhst-t">▲ Top 12%</div></div>
-      <div class="lhst"><div class="lhst-v">3.88</div><div class="lhst-l">Target GPA</div><div class="lhst-t">★ Magna Cum Laude</div></div>
+      <div class="lhst"><div class="lhst-v">3.88</div><div class="lhst-l">Target GPA</div><div class="lhst-t">★ Merit Waiver Track (3.80+)</div></div>
       <div class="lhst"><div class="lhst-v">72/142</div><div class="lhst-l">Credits Done</div><div class="lhst-t">51% Complete</div></div>
     </div>
     <div class="lh-chart">
@@ -1957,7 +1961,7 @@ body.dark-mode .em-glass{
     <div class="lc-top-bar">
       <div class="lc-sec"><span class="em-glass">🔒</span> Secure Academic Workspace</div>
       <button class="theme-pill-btn" onclick="toggleTheme()" id="login-theme-btn" title="Toggle Light / Dark Mode">
-        <span class="theme-icon">☀️</span> <span class="theme-text">Light</span>
+        <span class="theme-icon"></span> <span class="theme-text">Light</span>
       </button>
     </div>
     <h2 class="lc-h2">Sign in to EduTrack</h2>
@@ -2016,7 +2020,7 @@ body.dark-mode .em-glass{
           <button class="zoom-btn" onclick="adjustZoom(0.05)" title="Increase text size (Ctrl + +)">A+</button>
         </div>
         <button class="theme-pill-btn" onclick="toggleTheme()" id="topbar-theme-btn" title="Toggle Light / Dark Mode">
-          <span class="theme-icon">☀️</span> <span class="theme-text">Light Mode</span>
+          <span class="theme-icon"></span> <span class="theme-text">Light</span>
         </button>
         <div class="live-p"><div class="ldot"></div>Live Workspace</div>
         <button class="btn-xs" onclick="signOut()">Sign out</button>
@@ -2302,7 +2306,7 @@ body.dark-mode .em-glass{
           <div style="position:relative;height:300px;margin-top:1rem;"><canvas id="traj"></canvas></div>
           <div class="tj-stats">
             <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Current CGPA</div><div style="font-size:1.6rem;font-weight:900;color:var(--sky);">3.52</div><div style="font-size:11px;color:var(--ok);">▲ S4 Standing (Top 12%)</div></div>
-            <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Target Milestone</div><div style="font-size:1.6rem;font-weight:900;color:var(--deepest);" id="tj-target-val">3.88</div><div style="font-size:11px;color:var(--deep);" id="tj-target-tag">★ Magna Cum Laude</div></div>
+            <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Target Milestone</div><div style="font-size:1.6rem;font-weight:900;color:var(--deepest);" id="tj-target-val">3.88</div><div style="font-size:11px;color:var(--deep);" id="tj-target-tag">★ Merit Waiver Track (3.80+)</div></div>
             <div class="tjs"><div style="font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;">Credit Velocity</div><div style="font-size:1.6rem;font-weight:900;color:var(--deep);">72/142</div><div style="font-size:11px;color:var(--sky);">51% Degree Completed</div></div>
           </div>
         </div>
@@ -2337,7 +2341,7 @@ body.dark-mode .em-glass{
                     <td>15 CR</td>
                     <td>3.25</td>
                     <td>3.25</td>
-                    <td><span class="tj-badge done">✓ Completed</span></td>
+                    <td><span class="tj-badge done"><span class="badge-dot"></span> Completed</span></td>
                   </tr>
                   <tr>
                     <td>Semester 2</td>
@@ -2345,7 +2349,7 @@ body.dark-mode .em-glass{
                     <td>15 CR</td>
                     <td>3.08</td>
                     <td>3.17</td>
-                    <td><span class="tj-badge done">✓ Completed</span></td>
+                    <td><span class="tj-badge done"><span class="badge-dot"></span> Completed</span></td>
                   </tr>
                   <tr>
                     <td>Semester 3</td>
@@ -2353,7 +2357,7 @@ body.dark-mode .em-glass{
                     <td>12 CR</td>
                     <td>3.38</td>
                     <td>3.22</td>
-                    <td><span class="tj-badge done">✓ Completed</span></td>
+                    <td><span class="tj-badge done"><span class="badge-dot"></span> Completed</span></td>
                   </tr>
                   <tr>
                     <td style="color:var(--sky);font-weight:800;">Semester 4</td>
@@ -2361,7 +2365,7 @@ body.dark-mode .em-glass{
                     <td>15 CR</td>
                     <td>3.65 (Proj)</td>
                     <td>3.34</td>
-                    <td><span class="tj-badge curr">⚡ In Progress</span></td>
+                    <td><span class="tj-badge curr"><span class="badge-dot pulse"></span> In Progress</span></td>
                   </tr>
                   <tr>
                     <td>Semester 5</td>
@@ -2369,7 +2373,7 @@ body.dark-mode .em-glass{
                     <td>18 CR</td>
                     <td id="s5-req-gpa">3.82 (Req)</td>
                     <td>3.50</td>
-                    <td><span class="tj-badge proj">🎯 Target</span></td>
+                    <td><span class="tj-badge proj"><span class="badge-dot"></span> Projected</span></td>
                   </tr>
                   <tr>
                     <td>Semester 6</td>
@@ -2377,7 +2381,7 @@ body.dark-mode .em-glass{
                     <td>18 CR</td>
                     <td id="s6-req-gpa">3.85 (Req)</td>
                     <td>3.62</td>
-                    <td><span class="tj-badge proj">🎯 Target</span></td>
+                    <td><span class="tj-badge proj"><span class="badge-dot"></span> Projected</span></td>
                   </tr>
                   <tr>
                     <td>Semester 7</td>
@@ -2385,7 +2389,7 @@ body.dark-mode .em-glass{
                     <td>21 CR</td>
                     <td>3.90 (Req)</td>
                     <td>3.74</td>
-                    <td><span class="tj-badge proj">🎯 Capstone Prep</span></td>
+                    <td><span class="tj-badge proj"><span class="badge-dot"></span> Capstone Prep</span></td>
                   </tr>
                   <tr>
                     <td>Semester 8</td>
@@ -2393,7 +2397,7 @@ body.dark-mode .em-glass{
                     <td>28 CR</td>
                     <td>3.90 (Req)</td>
                     <td>3.88</td>
-                    <td><span class="tj-badge proj">🎓 Graduation</span></td>
+                    <td><span class="tj-badge grad"><span class="badge-dot"></span> Graduation</span></td>
                   </tr>
                 </tbody>
               </table>
@@ -2402,7 +2406,7 @@ body.dark-mode .em-glass{
             <!-- Interactive Target Simulator -->
             <div class="tj-sim-box">
               <div style="font-size:13.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px;">
-                <span>🎯</span> Graduation CGPA Target
+                Graduation CGPA Target
               </div>
               <div style="font-size:11px;color:var(--muted);margin-top:2px;">Slide to dynamically compute required pacing</div>
               
@@ -2415,7 +2419,7 @@ body.dark-mode .em-glass{
               <div style="margin-top:14px;padding:12px;border-radius:10px;background:var(--bg-card);border:1px solid rgba(14,165,233,.18);">
                 <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;font-weight:700;">Required Semester GPA (S5 → S8)</div>
                 <div id="sim-req-gpa" style="font-size:1.4rem;font-weight:900;color:var(--deep);margin-top:3px;">3.85 SGPA</div>
-                <div id="sim-verdict" style="font-size:11px;color:var(--ok);font-weight:600;margin-top:4px;">★ On track for Magna Cum Laude</div>
+                <div id="sim-verdict" style="font-size:11px;color:var(--ok);font-weight:600;margin-top:4px;">★ On track for Merit Waiver (25%–50%)</div>
               </div>
 
               <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.4;">
@@ -2476,7 +2480,7 @@ body.dark-mode .em-glass{
         <div class="qp-row">
           <button class="qp" onclick="sq('How can I improve my CGPA?')"><span class="em-glass">🎯</span> Improve CGPA</button>
           <button class="qp" onclick="sq('What courses should I take next semester?')"><span class="em-glass">📚</span> Course recommendations</button>
-          <button class="qp" onclick="sq('Am I on track for Magna Cum Laude?')"><span class="em-glass">★</span> Honours track check</button>
+          <button class="qp" onclick="sq('Am I on track for BUBT Waiver / Dean\'s Honor?')"><span class="em-glass">★</span> Waiver track check</button>
           <button class="qp" onclick="sq('What is my graduation timeline?')"><span class="em-glass">⏱️</span> Graduation timeline</button>
           <button class="qp" onclick="sq('Give me study tips for CSE')"><span class="em-glass">💡</span> Study tips</button>
           <button class="qp" onclick="sq('Retake Strategy & GPA Jump')"><span class="em-glass">🔄</span> Retake Strategy</button>
@@ -2625,9 +2629,9 @@ body.dark-mode .em-glass{
 <div class="ai-bubble-container" id="ai-bubble-container">
   <div class="ai-bubble-pill" onclick="toggleAiDrawer()">
     <span class="dot"></span>
-    <span>⚡ AI Copilot</span>
+    <span>EduTrack AI</span>
   </div>
-  <div class="ai-bubble-btn" onclick="toggleAiDrawer()" title="Open EduTrack AI Copilot">
+  <div class="ai-bubble-btn" onclick="toggleAiDrawer()" title="Open EduTrack AI">
     <svg viewBox="0 0 24 24">
       <path d="M12 2a1 1 0 0 1 1 1v1.07A8.001 8.001 0 0 1 20 12a1 1 0 0 1-2 0 6 6 0 0 0-5-5.917V7a1 1 0 0 1-2 0v-.917A6 6 0 0 0 6 12a1 1 0 0 1-2 0 8.001 8.001 0 0 1 7-7.93V3a1 1 0 0 1 1-1zm0 8a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-7 8a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1zm3 3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1z"/>
     </svg>
@@ -2638,9 +2642,11 @@ body.dark-mode .em-glass{
 <div class="ai-drawer" id="edutrack-ai-drawer">
   <div class="ai-drawer-header">
     <div class="ai-drawer-title-group">
-      <div class="ai-drawer-avatar">⚡</div>
+      <div class="ai-drawer-avatar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path><rect x="4" y="8" width="16" height="12" rx="2"></rect><circle cx="9" cy="14" r="1.5"></circle><circle cx="15" cy="14" r="1.5"></circle></svg>
+      </div>
       <div>
-        <div class="ai-drawer-name">EduTrack Copilot</div>
+        <div class="ai-drawer-name">EduTrack AI</div>
         <div class="ai-drawer-sub">
           <span class="hud-status-dot"></span> BUBT Neural Engine · 100% Offline
         </div>
@@ -2652,7 +2658,9 @@ body.dark-mode .em-glass{
         <button class="ai-lang-btn active" id="ai-lang-btn-en" onclick="setAiLanguage('en')">EN</button>
         <button class="ai-lang-btn" id="ai-lang-btn-bn" onclick="setAiLanguage('bn')">বাংলা</button>
       </div>
-      <button class="ai-drawer-btn" onclick="clearAiDrawerChat()" title="Reset chat">🔄</button>
+      <button class="ai-drawer-btn" onclick="clearAiDrawerChat()" title="Reset chat">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+      </button>
       <button class="ai-drawer-btn" onclick="toggleAiDrawer()" title="Close drawer">✕</button>
     </div>
   </div>
@@ -2747,7 +2755,7 @@ body.dark-mode .em-glass{
       <button class="ai-slash-pill" onclick="insertSlashCommand('/waiver')"><span class="slash-sym">/</span>waiver</button>
     </div>
     <div class="ai-drawer-input-row">
-      <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask Copilot or click /command above..." onkeydown="handleAiDrawerKey(event)">
+      <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrack AI or type /cgpa, /waiver..." onkeydown="handleAiDrawerKey(event)">
       <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send">➤</button>
     </div>
   </div>
@@ -2800,7 +2808,7 @@ body.dark-mode .em-glass{
         <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;"><span class="em-glass">⚖️</span> BUBT Examination &amp; Waiver Policies</div>
         <ul style="font-size:11px;color:var(--mid);line-height:1.6;padding-left:18px;">
           <li>Minimum <strong>75% attendance</strong> is mandatory across every registered course for final exam clearance.</li>
-          <li>Semester GPA ≥ <strong>3.75</strong> qualifies for Dean's Honor Roll and up to <strong>25%–50% tuition waiver</strong>.</li>
+          <li>Semester GPA ≥ <strong>3.80</strong> qualifies for BUBT Merit Scholarship (<strong>25%–50% tuition waiver</strong>), and <strong>4.00</strong> qualifies for Chairman's / Dean's Honor Roll (up to <strong>100% waiver</strong>).</li>
         </ul>
       </div>
     </div>
@@ -2873,10 +2881,12 @@ function applyTheme(dark) {
   document.body.classList.toggle('dark-mode', isDark);
   safeSetStorage('edutrack_theme', isDark ? 'dark' : 'light');
 
-  // Update theme buttons
+  // Update theme buttons with crisp minimalist SVGs
   var icons = document.querySelectorAll('.theme-icon');
   var texts = document.querySelectorAll('.theme-text');
-  icons.forEach(function(i){ i.textContent = isDark ? '☀️' : '🌙'; });
+  var sunSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1.5px;display:inline-block;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+  var moonSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1.5px;display:inline-block;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+  icons.forEach(function(i){ i.innerHTML = isDark ? sunSvg : moonSvg; });
   texts.forEach(function(t){ t.textContent = isDark ? 'Light' : 'Dark'; });
 
   var setTog = document.getElementById('set-dark-tog');
@@ -2940,7 +2950,7 @@ window.addEventListener('keydown', function(e) {
 
 var gmap={'A+':4,'A':3.75,'A-':3.5,'B+':3.25,'B':3,'B-':2.75,'C+':2.5,'C':2.25,'D':2,'F':0};
 var aR=[
-  'Based on your 3.22 CGPA and 24 credits completed, you need ~3.47 average in remaining semesters for Magna Cum Laude. Focus on 3-credit core CSE lecture courses for maximum grade leverage.',
+  'Based on your 3.22 CGPA and 24 credits completed, you need ~3.47 average in remaining semesters for First Class Distinction. Focus on 3-credit core CSE lecture courses for maximum grade leverage.',
   'For next semester: CSE201 (Data Structures) and MAT101 (Calculus) are foundational and heavily weighted in your degree progression.',
   'Your 87.5% overall attendance is solid. Keep ENG101 above 75% to guarantee examination clearance with the department.',
   'Top BUBT CSE Study Strategy: (1) 45 min daily coding practice, (2) Active recall for engineering theory, (3) Solve past term finals 1 week prior to exams.'
@@ -3467,7 +3477,7 @@ function generateLocalAiResponse(query, lang) {
         '• **শুক্র-শনি (Deep Work & Quizzes):** বিগত ৩ বছরের মিডটার্ম প্রশ্ন সমাধান ও কুইজ সেলফ-টেস্ট।\n' +
         '• **রবিবার (Review & Audit):** অনুপস্থিত নোট ব্যাকলগ কভার এবং পরবর্তী সপ্তাহের অ্যাসাইনমেন্ট রিভিশন।';
     }
-    return '🤖 **EduTrack Copilot অফলাইন একাডেমিক গাইডেন্স (BUBT CSE):**\n\n' +
+    return '✨ **EduTrack AI অফলাইন একাডেমিক গাইডেন্স (BUBT CSE):**\n\n' +
       'আপনার বর্তমান CGPA **৩.২২** (সম্পন্ন ক্রেডিট: ২৪ / ১৪২)। লক্ষ্য ৩.৮৫ অর্জনে পরবর্তী সেমিস্টারগুলোতে গড়ে ৩.৭৫+ GPA প্রয়োজন।\n\n' +
       'নিচের দ্রুত কমান্ড বা অ্যাকশন কার্ড ব্যবহার করে স্পেসিফিক সিমুলেশন দেখুন!';
   }
@@ -3507,7 +3517,7 @@ function generateLocalAiResponse(query, lang) {
       '  3. Retake any prior D/C- grades to instantly lift baseline grade points.';
   }
 
-  return '🤖 **EduTrack Copilot Academic Diagnostic (BUBT CSE):**\n\n' +
+  return '✨ **EduTrack AI Academic Diagnostic (BUBT CSE):**\n\n' +
     'Your current cumulative CGPA stands at **3.22** across **24 completed credits** (Target: 3.85).\n\n' +
     'Use the quick actions or type commands like `/cgpa`, `/retake`, `/routine`, or `/waiver` for targeted academic intelligence.';
 }
@@ -3699,17 +3709,21 @@ function updateTrajSim(val) {
   var honorTitle = '★ Honours Standing';
 
   if (target >= 3.90) {
-    honorTitle = '🏆 Summa Cum Laude (Top 1%)';
-    verdict = '🏆 Summa Cum Laude · 50% Tuition Waiver Target';
+    honorTitle = '🏆 Chancellor / Dean\'s Honor';
+    verdict = '🏆 Chairman\'s / Dean\'s Honor · 50%–100% Waiver Target';
     color = '#8b5cf6';
-  } else if (target >= 3.75) {
-    honorTitle = '★ Magna Cum Laude';
-    verdict = '★ Dean\'s Honor Roll · 25% Tuition Waiver Target';
+  } else if (target >= 3.80) {
+    honorTitle = '★ Merit Waiver Track (3.80+)';
+    verdict = '★ Merit Scholarship · 25%–50% Tuition Waiver Target';
     color = 'var(--ok)';
   } else if (target >= 3.50) {
-    honorTitle = '★ Cum Laude';
-    verdict = '★ Cum Laude · 15% Tuition Waiver Target';
+    honorTitle = '★ First Class Distinction';
+    verdict = '★ First Class Distinction · Very Good Standing';
     color = 'var(--sky)';
+  } else if (target >= 3.00) {
+    honorTitle = '● First Class Standard';
+    verdict = '● Standard First Class Degree Pace';
+    color = 'var(--deep)';
   } else {
     honorTitle = '● Good Academic Standing';
     verdict = '● Standard Graduation Clearance';
@@ -3730,6 +3744,10 @@ function updateTrajSim(val) {
   if (trajEl && trajEl._chartInstance) {
     var chart = trajEl._chartInstance;
     chart.data.datasets[0].data[5] = target;
+    if (chart.data.datasets[1]) {
+      chart.data.datasets[1].data = [target, target, target, target, target, target];
+      chart.data.datasets[1].label = 'Target Goal (' + target.toFixed(2) + ')';
+    }
     chart.update('none');
   }
 }
@@ -3956,9 +3974,9 @@ function initCharts(){
             fill:true
           },
           {
-            label:"Dean's Honor (3.75)",
-            data:[3.75,3.75,3.75,3.75,3.75,3.75],
-            borderColor:'rgba(217,119,6,.5)',
+            label:"Target Goal (3.88)",
+            data:[3.88,3.88,3.88,3.88,3.88,3.88],
+            borderColor:'rgba(245,158,11,.8)',
             borderWidth:1.5,
             borderDash:[6,4],
             pointRadius:0

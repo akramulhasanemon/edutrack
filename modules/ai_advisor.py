@@ -123,7 +123,7 @@ class AIAdvisorEngine:
             embedded = EmbeddedOfflineLLM.get_instance()
             if embedded.is_available():
                 system_instr = (
-                    f"You are EduTrack AI, an autonomous academic intelligence copilot for B.Sc. in CSE at BUBT (Bangladesh University of Business and Technology). "
+                    f"You are EduTrack AI, an autonomous academic intelligence advisor for B.Sc. in CSE at BUBT (Bangladesh University of Business and Technology). "
                     f"Student Name: {student_name}, Current CGPA: {current_cgpa}, Completed Credits: {completed_credits}/142. "
                     "Be friendly, helpful, and precise. Answer any coding question, programming logic, theory, math, or study advice fluently in English, Bengali, or Banglish as requested."
                 )
@@ -355,7 +355,7 @@ class AIAdvisorEngine:
                     "যেকোনো প্রশ্ন লিখে এন্টার (Enter) প্রেস করুন!"
                 )
             return (
-                f"I am EduTrack AI (EduTrackAi) — an autonomous offline Academic Intelligence Copilot engineered specifically for B.Sc. in CSE students at BUBT! 🎓\n\n"
+                f"I am EduTrack AI (EduTrackAi) — an autonomous offline Academic Intelligence Advisor engineered specifically for B.Sc. in CSE students at BUBT! 🎓\n\n"
                 "System Architecture & Capabilities:\n"
                 "• ⚡ 100% Offline & Zero Network Latency: Runs completely on-device without cloud dependency, guaranteeing full privacy and instantaneous feedback.\n"
                 f"• 🎯 Trajectory Planner: Dynamically evaluates your required GPA pacing to hit your {target:.2f} CGPA goal across your remaining {rem_credits:g} credits.\n"

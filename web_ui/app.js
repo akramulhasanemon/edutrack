@@ -386,22 +386,22 @@ function initLoginChart() {
         var meta = chart.getDatasetMeta(0);
         if (!meta || !meta.data || !meta.data.length) return;
 
-        // 1. Draw orange benchmark line & text at 3.75
-        var y375 = yScale.getPixelForValue(3.75);
+        // 1. Draw orange benchmark line & text at 3.80 (BUBT Merit Waiver)
+        var y380 = yScale.getPixelForValue(3.80);
         ctx.save();
         ctx.setLineDash([5, 4]);
         ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
         ctx.lineWidth = 1.2;
         ctx.beginPath();
-        ctx.moveTo(xScale.left, y375);
-        ctx.lineTo(xScale.right, y375);
+        ctx.moveTo(xScale.left, y380);
+        ctx.lineTo(xScale.right, y380);
         ctx.stroke();
         ctx.restore();
 
         ctx.save();
         ctx.fillStyle = '#f59e0b';
         ctx.font = '600 10px "Segoe UI", sans-serif';
-        ctx.fillText("★ Dean's Honor Benchmark (3.75)", xScale.left + 12, y375 - 6);
+        ctx.fillText("★ BUBT Merit Waiver Benchmark (3.80)", xScale.left + 12, y380 - 6);
         ctx.restore();
 
         // 2. Vertical dashed guide line from S4 (index 3) to bottom
@@ -576,8 +576,8 @@ function initCharts() {
             fill: true
           },
           {
-            label: "Dean's Benchmark (3.75)",
-            data: [3.75, 3.75, 3.75, 3.75, 3.75, 3.75],
+            label: "Target Goal (3.88)",
+            data: [3.88, 3.88, 3.88, 3.88, 3.88, 3.88],
             borderColor: '#f59e0b',
             borderWidth: 1.5,
             borderDash: [6, 4],
@@ -752,7 +752,7 @@ async function saveSettings() {
 }
 
 var aiReplies = [
-  'Based on your current 3.22 CGPA and 24 completed credits, you need approximately a 3.47 average in remaining semesters to reach Magna Cum Laude (3.75+). Focus on your CSE core courses for maximum grade weight.',
+  'Based on your current 3.22 CGPA and 24 completed credits, you need approximately a 3.47 average in remaining semesters to reach Merit Waiver Track (3.80+). Focus on your CSE core courses for maximum grade weight.',
   'For next semester, I recommend prioritizing Data Structures & Algorithms (CSE201) — it is foundational and heavily weighted. Also consider Discrete Mathematics to strengthen logical reasoning.',
   'Your attendance record looks strong at 87.5% overall. Ensure MAT101 attendance improves above 75% threshold to safeguard marks.',
   'To improve your CGPA efficiently: (1) Focus on 3-4 credit courses for maximum impact, (2) Target A or A- in core CSE subjects, (3) Use professor office hours.'
