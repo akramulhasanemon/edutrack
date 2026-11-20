@@ -2937,6 +2937,60 @@ var aIdx=0;
 var cList=[];
 var currentAiLang='en';
 var isDark = false;
+var currentStudentId = '20255103311';
+var activeStudentData = null;
+
+function populateStudentDashboard(data) {
+  if (!data) return;
+  activeStudentData = data;
+  var p = data.profile || {};
+  var sid = p.student_id || currentStudentId;
+  var sname = p.name || 'Student';
+  var inits = sname.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+
+  // User pill & sidebar
+  var un = document.getElementById('u-nm'); if (un) un.textContent = sname;
+  var ur = document.getElementById('u-rl'); if (ur) ur.textContent = 'Student / ' + sid;
+  var ua = document.getElementById('u-av'); if (ua) ua.textContent = inits;
+  var da = document.getElementById('dash-av'); if (da) da.textContent = inits;
+
+  // Dashboard Welcome Banner
+  var dwn = document.getElementById('dash-welcome-name'); if (dwn) dwn.textContent = 'Welcome back, ' + sname;
+  var did = document.getElementById('dash-id-line');
+  if (did) did.textContent = 'ID: ' + sid + ' · ' + (data.completed_credits || 24) + ' of ' + (data.program_credits || 142) + ' Credits Completed';
+
+  // Metrics Strip
+  var cgpaStr = (data.cgpa || 0).toFixed(2);
+  var goalStr = (data.target_cgpa || 3.85).toFixed(2);
+  var progPct = Math.round(((data.completed_credits || 0) / (data.program_credits || 142)) * 100);
+
+  var sc = document.getElementById('strip-cgpa'); if (sc) sc.textContent = cgpaStr;
+  var sg = document.getElementById('strip-goal'); if (sg) sg.textContent = goalStr;
+  var spb = document.getElementById('strip-prog-bar'); if (spb) spb.style.width = progPct + '%';
+  var spp = document.getElementById('strip-prog-pct'); if (spp) spp.textContent = progPct + '%';
+
+  // Ring & Quick Stat Cards
+  var rc = document.getElementById('ring-cgpa-val'); if (rc) rc.textContent = cgpaStr;
+  var rp = document.getElementById('ring-prog-val'); if (rp) rp.textContent = progPct + '%';
+  var stc = document.getElementById('stat-cgpa'); if (stc) stc.textContent = cgpaStr;
+  var stk = document.getElementById('stat-credits'); if (stk) stk.textContent = data.completed_credits;
+  var stks = document.getElementById('stat-credits-sub'); if (stks) stks.textContent = (data.remaining_credits || 0) + ' credits remaining';
+  var stg = document.getElementById('stat-goal'); if (stg) stg.textContent = goalStr;
+
+  // Drawer Telemetry HUD
+  var hudSem = document.querySelector('.ai-hud-sem');
+  if (hudSem) hudSem.textContent = 'BUBT CSE · ' + (p.current_semester || 'SEMESTER 4').toUpperCase();
+  var hudCgpa = document.querySelector('.val-cyan'); if (hudCgpa) hudCgpa.textContent = cgpaStr;
+  var hudTgt = document.querySelector('.val-indigo'); if (hudTgt) hudTgt.textContent = goalStr;
+  var hudAtt = document.querySelector('.val-green'); if (hudAtt) hudAtt.textContent = (data.overall_attendance || 87.5) + '%';
+  var hudCr = document.querySelector('.ai-hud-item:last-child .ai-hud-val');
+  if (hudCr) hudCr.innerHTML = (data.completed_credits || 0) + '<small>/' + (data.program_credits || 142) + '</small>';
+
+  // Settings inputs
+  var setId = document.getElementById('set-id'); if (setId) setId.value = sid;
+  var setName = document.getElementById('set-name'); if (setName) setName.value = sname;
+  var setGoal = document.getElementById('set-goal'); if (setGoal) setGoal.value = goalStr;
+}
 
 function safeGetStorage(key, fallback) {
   try {
@@ -3122,14 +3176,20 @@ function animateCounter(el, start, end, decimals, duration, suffix) {
 }
 
 function runPortalAnimations() {
+  var cgpa = activeStudentData ? (activeStudentData.cgpa || 0) : 3.22;
+  var credits = activeStudentData ? (activeStudentData.completed_credits || 0) : 24;
+  var progCredits = activeStudentData ? (activeStudentData.program_credits || 142) : 142;
+  var progPct = Math.round((credits / progCredits) * 100);
+  var goal = activeStudentData ? (activeStudentData.target_cgpa || 3.85) : 3.85;
+
   // Animate dynamic numbers with smooth counting curve
-  animateCounter(document.getElementById('ring-cgpa-val'), 0, 3.22, 2, 1100);
-  animateCounter(document.getElementById('ring-prog-val'), 0, 17, 0, 1100, '%');
-  animateCounter(document.getElementById('stat-cgpa'), 0, 3.22, 2, 1100);
-  animateCounter(document.getElementById('stat-credits'), 0, 24, 0, 1100);
-  animateCounter(document.getElementById('stat-goal'), 0, 3.85, 2, 1100);
-  animateCounter(document.getElementById('strip-cgpa'), 0, 3.22, 2, 1100);
-  animateCounter(document.getElementById('strip-prog-pct'), 0, 17, 0, 1100, '%');
+  animateCounter(document.getElementById('ring-cgpa-val'), 0, cgpa, 2, 1100);
+  animateCounter(document.getElementById('ring-prog-val'), 0, progPct, 0, 1100, '%');
+  animateCounter(document.getElementById('stat-cgpa'), 0, cgpa, 2, 1100);
+  animateCounter(document.getElementById('stat-credits'), 0, credits, 0, 1100);
+  animateCounter(document.getElementById('stat-goal'), 0, goal, 2, 1100);
+  animateCounter(document.getElementById('strip-cgpa'), 0, cgpa, 2, 1100);
+  animateCounter(document.getElementById('strip-prog-pct'), 0, progPct, 0, 1100, '%');
 
   // Trigger smooth chart rendering
   setTimeout(initCharts, 70);
@@ -3144,6 +3204,13 @@ async function doLogin(){
     try {
       var res = await window.pywebview.api.authenticate(id, pw, role);
       if (res && res.success) {
+        currentStudentId = (res.user && res.user.user_id) ? res.user.user_id : id;
+        if (res.student_data) {
+          populateStudentDashboard(res.student_data);
+        } else if (window.pywebview.api.get_student_data && role === 'student') {
+          var sData = await window.pywebview.api.get_student_data(currentStudentId);
+          if (sData) populateStudentDashboard(sData);
+        }
         if (res.user && res.user.display_name) {
           var un = document.getElementById('u-nm');
           if(un) un.textContent = res.user.display_name;
@@ -3320,14 +3387,17 @@ async function sm(){
   var inp=document.getElementById('ci'),msg=inp.value.trim();
   if(!msg)return;
   var box=document.getElementById('cbox');
-  box.innerHTML+='<div class="msg u"><div class="mav">MS</div><div class="mb">'+escapeHtml(msg)+'</div></div>';
+  var userInits = (activeStudentData && activeStudentData.profile && activeStudentData.profile.name)
+    ? activeStudentData.profile.name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase()
+    : 'ST';
+  box.innerHTML+='<div class="msg u"><div class="mav">'+userInits+'</div><div class="mb">'+escapeHtml(msg)+'</div></div>';
   inp.value='';
   box.scrollTop=box.scrollHeight;
 
   var reply = '';
   if (window.pywebview && window.pywebview.api && window.pywebview.api.ask_ai_advisor) {
     try {
-      var res = await window.pywebview.api.ask_ai_advisor(msg, '20255103311', currentAiLang);
+      var res = await window.pywebview.api.ask_ai_advisor(msg, currentStudentId, currentAiLang);
       if (typeof res === 'string') reply = res;
     } catch(e) {
       console.log('AI bridge notice:', e);
@@ -3414,7 +3484,7 @@ async function sendAiDrawerMsg() {
   var isCloud = false;
   if (window.pywebview && window.pywebview.api && window.pywebview.api.ask_ai_advisor) {
     try {
-      var res = await window.pywebview.api.ask_ai_advisor(query, '20255103311', currentAiLang);
+      var res = await window.pywebview.api.ask_ai_advisor(query, currentStudentId, currentAiLang);
       if (typeof res === 'string' && res.trim()) {
         reply = res;
         isCloud = true;
@@ -3735,7 +3805,7 @@ function insertSlashCommand(cmd) {
 async function exportTranscript() {
   if (window.pywebview && window.pywebview.api) {
     try {
-      var res = await window.pywebview.api.export_pdf_transcript();
+      var res = await window.pywebview.api.export_pdf_transcript(currentStudentId);
       if (res && res.success) {
         alert('Transcript PDF successfully generated at:\n' + res.path);
         return;
@@ -3767,14 +3837,38 @@ async function saveSettings() {
   var goal = parseFloat(document.getElementById('set-goal').value) || 3.85;
   var geminiKey = (document.getElementById('set-gemini-key') ? document.getElementById('set-gemini-key').value : '').trim();
 
-  if (window.pywebview && window.pywebview.api && window.pywebview.api.update_settings) {
+  var payload = {
+    user_id: currentStudentId,
+    display_name: name,
+    target_cgpa: goal,
+    gemini_api_key: geminiKey
+  };
+
+  if (window.pywebview && window.pywebview.api) {
     try {
-      var res = await window.pywebview.api.update_settings('20255103311', name, goal, geminiKey);
+      var res = null;
+      if (window.pywebview.api.save_settings) {
+        res = await window.pywebview.api.save_settings(payload);
+      } else if (window.pywebview.api.update_settings) {
+        res = await window.pywebview.api.update_settings(currentStudentId, name, goal, geminiKey);
+      }
       if (res && res.success) {
+        if (name) {
+          var un = document.getElementById('u-nm'); if(un) un.textContent = name;
+          var dw = document.getElementById('dash-welcome-name'); if(dw) dw.textContent = 'Welcome back, ' + name;
+        }
+        if (activeStudentData) {
+          activeStudentData.target_cgpa = goal;
+          var sg = document.getElementById('strip-goal'); if(sg) sg.textContent = goal.toFixed(2);
+          var stg = document.getElementById('stat-goal'); if(stg) stg.textContent = goal.toFixed(2);
+          var hudTgt = document.querySelector('.val-indigo'); if(hudTgt) hudTgt.textContent = goal.toFixed(2);
+        }
         alert('Settings and AI configuration saved successfully.');
         return;
       }
-    } catch(e) {}
+    } catch(e) {
+      console.error('Settings save error:', e);
+    }
   }
   alert('Preferences saved successfully!');
 }

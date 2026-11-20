@@ -418,7 +418,7 @@ class DesktopBridgeAPI:
     # -------------------------------------------------------------------------
     def save_settings(self, settings_payload: dict[str, Any]) -> dict[str, Any]:
         """Save student or faculty preferences."""
-        uid = self._current_user["user_id"] if self._current_user else "20255103311"
+        uid = settings_payload.get("user_id") or (self._current_user["user_id"] if self._current_user else "20255103311")
         try:
             target_cgpa = float(settings_payload.get("target_cgpa", 3.85))
             display_name = str(settings_payload.get("display_name", "")).strip()
@@ -440,3 +440,19 @@ class DesktopBridgeAPI:
             return {"success": True, "message": "Settings saved successfully."}
         except Exception as exc:
             return {"success": False, "error": str(exc)}
+
+    def update_settings(
+        self,
+        user_id: str = "",
+        display_name: str = "",
+        target_cgpa: float = 3.85,
+        gemini_api_key: str = "",
+    ) -> dict[str, Any]:
+        """Convenience alias for save_settings supporting positional or named arguments."""
+        uid = user_id or (self._current_user["user_id"] if self._current_user else "20255103311")
+        return self.save_settings({
+            "user_id": uid,
+            "display_name": display_name,
+            "target_cgpa": target_cgpa,
+            "gemini_api_key": gemini_api_key,
+        })
