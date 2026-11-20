@@ -76,7 +76,7 @@ class BUBTAcademicBrain:
             
             doc_query = f"{course} {title} prerequisite eligibility course sequence what to take before"
             doc_resp = (
-                f"🎓 **BUBT CSE Course Blueprint: {course} ({title}) · {cr:g} CR**\n\n"
+                f"**BUBT CSE Course Blueprint: {course} ({title}) · {cr:g} CR**\n\n"
                 f"• **Prerequisites (পূর্বশর্ত):** {prereqs}\n"
                 f"  (এই কোর্স নেওয়ার পূর্বে উপরের কোর্সগুলো সফলভাবে পাস থাকা আবশ্যক)।\n"
                 f"• **Unlocks Future Courses (পরবর্তী কোর্স):** {gateways}\n"
@@ -88,11 +88,11 @@ class BUBTAcademicBrain:
         # Ingest Tuition Waiver into vector corpus
         waiver_doc = "bubt tuition fee waiver scholarship discount financial aid sgpa requirements"
         waiver_resp = (
-            "🏆 **BUBT টিউশন ফি ওয়েভার ও স্কলারশিপ নীতিমালা**\n\n"
+            "**BUBT টিউশন ফি ওয়েভার ও স্কলারশিপ নীতিমালা**\n\n"
             "BUBT-তে সেমিস্টার ফাইনাল ফলাফলের ওপর ভিত্তি করে নিম্নোক্ত হারে ওয়েভার প্রদান করা হয়:\n"
             "• **SGPA 4.00:** ৫০% থেকে ১০০% টিউশন ফি ওয়েভার (Chairman's / Dean's Honor Roll)\n"
             "• **SGPA 3.80 - 3.99:** ২৫% থেকে ৫০% মেরিট ওয়েভার\n\n"
-            "📌 **বাধ্যতামূলক ৩টি শর্ত:**\n"
+            "**বাধ্যতামূলক ৩টি শর্ত:**\n"
             "১. সংশ্লিষ্ট সেমিস্টারে ন্যূনতম ১২ ক্রেডিট এনরোল থাকতে হবে।\n"
             "২. কোনো কোর্সে F বা Incomplete (I) গ্রেড থাকা যাবে না।\n"
             "৩. ক্লাসে ন্যূনতম ৭৫% উপস্থিতি সন্তোষজনক হতে হবে।"
@@ -136,7 +136,7 @@ class BUBTAcademicBrain:
                 title = item.get("title", "")
                 cr = item.get("credits", 3.0)
 
-                resp = f"🎓 **BUBT CSE Course Blueprint: {item.get('course')} ({title}) · {cr:g} CR**\n\n"
+                resp = f"**BUBT CSE Course Blueprint: {item.get('course')} ({title}) · {cr:g} CR**\n\n"
                 if prereqs:
                     resp += f"• **Prerequisites (পূর্বশর্ত):** {', '.join(prereqs)}\n  (এই কোর্স নেওয়ার পূর্বে উপরের কোর্সগুলো পাস থাকা আবশ্যক)।\n"
                 else:
@@ -196,33 +196,33 @@ class BUBTAcademicBrain:
         if any(w in q_lower for w in ("cgpa", "target", "3.85", "বাড়াব", "বাড়াব", "উন্নতি", "raise", "how to reach")):
             if traj["is_feasible"]:
                 return (
-                    f"🎯 **BUBT CSE CGPA ট্র্যাজেক্টরি ও ক্রেডিট পেসিং বিশ্লেষণ ({name})**\n\n"
+                    f"**BUBT CSE CGPA ট্র্যাজেক্টরি ও ক্রেডিট পেসিং বিশ্লেষণ ({name})**\n\n"
                     f"আপনার বর্তমান CGPA **{cgpa:.2f}** (সম্পন্ন ক্রেডিট: **{credits_done:g}** / ১৪২)। "
                     f"আপনার লক্ষ্যমাত্রা **{target:.2f}** অর্জনে বাকি **{rem_cr:g}** ক্রেডিটে প্রয়োজনীয় হিসাব:\n\n"
                     f"• **প্রয়োজনীয় গড় SGPA:** **{req_sgpa:.2f}** প্রতি সেমিস্টারে।\n"
                     f"• **টার্গেট স্ট্যাটাস:** গাণিতিকভাবে সম্পূর্ণরূপে অর্জনযোগ্য (Feasible)।\n\n"
-                    f"📌 **৩টি হাই-ইমপ্যাক্ট ডিগ্রি স্ট্র্যাটেজি:**\n"
+                    f"**৩টি হাই-ইমপ্যাক্ট ডিগ্রি স্ট্র্যাটেজি:**\n"
                     f"১. **৩-ক্রেডিটের থিওরি কোর্সে সর্বোচ্চ ফোকাস:** BUBT-তে ১টি ৩-ক্রেডিট কোর্সে A+ (৪.০০) পেলে সিজিপিএ দ্রুত উপরে ওঠে।\n"
                     f"২. **রিটেক অপ্টিমাইজেশন:** আগের কোনো কোর্সে B- বা তার নিচে (C+, C, D) থাকলে তা দ্রুত রিটেক দিন। নতুন গ্রেড আগের পয়েন্ট রিপ্লেস করে সিজিপিএ সরাসরি বুস্ট করবে।\n"
                     f"৩. **ল্যাব কোর্সে ফুল মার্কস (১.৫ CR):** ল্যাব ও সেশনাল কোর্সে A/A+ নিশ্চিত করা অপেক্ষাকৃত সহজ যা টার্ম GPA মজবুত করে।"
                 )
             else:
                 return (
-                    f"🎯 **BUBT CSE CGPA ট্র্যাজেক্টরি পূর্বাভাস ({name})**\n\n"
+                    f"**BUBT CSE CGPA ট্র্যাজেক্টরি পূর্বাভাস ({name})**\n\n"
                     f"আপনার টার্গেট {target:.2f} স্পর্শ করতে বাকি {rem_cr:g} ক্রেডিটে গাণিতিকভাবে {traj['raw_required']:.2f} SGPA প্রয়োজন, যা ৪.০০ স্কেলের বেশি।\n\n"
-                    f"💡 **সমাধান:** হতাশ হওয়ার কারণ নেই! আপনি পূর্বে সম্পন্ন করা কম গ্রেডের ২-৩টি কোর্স (যেমন MAT101 বা বেসিক থিওরি) **Retake (গ্রেড ইম্প্রুভমেন্ট)** দিলে পুরনো গ্রেড পয়েন্ট মুছে গিয়ে নতুন গ্রেড যোগ হবে এবং আপনার সিজিপিএ ৩.৭৫+ (Magna Cum Laude) রেঞ্জে অনায়াসে উঠে আসবে!"
+                    f"**সমাধান:** হতাশ হওয়ার কারণ নেই! আপনি পূর্বে সম্পন্ন করা কম গ্রেডের ২-৩টি কোর্স (যেমন MAT101 বা বেসিক থিওরি) **Retake (গ্রেড ইম্প্রুভমেন্ট)** দিলে পুরনো গ্রেড পয়েন্ট মুছে গিয়ে নতুন গ্রেড যোগ হবে এবং আপনার সিজিপিএ ৩.৮০+ (Merit Waiver Track) রেঞ্জে অনায়াসে উঠে আসবে!"
                 )
 
         # Default Domain Synthesis
         return (
-            f"Hello {name}! 🎓 আমি **EduTrack AI**, BUBT B.Sc. in CSE প্রোগ্রামের জন্য ডেটা-ট্রেইন্ড অফলাইন একাডেমিক ইন্টেলিজেন্স সিস্টেম।\n\n"
-            f"📊 **আপনার অ্যাকাডেমিক প্রোফাইল স্টেটাস:**\n"
+            f"Hello {name}! আমি **EduTrack AI**, BUBT B.Sc. in CSE প্রোগ্রামের জন্য ডেটা-ট্রেইন্ড অফলাইন একাডেমিক ইন্টেলিজেন্স সিস্টেম।\n\n"
+            f"**আপনার অ্যাকাডেমিক প্রোফাইল স্টেটাস:**\n"
             f"• Current CGPA: {cgpa:.2f} | Target: {target:.2f}\n"
             f"• Completed Credits: {credits_done:g} / 142 B.Sc. in CSE (বাকি: {rem_cr:g} Credits)\n"
             f"• Academic Standing: Good Standing (BUBT Degree Clearance)\n\n"
             f"আপনি যেকোনো বিষয় জিজ্ঞেস করতে পারেন, যেমন:\n"
-            f"1. 🎯 \"Algorithms বা Data Structures এর প্রি-রিকুইজিট কী কী?\"\n"
-            f"2. 🔄 \"কোন কোর্স রিটেক দিলে সিজিপিএ সবচেয়ে বেশি বাড়বে?\"\n"
-            f"3. 📅 \"আমার জন্য ৭ দিনের স্টাডি রুটিন বানিয়ে দাও\"\n"
-            f"4. 🏆 \"BUBT-তে ২৫% বা ৫০% ওয়েভার পাওয়ার শর্ত কী?\""
+            f"1. \"Algorithms বা Data Structures এর প্রি-রিকুইজিট কী কী?\"\n"
+            f"2. \"কোন কোর্স রিটেক দিলে সিজিপিএ সবচেয়ে বেশি বাড়বে?\"\n"
+            f"3. \"আমার জন্য ৭ দিনের স্টাডি রুটিন বানিয়ে দাও\"\n"
+            f"4. \"BUBT-তে ২৫% বা ৫০% ওয়েভার পাওয়ার শর্ত কী?\""
         )

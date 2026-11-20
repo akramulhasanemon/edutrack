@@ -123,7 +123,7 @@ class AIAdvisorEngine:
             embedded = EmbeddedOfflineLLM.get_instance()
             if embedded.is_available():
                 system_instr = (
-                    f"You are EduTrack AI, an autonomous academic intelligence copilot for B.Sc. in CSE at BUBT (Bangladesh University of Business and Technology). "
+                    f"You are EduTrack AI, an autonomous academic intelligence advisor for B.Sc. in CSE at BUBT (Bangladesh University of Business and Technology). "
                     f"Student Name: {student_name}, Current CGPA: {current_cgpa}, Completed Credits: {completed_credits}/142. "
                     "Be friendly, helpful, and precise. Answer any coding question, programming logic, theory, math, or study advice fluently in English, Bengali, or Banglish as requested."
                 )
@@ -281,11 +281,11 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"Hello {name}! 👋 আমি EduTrack AI (EduTrackAi), আলহামদুলিল্লাহ ভালো আছি। আপনি কেমন আছেন?\n\n"
+                    f"Hello {name}! আমি EduTrack AI (EduTrackAi), আলহামদুলিল্লাহ ভালো আছি। আপনি কেমন আছেন?\n\n"
                     f"আজকে আপনার BUBT CSE পড়াশোনা, কোর্স প্ল্যান বা অন্য কোনো বিষয়ে কোনো সহায়তা লাগবে কি? নির্দ্বিধায় বলুন!"
                 )
             return (
-                f"Hello {name}! 👋 I am EduTrack AI (EduTrackAi), doing great and ready to assist you!\n\n"
+                f"Hello {name}! I am EduTrack AI (EduTrackAi), doing great and ready to assist you!\n\n"
                 f"How are you doing today? How can I assist with your BUBT CSE coursework, study routine, or degree planning?"
             )
 
@@ -295,13 +295,13 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"Hello {name}! 👋 Welcome to EduTrackAi.\n\n"
+                    f"Hello {name}! Welcome to EduTrackAi.\n\n"
                     f"আমি আপনার B.Sc. in CSE প্রোগ্রামের একাডেমিক ট্র্যাক পর্যবেক্ষণ করছি "
                     f"(বর্তমান CGPA: {cgpa_display}, লক্ষ্যমাত্রা: {target:.2f}, সম্পন্ন ক্রেডিট: {credits:g})।\n\n"
                     "পড়াশোনা, রুটিন, পরীক্ষার প্রস্তুতি, রিটেক অ্যানালাইসিস বা যেকোনো পরামর্শের জন্য আপনার প্রশ্নটি লিখুন!"
                 )
             return (
-                f"Hello {name}! 👋 Welcome to EduTrackAi.\n\n"
+                f"Hello {name}! Welcome to EduTrackAi.\n\n"
                 f"I am actively monitoring your B.Sc. in CSE academic trajectory at BUBT "
                 f"(Current CGPA: {cgpa_display}, Target: {target:.2f}, Completed Credits: {credits:g}/{prog_credits:g}).\n\n"
                 "How may I guide your study planning, course sequencing, or exam preparation today?"
@@ -315,12 +315,12 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"You're always welcome, {name}! 🌟\n\n"
+                    f"You're always welcome, {name}! \n\n"
                     "নিয়মিত পড়াশোনার অভ্যাস বজায় রাখুন এবং ক্লাসের প্রতি মনোযোগী থাকুন। "
                     "যেকোনো পড়াশোনার পরিকল্পনা বা সহায়তায় EduTrackAi সবসময় সম্পূর্ণ অফলাইনে আপনার পাশে আছে!"
                 )
             return (
-                f"You're very welcome, {name}! 🌟\n\n"
+                f"You're very welcome, {name}! \n\n"
                 "Maintain your structured study habits, focus on core engineering subjects, and ensure high lecture attendance. "
                 "EduTrackAi is always running 100% offline whenever you need strategic degree guidance!"
             )
@@ -329,11 +329,11 @@ class AIAdvisorEngine:
         if any(w in q_lower for w in ("thank you", "thanks", "dhonnobad", "thx", "onek help hoilo", "অনেক ধন্যবাদ", "ধন্যবাদ")):
             if is_bn:
                 return (
-                    f"You're very welcome, {name}! 🌟\n\n"
+                    f"You're very welcome, {name}! \n\n"
                     "আপনার লক্ষ্যমাত্রা অর্জনে নিয়মিত অধ্যবসায় রাখুন। কোনো বিষয়ে সন্দেহ থাকলে নির্দ্বিধায় আমাকে জিজ্ঞেস করুন!"
                 )
             return (
-                f"You're very welcome, {name}! 🌟\n\n"
+                f"You're very welcome, {name}! \n\n"
                 "Stay consistent in your academic routine. Feel free to consult EduTrackAi anytime for semester forecasting or grade optimization!"
             )
 
@@ -344,25 +344,25 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"আমি EduTrack AI (EduTrackAi) — BUBT CSE শিক্ষার্থীদের জন্য তৈরি স্বায়ত্তশাসিত অফলাইন একাডেমিক ইন্টেলিজেন্স সিস্টেম! 🎓\n\n"
+                    f"আমি EduTrack AI (EduTrackAi) — BUBT CSE শিক্ষার্থীদের জন্য তৈরি স্বায়ত্তশাসিত অফলাইন একাডেমিক ইন্টেলিজেন্স সিস্টেম!\n\n"
                     f"আমি আপনার এনরোল করা কোর্স, CGPA রেকর্ড, ক্লাসের শিডিউল ও অ্যাটেনডেন্সের উপর ভিত্তি করে রিয়েল-টাইম অফলাইন বিশ্লেষণ প্রদান করি (কোনো ইন্টারনেট প্রয়োজন নেই)।\n\n"
                     "আমার মূল সক্ষমতাসমূহ:\n"
-                    f"1. 🎯 Trajectory Planner: আপনার {target:.2f} CGPA লক্ষ্যে পৌঁছাতে সামনের ক্রেডিটগুলোতে গড়ে কত GPA পেতে হবে তা হিসাব করা।\n"
-                    "2. 📅 7-Day Timetable: ক্লাসের সময়ের সাথে সামঞ্জস্য রেখে সাপ্তাহিক পড়ার ভারসাম্যপূর্ণ রুটিন তৈরি করা।\n"
-                    "3. 🔄 Retake Simulator: কম গ্রেড পাওয়া কোর্সগুলো রিটেক দিলে কীভাবে দ্রুত CGPA বুস্ট হবে তার সঠিক পূর্বাভাস।\n"
-                    "4. ⚠️ Attendance Watchdog: কোনো কোর্সে উপস্থিতি ৭৫% এর নিচে নামলে পরীক্ষার আগেই সতর্কবার্তা প্রদান।\n"
-                    "5. 🧪 Offline ML Lab: ১০০টি ডিসিশন ট্রি সমৃদ্ধ র‍্যান্ডম ফরেস্ট এনসেম্বল দিয়ে পারফরম্যান্স প্রেডিকশন।\n\n"
+                    f"1. Trajectory Planner: আপনার {target:.2f} CGPA লক্ষ্যে পৌঁছাতে সামনের ক্রেডিটগুলোতে গড়ে কত GPA পেতে হবে তা হিসাব করা।\n"
+                    "2. 7-Day Timetable: ক্লাসের সময়ের সাথে সামঞ্জস্য রেখে সাপ্তাহিক পড়ার ভারসাম্যপূর্ণ রুটিন তৈরি করা।\n"
+                    "3. Retake Simulator: কম গ্রেড পাওয়া কোর্সগুলো রিটেক দিলে কীভাবে দ্রুত CGPA বুস্ট হবে তার সঠিক পূর্বাভাস।\n"
+                    "4. Attendance Watchdog: কোনো কোর্সে উপস্থিতি ৭৫% এর নিচে নামলে পরীক্ষার আগেই সতর্কবার্তা প্রদান।\n"
+                    "5. Offline ML Lab: ১০০টি ডিসিশন ট্রি সমৃদ্ধ র‍্যান্ডম ফরেস্ট এনসেম্বল দিয়ে পারফরম্যান্স প্রেডিকশন।\n\n"
                     "যেকোনো প্রশ্ন লিখে এন্টার (Enter) প্রেস করুন!"
                 )
             return (
-                f"I am EduTrack AI (EduTrackAi) — an autonomous offline Academic Intelligence Copilot engineered specifically for B.Sc. in CSE students at BUBT! 🎓\n\n"
+                f"I am EduTrack AI (EduTrackAi) — an autonomous offline Academic Intelligence Advisor engineered specifically for B.Sc. in CSE students at BUBT!\n\n"
                 "System Architecture & Capabilities:\n"
-                "• ⚡ 100% Offline & Zero Network Latency: Runs completely on-device without cloud dependency, guaranteeing full privacy and instantaneous feedback.\n"
-                f"• 🎯 Trajectory Planner: Dynamically evaluates your required GPA pacing to hit your {target:.2f} CGPA goal across your remaining {rem_credits:g} credits.\n"
-                "• 📅 7-Day Study Timetable: Generates a balanced engineering routine combining lecture review, active recall, and programming sprints.\n"
-                "• 🔄 Course Retake Simulator: Accurately projects how repeating low-grade courses replaces previous grade points and accelerates CGPA recovery.\n"
-                "• ⚠️ BUBT Attendance Watchdog: Monitors class attendance against the university's mandatory 75% exam clearance policy.\n"
-                "• 🧪 Machine Learning Simulation Lab: Employs a 100-estimator Random Forest ensemble with Explainable AI (XAI) feature attribution and Pareto optimization.\n\n"
+                "• 100% Offline & Zero Network Latency: Runs completely on-device without cloud dependency, guaranteeing full privacy and instantaneous feedback.\n"
+                f"• Trajectory Planner: Dynamically evaluates your required GPA pacing to hit your {target:.2f} CGPA goal across your remaining {rem_credits:g} credits.\n"
+                "• 7-Day Study Timetable: Generates a balanced engineering routine combining lecture review, active recall, and programming sprints.\n"
+                "• Course Retake Simulator: Accurately projects how repeating low-grade courses replaces previous grade points and accelerates CGPA recovery.\n"
+                "• BUBT Attendance Watchdog: Monitors class attendance against the university's mandatory 75% exam clearance policy.\n"
+                "• Machine Learning Simulation Lab: Employs a 100-estimator Random Forest ensemble with Explainable AI (XAI) feature attribution and Pareto optimization.\n\n"
                 "Feel free to ask any academic question or explore the simulation tools!"
             )
 
@@ -382,11 +382,11 @@ class AIAdvisorEngine:
 
         if any(w in q_lower for w in ("waiver", "scholarship", "ওয়েভার", "ওয়েভারের শর্ত", "টাকা ছাড়")):
             return (
-                "🏆 **BUBT টিউশন ফি ওয়েভার ও স্কলারশিপ নীতিমালা**\n\n"
+                "**BUBT টিউশন ফি ওয়েভার ও স্কলারশিপ নীতিমালা**\n\n"
                 "BUBT-তে সেমিস্টার ফাইনাল ফলাফলের ওপর ভিত্তি করে নিম্নোক্ত হারে ওয়েভার প্রদান করা হয়:\n"
                 "• **SGPA 4.00:** ৫০% থেকে ১০০% টিউশন ফি ওয়েভার (Chairman's / Dean's Honor Roll)\n"
                 "• **SGPA 3.80 - 3.99:** ২৫% থেকে ৫০% মেরিট ওয়েভার\n\n"
-                "📌 **বাধ্যতামূলক ৩টি শর্ত:**\n"
+                "**বাধ্যতামূলক ৩টি শর্ত:**\n"
                 "১. সংশ্লিষ্ট সেমিস্টারে ন্যূনতম ১২ ক্রেডিট এনরোল থাকতে হবে।\n"
                 "২. কোনো কোর্সে F বা Incomplete (I) গ্রেড থাকা যাবে না।\n"
                 "৩. ক্লাসে ন্যূনতম ৭৫% উপস্থিতি সন্তোষজনক হতে হবে।"
@@ -400,20 +400,20 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"💡 ACADEMIC MOTIVATION & FOCUS COACHING ({name})\n\n"
+                    f"ACADEMIC MOTIVATION & FOCUS COACHING ({name})\n\n"
                     "সিএসই এবং ইঞ্জিনিয়ারিং পড়াশোনায় মানসিক চাপ বা মনোযোগের ঘাটতি অনুভব করা খুব স্বাভাবিক। তবে মনে রাখবেন:\n\n"
                     f"• আপনার বর্তমান ভিত্তি: আপনি ইতিমধ্যে {credits:g} ক্রেডিট সফলভাবে সম্পন্ন করেছেন (CGPA: {cgpa_display})। আপনি অবশ্যই সামনে আরও ভালো করতে সক্ষম।\n\n"
-                    "📌 মনোযোগ ফিরিয়ে আনার ৩টি গোল্ডেন রুল:\n"
+                    "মনোযোগ ফিরিয়ে আনার ৩টি গোল্ডেন রুল:\n"
                     "1. দ্য ৫-মিনিট রুল: বড় সিলেবাস দেখে ভয় না পেয়ে ভাবুন 'আমি শুধু মাত্র ৫ মিনিট পড়ব/কোড করব'। শুরু করার পরেই পড়ার মোমেন্টাম চলে আসে।\n"
                     "2. পোমোডোরো টেকনিক (Pomodoro): ২৫ মিনিট মোবাইল দূরে রেখে সম্পূর্ণ ফোকাস দিয়ে পড়ুন, এরপর ৫ মিনিটের রিফ্রেশিং ব্রেক নিন।\n"
                     "3. একটি করে কাজ: একসাথে ৩টি বিষয়ের চিন্তা না করে আজকের সবচেয়ে গুরুত্বপূর্ণ ১টি টপিক শেষ করুন।\n\n"
                     "ধারাবাহিকতাই সেরা সাফল্য এনে দেয়। আজ থেকেই শুরু করুন!"
                 )
             return (
-                f"💡 ACADEMIC MOMENTUM & MOTIVATION FOCUS COACHING ({name})\n\n"
+                f"ACADEMIC MOMENTUM & MOTIVATION FOCUS COACHING ({name})\n\n"
                 "Computer Science and Engineering curricula are cognitively demanding. Experiencing stress, exam anxiety, or study fatigue is natural, but systematic execution always overcomes doubt:\n\n"
                 f"• Verified Academic Baseline: You have already completed {credits:g} graded credits with a current CGPA of {cgpa_display}. You have the proven capacity to handle advanced engineering coursework.\n\n"
-                "📌 3 Cognitive Execution Rules:\n"
+                "3 Cognitive Execution Rules:\n"
                 "1. The 5-Minute Kickstart Rule: Never stare at an intimidating textbook or problem set. Tell yourself: \"I will only code or read for 5 minutes.\" Action creates motivation, not the other way around.\n"
                 "2. Structured Pomodoro (25 + 5): Work with 100% uninterrupted focus for 25 minutes with devices silenced, followed by a 5-minute mental reset.\n"
                 "3. Single-Task Priority: Never attempt to balance 3 demanding subjects in one sitting. Finish one high-impact module before switching context.\n\n"
@@ -428,7 +428,7 @@ class AIAdvisorEngine:
         )):
             if is_bn:
                 return (
-                    f"💻 CSE PROGRAMMING & PROJECT STRATEGY ({name})\n\n"
+                    f"CSE PROGRAMMING & PROJECT STRATEGY ({name})\n\n"
                     "সিএসইতে ভালো রেজাল্ট এবং ইন্ডাস্ট্রি স্কিল অর্জনের জন্য থিওরি ও ল্যাবের সমন্বয় অত্যন্ত জরুরি:\n\n"
                     "1. ল্যাব রিপোর্ট ও অ্যাসাইনমেন্ট:\n"
                     "   - ল্যাব পারফরম্যান্স এবং সময়মত অ্যাসাইনমেন্ট সাবমিশন আপনার সেমিস্টার GPA-এর একটি বড় অংশ নির্ধারণ করে।\n"
@@ -441,7 +441,7 @@ class AIAdvisorEngine:
                     "আজকের স্টাডি ব্লকে আপনার ল্যাব প্রবলেমগুলো প্র্যাকটিস করার জন্য ১ ঘণ্টা সময় বরাদ্দ রাখুন!"
                 )
             return (
-                f"💻 CSE TECHNICAL MASTERY & LAB STRATEGY ({name})\n\n"
+                f"CSE TECHNICAL MASTERY & LAB STRATEGY ({name})\n\n"
                 "To build elite engineering competency and protect your GPA in B.Sc. in CSE:\n\n"
                 "1. Laboratory Excellence & Continuous Assessment:\n"
                 "   • Lab deliverables and weekly evaluations significantly impact semester GPA. Never treat lab reports as secondary.\n"
@@ -460,26 +460,26 @@ class AIAdvisorEngine:
             "75%", "clearence", "hazira", "kalke ki class", "class routine", "উপস্থিতি", "হাজিরা", "ক্লাস"
         )):
             if is_bn:
-                lines_att: list[str] = [f"📋 ATTENDANCE STATUS & ACADEMIC CLEARANCE ({name})"]
+                lines_att: list[str] = [f"ATTENDANCE STATUS & ACADEMIC CLEARANCE ({name})"]
                 if low_attendance:
-                    lines_att.append("⚠️ ATTENDANCE WARNING (Below 75% Clearance Threshold):")
+                    lines_att.append("ATTENDANCE WARNING (Below 75% Clearance Threshold):")
                     for att in low_attendance:
                         pct = att.get('attendance_percentage', 0)
                         lines_att.append(f"• {att.get('course_code', 'Course')}: {pct:.1f}% উপস্থিতি — জরুরি ভিত্তিতে পরবর্তী ক্লাসগুলোতে উপস্থিত থাকতে হবে!")
                     lines_att.append("\nবি.দ্র.: বিশ্ববিদ্যালয়ের নীতিমালা অনুযায়ী পরীক্ষায় বসার জন্য ন্যূনতম ৭৫% উপস্থিতি আবশ্যক। অনুপস্থিতির কারণ থাকলে দ্রুত কোর্স শিক্ষকের সাথে যোগাযোগ করুন।")
                 else:
-                    lines_att.append("✅ চমৎকার রেকর্ড! আপনার কোনো কোর্সেই উপস্থিতি ৭৫%-এর নিচে নেই।")
+                    lines_att.append("চমৎকার রেকর্ড! আপনার কোনো কোর্সেই উপস্থিতি ৭৫%-এর নিচে নেই।")
                     lines_att.append("ক্লাসে নিয়মিত উপস্থিত থাকলে কন্টিনিউয়াস অ্যাসেসমেন্টে ফুল মার্কস নিশ্চিত করা অনেক সহজ হয়।")
                 return "\n".join(lines_att)
-            lines_att_en: list[str] = [f"📋 ATTENDANCE AUDIT & BUBT CLEARANCE STATUS ({name})"]
+            lines_att_en: list[str] = [f"ATTENDANCE AUDIT & BUBT CLEARANCE STATUS ({name})"]
             if low_attendance:
-                lines_att_en.append("⚠️ ACADEMIC CLEARANCE ALERT (Courses Below 75% Requirement):")
+                lines_att_en.append("ACADEMIC CLEARANCE ALERT (Courses Below 75% Requirement):")
                 for att in low_attendance:
                     pct = att.get("attendance_percentage", 0)
                     lines_att_en.append(f"• {att.get('course_code', 'Course')}: {pct:.1f}% Attendance — Immediate attendance recovery required!")
                 lines_att_en.append("\nNote: BUBT academic regulations mandate a minimum 75% attendance for final examination clearance. Please consult your course instructor promptly if legitimate medical or personal grounds exist.")
             else:
-                lines_att_en.append("✅ Exemplary Attendance Record: All enrolled courses meet or exceed the 75% university examination clearance threshold.")
+                lines_att_en.append("Exemplary Attendance Record: All enrolled courses meet or exceed the 75% university examination clearance threshold.")
                 lines_att_en.append("High attendance strongly correlates with maximum marks in Continuous Assessment and Midterm evaluations.")
             return "\n".join(lines_att_en)
 
@@ -513,31 +513,31 @@ class AIAdvisorEngine:
 
                 if is_bn:
                     return (
-                        f"🤖 EDUTRACK অফলাইন মেশিন লার্নিং ডায়াগনস্টিক ({name})\n\n"
-                        f"📊 মেশিন লার্নিং মডেল স্পেসিফিকেশন:\n"
+                        f"EDUTRACK অফলাইন মেশিন লার্নিং ডায়াগনস্টিক ({name})\n\n"
+                        f"মেশিন লার্নিং মডেল স্পেসিফিকেশন:\n"
                         f"• অ্যালগরিদম: {pred['meta']['algorithm']}\n"
                         f"• এক্সিকিউশন: {pred['meta']['framework']} (লেটেন্সি: {pred['meta']['latency_ms']}ms, ১০০% অফলাইন)\n"
                         f"• পারফরম্যান্স প্রেডিকশন: {pred['predicted_marks']}% মার্কস → গ্রেড: {pred['predicted_grade']} ({pred['predicted_grade_point']:.2f} GP)\n"
                         f"• ঝুঁকি ক্যাটাগরি: {pred['risk_category']} (ঝুঁকির সম্ভাবনা: {pred['critical_risk_pct']}%)\n\n"
-                        f"🔍 Explainable AI (XAI) ফিচার গুরুত্ব:\n{imp_str}\n\n"
-                        f"🎯 প্যারেটো অপটিমাল গ্রেড প্ল্যান ({target:.2f} CGPA লক্ষ্য):\n"
+                        f"Explainable AI (XAI) ফিচার গুরুত্ব:\n{imp_str}\n\n"
+                        f"প্যারেটো অপটিমাল গ্রেড প্ল্যান ({target:.2f} CGPA লক্ষ্য):\n"
                         f"• প্রয়োজনীয় ভবিষ্যৎ গড় GPA: {opt['required_avg']:.2f}\n"
                         f"{plan_str}\n\n"
-                        "💡 EduTrack-এর AI Simulation Lab ট্যাবে গিয়ে আপনি নিজে প্যারামিটার পরিবর্তন করে রিয়েল-টাইম টেস্ট করতে পারেন!"
+                        "EduTrack-এর AI Simulation Lab ট্যাবে গিয়ে আপনি নিজে প্যারামিটার পরিবর্তন করে রিয়েল-টাইম টেস্ট করতে পারেন!"
                     )
 
                 return (
-                    f"🤖 EDUTRACK ENTERPRISE OFFLINE ML DIAGNOSTIC ({name})\n\n"
-                    f"📊 Core Machine Learning Specifications:\n"
+                    f"EDUTRACK ENTERPRISE OFFLINE ML DIAGNOSTIC ({name})\n\n"
+                    f"Core Machine Learning Specifications:\n"
                     f"• Algorithm: {pred['meta']['algorithm']}\n"
                     f"• Execution: {pred['meta']['framework']} (Latency: {pred['meta']['latency_ms']}ms, 100% On-Device ML)\n"
                     f"• Predicted Course Performance: {pred['predicted_marks']}% Marks → {pred['predicted_grade']} ({pred['predicted_grade_point']:.2f} Grade Point)\n"
                     f"• Risk Classification: {pred['risk_category']} (Critical Risk Probability: {pred['critical_risk_pct']}%)\n\n"
-                    f"🔍 Explainable AI (XAI) Feature Importance Attribution:\n{imp_str}\n\n"
-                    f"🎯 Pareto-Optimal Course Plan for {target:.2f} CGPA Target:\n"
+                    f"Explainable AI (XAI) Feature Importance Attribution:\n{imp_str}\n\n"
+                    f"Pareto-Optimal Course Plan for {target:.2f} CGPA Target:\n"
                     f"• Required Future Average GPA: {opt['required_avg']:.2f}\n"
                     f"{plan_str}\n\n"
-                    "💡 You can simulate dynamic what-if scenarios in real-time inside the interactive AI Simulation Lab!"
+                    "You can simulate dynamic what-if scenarios in real-time inside the interactive AI Simulation Lab!"
                 )
             except Exception:
                 pass
@@ -549,7 +549,7 @@ class AIAdvisorEngine:
             "grade boost", "amar cgpa", "current standing", "সিজিপিএ", "গ্রেড", "টার্গেট"
         )):
             if is_bn:
-                lines.append(f"🎯 ACADEMIC TRAJECTORY DIAGNOSTIC ({name})")
+                lines.append(f"ACADEMIC TRAJECTORY DIAGNOSTIC ({name})")
                 lines.append(
                     f"আপনি এ পর্যন্ত {credits:g} ক্রেডিট সম্পন্ন করেছেন এবং আপনার বর্তমান CGPA {cgpa_display} (রেকর্ডকৃত কোর্স: {len(courses)}টি)। "
                     f"আপনার লক্ষ্যমাত্রা হলো {prog_credits:g} ক্রেডিটের ডিগ্রিতে {target:.2f} CGPA অর্জন করা।"
@@ -557,15 +557,15 @@ class AIAdvisorEngine:
                 lines.append("")
                 if req_gpa is not None:
                     if req_gpa <= 0:
-                        lines.append(f"🌟 আপনি ইতোমধ্যে আপনার লক্ষ্যমাত্রার উপরে আছেন! বর্তমান ধারাবাহিকতা বজায় রাখুন।")
+                        lines.append(f"আপনি ইতোমধ্যে আপনার লক্ষ্যমাত্রার উপরে আছেন! বর্তমান ধারাবাহিকতা বজায় রাখুন।")
                     elif req_gpa <= 3.85:
-                        lines.append(f"📊 অবশিষ্ট {rem_credits:g} ক্রেডিটে আপনার গড়ে {req_gpa:.2f} GPA প্রয়োজন। নিয়মিত পরিশ্রমে এটি সম্পূর্ণ অর্জনযোগ্য।")
+                        lines.append(f"অবশিষ্ট {rem_credits:g} ক্রেডিটে আপনার গড়ে {req_gpa:.2f} GPA প্রয়োজন। নিয়মিত পরিশ্রমে এটি সম্পূর্ণ অর্জনযোগ্য।")
                     elif req_gpa <= 4.00:
-                        lines.append(f"⚡ উচ্চ লক্ষ্যমাত্রা: অবশিষ্ট {rem_credits:g} ক্রেডিটে গড়ে {req_gpa:.2f} GPA প্রয়োজন। নতুন কোর্সের পাশাপাশি আগের কম গ্রেড পাওয়া কোর্স রিটেক দিলে লক্ষ্যমাত্রা সহজ হবে।")
+                        lines.append(f"উচ্চ লক্ষ্যমাত্রা: অবশিষ্ট {rem_credits:g} ক্রেডিটে গড়ে {req_gpa:.2f} GPA প্রয়োজন। নতুন কোর্সের পাশাপাশি আগের কম গ্রেড পাওয়া কোর্স রিটেক দিলে লক্ষ্যমাত্রা সহজ হবে।")
                     else:
-                        lines.append(f"⚠️ শুধু নতুন কোর্স দিয়ে {target:.2f} অর্জন করতে {req_gpa:.2f} প্রয়োজন (যা ৪.০০ এর বেশি)। তবে রিটেক সিমুলেটর ব্যবহার করে আগের C/D গ্রেড রিপ্লেস করলে অনায়াসে টার্গেট স্পর্শ করা সম্ভব!")
+                        lines.append(f"শুধু নতুন কোর্স দিয়ে {target:.2f} অর্জন করতে {req_gpa:.2f} প্রয়োজন (যা ৪.০০ এর বেশি)। তবে রিটেক সিমুলেটর ব্যবহার করে আগের C/D গ্রেড রিপ্লেস করলে অনায়াসে টার্গেট স্পর্শ করা সম্ভব!")
                 lines.append("")
-                lines.append("📋 কৌশলগত অগ্রাধিকার:")
+                lines.append("কৌশলগত অগ্রাধিকার:")
                 if weak_names:
                     lines.append(f"• প্রায়োরিটি রিভিউ: {', '.join(weak_names[:4])} কোর্সগুলোতে প্রতি সপ্তাহে ৪+ ঘণ্টা সময় দিন।")
                 else:
@@ -577,7 +577,7 @@ class AIAdvisorEngine:
                 return "\n".join(lines)
 
             # English version
-            lines.append(f"🎯 ACADEMIC TRAJECTORY DIAGNOSTIC ({name})")
+            lines.append(f"ACADEMIC TRAJECTORY DIAGNOSTIC ({name})")
             lines.append(
                 f"You have {credits:g} graded credits completed with a current CGPA of {cgpa_display} across {len(courses)} recorded course(s). "
                 f"Your saved target is {target:.2f} CGPA across a {prog_credits:g}-credit B.Sc. in CSE degree."
@@ -587,26 +587,26 @@ class AIAdvisorEngine:
             if req_gpa is not None:
                 if req_gpa <= 0:
                     lines.append(
-                        f"🌟 Status: You are already on track! Your current pace exceeds your {target:.2f} target. "
+                        f"Status: You are already on track! Your current pace exceeds your {target:.2f} target. "
                         "Focus on maintaining your grade stability without burning out."
                     )
                 elif req_gpa <= 3.85:
                     lines.append(
-                        f"📊 Required Future GPA: You need an average GPA of {req_gpa:.2f} across your remaining {rem_credits:g} credits. "
+                        f"Required Future GPA: You need an average GPA of {req_gpa:.2f} across your remaining {rem_credits:g} credits. "
                         "This goal is realistic and achievable with consistent study routines."
                     )
                 elif req_gpa <= 4.00:
                     lines.append(
-                        f"⚡ High-Pace Milestone: You need an average GPA of {req_gpa:.2f} across your remaining {rem_credits:g} credits. "
+                        f"High-Pace Milestone: You need an average GPA of {req_gpa:.2f} across your remaining {rem_credits:g} credits. "
                         "Because this requires near-perfect grades, you should combine strong semester performance with course retakes to reduce the pressure."
                     )
                 else:
                     lines.append(
-                        f"⚠️ Ceiling Notice: Mathematically reaching {target:.2f} purely from new courses requires {req_gpa:.2f} (above 4.00). "
+                        f"Ceiling Notice: Mathematically reaching {target:.2f} purely from new courses requires {req_gpa:.2f} (above 4.00). "
                         "However, you can still easily achieve this target by retaking earlier lower-grade courses to gain bonus grade points!"
                     )
             lines.append("")
-            lines.append("📋 RECOMMENDED STRATEGIC PRIORITIES:")
+            lines.append("RECOMMENDED STRATEGIC PRIORITIES:")
             if weak_names:
                 lines.append(f"• Priority Review: First courses to review: {', '.join(weak_names[:4])}. Allocate 4+ hours weekly to work through problem sets.")
             else:
@@ -628,7 +628,7 @@ class AIAdvisorEngine:
             "daily plan", "study schedule", "routine dao", "রুটিন", "পড়ার সময়", "পড়াশোনা"
         )):
             if is_bn:
-                lines.append(f"📅 পার্সোনালাইজড ৭ দিনের স্টাডি রুটিন / WEEKLY TIMETABLE ({name})")
+                lines.append(f"পার্সোনালাইজড ৭ দিনের স্টাডি রুটিন / WEEKLY TIMETABLE ({name})")
                 lines.append(
                     f"আপনার বর্তমান প্রোফাইল ({credits:g} ক্রেডিট, CGPA {cgpa_display})-এর ভিত্তিতে ইঞ্জিনিয়ারিং থিওরি ও ল্যাবের ভারসাম্যপূর্ণ সাপ্তাহিক রুটিন:"
                 )
@@ -647,7 +647,7 @@ class AIAdvisorEngine:
                 lines.append("  - বিকেল ০৪:০০ – বিকেল ০৫:৩০: ৩০ মিনিটের মক টেস্ট এবং সামনের সপ্তাহের লক্ষ্য নির্ধারণ।")
                 return "\n".join(lines)
 
-            lines.append(f"📅 PERSONALIZED 7-DAY STUDY TIMETABLE ({name})")
+            lines.append(f"PERSONALIZED 7-DAY STUDY TIMETABLE ({name})")
             lines.append(
                 f"Based on your profile ({credits:g} graded credits, current CGPA {cgpa_display}), "
                 "here is a structured weekly training plan designed to balance lectures, active recall, and rest:"
@@ -667,7 +667,7 @@ class AIAdvisorEngine:
             lines.append("  - 04:00 PM – 05:30 PM: 30-minute self-test and organizing goals for the upcoming week.")
             lines.append("")
             if low_attendance:
-                lines.append("⚠️ ATTENDANCE NOTE:")
+                lines.append("ATTENDANCE NOTE:")
                 low_att_names = [str(i.get("course_code", "Course")) for i in low_attendance[:3]]
                 lines.append(f"Attendance below 75% needs attention in: {', '.join(low_att_names)}. Never skip upcoming sessions.")
             return "\n".join(lines)
@@ -679,34 +679,34 @@ class AIAdvisorEngine:
             "retake dibo", "আগের কোর্স", "রিটেক"
         )):
             if is_bn:
-                lines.append(f"🔄 কোর্স রিটেক স্ট্র্যাটেজি ও CGPA বুস্ট অ্যানালাইসিস ({name})")
+                lines.append(f"কোর্স রিটেক স্ট্র্যাটেজি ও CGPA বুস্ট অ্যানালাইসিস ({name})")
                 lines.append(
                     f"আপনার বর্তমানে {credits:g} ক্রেডিট সম্পন্ন হয়েছে। একটি কম গ্রেড পাওয়া কোর্স রিটেক দিলে নতুন গ্রেডটি আগের গ্রেড পয়েন্টকে প্রতিস্থাপন করে, "
                     "ফলে কোনো অতিরিক্ত ক্রেডিট লোড ছাড়াই CGPA দ্রুত বৃদ্ধি পায়।"
                 )
                 lines.append("")
-                lines.append("💡 রিটেক কোর্স নির্বাচনের ৩টি নিয়ম:")
+                lines.append("রিটেক কোর্স নির্বাচনের ৩টি নিয়ম:")
                 lines.append("1. ৩-ক্রেডিট কোর্স অগ্রাধিকার: ল্যাবের চেয়ে ৩-ক্রেডিট থিওরি কোর্সের প্রভাব তিনগুণ বেশি।")
                 lines.append("2. C/D গ্রেড রিপ্লেস: C (2.25) গ্রেডের কোর্সে A (3.75) পেলে সোজা +4.5 গ্রেড পয়েন্ট কিউমুলেটিভ টোটালে যোগ হয়।")
                 if weak_names:
                     lines.append(f"3. চিহ্নিত সম্ভাব্য কোর্স: {', '.join(weak_names[:4])}।")
                 lines.append("")
-                lines.append("📌 অ্যাকশন স্টেপ: Trajectory Planner-এর Retake Simulator ট্যাবে গিয়ে বিভিন্ন টার্গেট গ্রেড পরিবর্তন করে লাইভ সিজিপিএ জাম্প পরীক্ষা করুন!")
+                lines.append("অ্যাকশন স্টেপ: Trajectory Planner-এর Retake Simulator ট্যাবে গিয়ে বিভিন্ন টার্গেট গ্রেড পরিবর্তন করে লাইভ সিজিপিএ জাম্প পরীক্ষা করুন!")
                 return "\n".join(lines)
 
-            lines.append(f"🔄 COURSE RETAKE STRATEGY & IMPACT ANALYSIS ({name})")
+            lines.append(f"COURSE RETAKE STRATEGY & IMPACT ANALYSIS ({name})")
             lines.append(
                 f"You currently have {credits:g} graded credits. Retaking an earlier course with a low grade allows you to replace "
                 "the previous grade point with a higher one, boosting your CGPA without adding extra credit burden."
             )
             lines.append("")
-            lines.append("💡 RETAKE SELECTION RULES:")
+            lines.append("RETAKE SELECTION RULES:")
             lines.append("1. Target 3-Credit Courses First: A 3-credit course has three times the weight of a 1-credit lab.")
             lines.append("2. Replace C/D Grades: Improving a course from C (2.25) to A (3.75) adds +4.5 grade points directly to your cumulative total.")
             if weak_names:
                 lines.append(f"3. Identified Courses: First courses to review for retake: {', '.join(weak_names[:4])}.")
             lines.append("")
-            lines.append("📌 ACTION STEP:")
+            lines.append("ACTION STEP:")
             lines.append("Open the Trajectory Planner in EduTrack and test different target grades in the Retake Simulator to see your exact CGPA jump.")
             return "\n".join(lines)
 
@@ -717,7 +717,7 @@ class AIAdvisorEngine:
             "পরীক্ষা", "প্রস্তুতি"
         )):
             if is_bn:
-                lines.append(f"⚡ হাই-ইমপ্যাক্ট পরীক্ষা প্রস্তুতি ফ্রেমওয়ার্ক ({name})")
+                lines.append(f"হাই-ইমপ্যাক্ট পরীক্ষা প্রস্তুতি ফ্রেমওয়ার্ক ({name})")
                 lines.append("পরীক্ষায় সর্বোচ্চ গ্রেড নিশ্চিত করতে এই ৩-ধাপের বৈজ্ঞানিক পদ্ধতি অনুসরণ করুন:")
                 lines.append("")
                 lines.append("১. ধাপ ১ — সিলেবাস ট্রায়াজ (পরীক্ষার ২ সপ্তাহ পূর্বে):")
@@ -733,7 +733,7 @@ class AIAdvisorEngine:
                 lines.append("   - পরীক্ষার আগের রাতে ন্যূনতম ৭ ঘণ্টা পর্যাপ্ত ঘুম নিশ্চিত করুন।")
                 return "\n".join(lines)
 
-            lines.append(f"⚡ HIGH-YIELD EXAM PREPARATION FRAMEWORK ({name})")
+            lines.append(f"HIGH-YIELD EXAM PREPARATION FRAMEWORK ({name})")
             lines.append("Follow this structured 3-phase preparation sequence to maximize your grade band:")
             lines.append("")
             lines.append("1. Phase 1 — Topic Triage (2 Weeks Before Exam):")
@@ -749,20 +749,20 @@ class AIAdvisorEngine:
             lines.append("   - Prioritize 7+ hours of sleep to ensure cognitive peak on exam day.")
             if low_attendance:
                 low_att_names = [str(i.get("course_code", "Course")) for i in low_attendance[:3]]
-                lines.append(f"\n⚠️ Exam Clearance Alert: Attendance below 75% needs attention in: {', '.join(low_att_names)}. Ensure clearance with your department controller.")
+                lines.append(f"\nExam Clearance Alert: Attendance below 75% needs attention in: {', '.join(low_att_names)}. Ensure clearance with your department controller.")
             return "\n".join(lines)
 
         # --- SCENARIO 12: INTELLIGENT DYNAMIC FALLBACK FOR ALL OTHER QUERIES ---
         else:
             if is_bn:
-                lines.append(f"🤖 EDUTRACK AI ACADEMIC ADVISOR ({name})")
+                lines.append(f"EDUTRACK AI ACADEMIC ADVISOR ({name})")
                 lines.append(f"আপনার প্রশ্ন: \"{question.strip()}\"")
                 lines.append("")
                 lines.append(
                     f"আপনার একাডেমিক রেকর্ড অনুসারে বর্তমানে CGPA {cgpa_display} এবং {credits:g} ক্রেডিট সম্পন্ন হয়েছে (টার্গেট: {target:.2f})।"
                 )
                 lines.append("")
-                lines.append("💡 একাডেমিক নির্দেশনা ও কার্যপদ্ধতি:")
+                lines.append("একাডেমিক নির্দেশনা ও কার্যপদ্ধতি:")
                 if weak_names:
                     lines.append(f"1. প্রায়োরিটি সাবজেক্ট: আপনার পূর্ববর্তী কোর্সগুলোর মধ্যে {', '.join(weak_names[:3])}-এর মতো বিষয়ে বিশেষ নজর দিন।")
                 else:
@@ -776,7 +776,7 @@ class AIAdvisorEngine:
 
                 lines.append("3. নিয়মিত প্র্যাকটিস: প্রতিদিন ৪৫ মিনিটের ফোকাসড সেশনে অ্যাক্টিভ রিকল বা কোডিং প্র্যাকটিস করুন।")
                 lines.append("")
-                lines.append("📌 আপনি চাইলে নির্দিষ্টভাবে জিজ্ঞেস করতে পারেন:")
+                lines.append("আপনি চাইলে নির্দিষ্টভাবে জিজ্ঞেস করতে পারেন:")
                 lines.append("• \"How to reach my target CGPA?\" (টার্গেট অর্জনের সুনির্দিষ্ট ক্যালকুলেশন)")
                 lines.append("• \"7-Day Study Timetable\" (সাপ্তাহিক রুটিন)")
                 lines.append("• \"Retake Strategy\" (রিটেক কোর্সের হিসাব ও সিমুলেশন)")
@@ -784,7 +784,7 @@ class AIAdvisorEngine:
                 return "\n".join(lines)
 
             # English Default
-            lines.append(f"🤖 EDUTRACK AI ACADEMIC ADVISOR ({name})")
+            lines.append(f"EDUTRACK AI ACADEMIC ADVISOR ({name})")
             lines.append(f"Inquiry: \"{question.strip()}\"")
             lines.append("")
             lines.append(
@@ -792,7 +792,7 @@ class AIAdvisorEngine:
                 f"(Degree Target: {target:.2f} CGPA, Remaining: {rem_credits:g} credits in B.Sc. CSE)."
             )
             lines.append("")
-            lines.append("💡 STRATEGIC ACADEMIC DIRECTIVES:")
+            lines.append("STRATEGIC ACADEMIC DIRECTIVES:")
             if weak_names:
                 lines.append(f"1. Priority Subject Focus: Allocate dedicated weekly problem-solving blocks for {', '.join(weak_names[:3])} to reinforce foundational engineering concepts.")
             else:
@@ -806,7 +806,7 @@ class AIAdvisorEngine:
 
             lines.append("3. Active Engineering Practice: Dedicate at least 45 minutes daily to programming logic or applied problem sets.")
             lines.append("")
-            lines.append("📌 QUICK STRATEGIC QUERIES YOU CAN ASK:")
+            lines.append("QUICK STRATEGIC QUERIES YOU CAN ASK:")
             lines.append(f"• \"How to reach my target CGPA?\" (Pacing analysis for {target:.2f})")
             lines.append("• \"7-Day Study Timetable\" (Structured weekly engineering routine)")
             lines.append("• \"Retake Strategy\" (Grade replacement simulator)")
