@@ -1,0 +1,201 @@
+{
+  "institution": "Bangladesh University of Business and Technology (BUBT)",
+  "campus": "Plot # 77-78, Main Road, Rupnagar, Mirpur-2, Dhaka-1216, Bangladesh",
+  "program": {
+    "degree": "Bachelor of Science in Computer Science and Engineering (B.Sc. in CSE)",
+    "department": "Department of Computer Science and Engineering",
+    "faculty": "Faculty of Engineering and Applied Sciences",
+    "total_credits": 142.0,
+    "duration_years": 4.0,
+    "system": "Bi-Semester / Tri-Semester Outcome-Based Education (OBE) Standard",
+    "min_cgpa_for_graduation": 2.00
+  },
+  "course_coding_rules": {
+    "prefix_map": {
+      "CSE": "Computer Science and Engineering",
+      "MAT": "Mathematics",
+      "PHY": "Physics",
+      "ENG": "English & Communication",
+      "ECO": "Economics",
+      "ACT": "Accounting & Finance",
+      "CHE": "Chemistry"
+    },
+    "digit_breakdown": {
+      "first_digit": "Year / Level of Study (1 = 1st Year, 2 = 2nd Year, 3 = 3rd Year, 4 = 4th Year)",
+      "second_digit": "Concentration Subfield (0 = Foundation/Programming, 1 = Hardware/Systems, 2 = Algorithms/Software, 3 = Data/Network, 4 = Architecture/Embedded)",
+      "third_digit": "ODD numbers designate Theoretical Courses (3.0 CR), EVEN numbers designate Laboratory / Sessional / Project Courses (1.5 CR)"
+    }
+  },
+  "credit_policy": {
+    "theory": {
+      "contact_hours_per_week": 3,
+      "credits": 3.0
+    },
+    "laboratory": {
+      "contact_hours_per_week": 3,
+      "credits": 1.5
+    },
+    "project_thesis": {
+      "course_code": "CSE 400",
+      "credits": 4.5
+    }
+  },
+  "grading_system": [
+    {"min_marks": 80.0, "max_marks": 100.0, "grade": "A+", "grade_point": 4.00, "classification": "Outstanding"},
+    {"min_marks": 75.0, "max_marks": 79.9, "grade": "A", "grade_point": 3.75, "classification": "Excellent"},
+    {"min_marks": 70.0, "max_marks": 74.9, "grade": "A-", "grade_point": 3.50, "classification": "Very Good"},
+    {"min_marks": 65.0, "max_marks": 69.9, "grade": "B+", "grade_point": 3.25, "classification": "Good"},
+    {"min_marks": 60.0, "max_marks": 64.9, "grade": "B", "grade_point": 3.00, "classification": "Satisfactory"},
+    {"min_marks": 55.0, "max_marks": 59.9, "grade": "B-", "grade_point": 2.75, "classification": "Above Average"},
+    {"min_marks": 50.0, "max_marks": 54.9, "grade": "C+", "grade_point": 2.50, "classification": "Average"},
+    {"min_marks": 45.0, "max_marks": 49.9, "grade": "C", "grade_point": 2.25, "classification": "Below Average"},
+    {"min_marks": 40.0, "max_marks": 44.9, "grade": "D", "grade_point": 2.00, "classification": "Pass"},
+    {"min_marks": 0.0, "max_marks": 39.9, "grade": "F", "grade_point": 0.00, "classification": "Fail"}
+  ],
+  "evaluation_distribution": {
+    "total_marks": 100,
+    "class_attendance": 5,
+    "continuous_assessment": 25,
+    "midterm_examination": 30,
+    "semester_final_examination": 40,
+    "attendance_marks_scale": [
+      {"min_pct": 91.0, "max_pct": 100.0, "marks": 5},
+      {"min_pct": 86.0, "max_pct": 90.9, "marks": 4},
+      {"min_pct": 81.0, "max_pct": 85.9, "marks": 3},
+      {"min_pct": 76.0, "max_pct": 80.9, "marks": 2},
+      {"min_pct": 70.0, "max_pct": 75.9, "marks": 1},
+      {"min_pct": 0.0, "max_pct": 69.9, "marks": 0}
+    ]
+  },
+  "attendance_regulations": {
+    "mandatory_exam_clearance_pct": 70.0,
+    "recommended_safe_pct": 75.0,
+    "policy_note": "A student must attend at least 70% of total classes held to be permitted into the semester final examinations. Attendance below 70% results in being barred from the examination or designated as dis-collegiate under BUBT Academic Regulations Article 4.2."
+  },
+  "retake_and_improvement_policy": {
+    "mandatory_retake": "Any course with an 'F' grade (grade point 0.00) must be retaken.",
+    "improvement_eligibility": "Students earning a grade of 'B-' (grade point 2.75) or below (C+, C, D) are permitted to retake the course for grade improvement.",
+    "cgpa_impact": "When a course is successfully repeated, the newly earned grade point replaces the previous lower grade point in the cumulative CGPA calculation, dramatically boosting CGPA recovery while the attempt history is archived."
+  },
+  "tuition_waiver_scholarship": {
+    "tier_1": {
+      "sgpa_requirement": 4.00,
+      "waiver_percentage": "50% to 100%",
+      "title": "Chairman's / Dean's Honor Roll",
+      "conditions": "Minimum 12 credits enrolled in term, zero F/I grades, attendance >= 75%"
+    },
+    "tier_2": {
+      "sgpa_requirement": "3.80 - 3.99",
+      "waiver_percentage": "25% to 50%",
+      "title": "Merit Scholarship",
+      "conditions": "Minimum 12 credits enrolled in term, zero F/I grades, attendance >= 75%"
+    }
+  },
+  "core_prerequisite_chains": [
+    {
+      "course": "CSE 101",
+      "title": "Structured Programming Language",
+      "credits": 3.0,
+      "prerequisites": [],
+      "gateway_for": ["CSE 221", "CSE 231", "CSE 203"]
+    },
+    {
+      "course": "CSE 102",
+      "title": "Structured Programming Language Lab",
+      "credits": 1.5,
+      "prerequisites": [],
+      "gateway_for": ["CSE 222", "CSE 232", "CSE 204"]
+    },
+    {
+      "course": "CSE 103",
+      "title": "Discrete Mathematics",
+      "credits": 3.0,
+      "prerequisites": [],
+      "gateway_for": ["CSE 241", "CSE 301"]
+    },
+    {
+      "course": "CSE 203",
+      "title": "Object Oriented Programming",
+      "credits": 3.0,
+      "prerequisites": ["CSE 101"],
+      "gateway_for": ["CSE 321"]
+    },
+    {
+      "course": "CSE 221",
+      "title": "Data Structures",
+      "credits": 3.0,
+      "prerequisites": ["CSE 101"],
+      "gateway_for": ["CSE 241", "CSE 231"]
+    },
+    {
+      "course": "CSE 241",
+      "title": "Algorithms",
+      "credits": 3.0,
+      "prerequisites": ["CSE 221", "CSE 103"],
+      "gateway_for": ["CSE 301", "CSE 411", "CSE 421"]
+    },
+    {
+      "course": "CSE 211",
+      "title": "Digital Logic Design",
+      "credits": 3.0,
+      "prerequisites": [],
+      "gateway_for": ["CSE 341"]
+    },
+    {
+      "course": "CSE 341",
+      "title": "Microprocessors & Microcontrollers",
+      "credits": 3.0,
+      "prerequisites": ["CSE 211"],
+      "gateway_for": ["CSE 311"]
+    },
+    {
+      "course": "CSE 311",
+      "title": "Computer Architecture",
+      "credits": 3.0,
+      "prerequisites": ["CSE 341"],
+      "gateway_for": []
+    },
+    {
+      "course": "CSE 313",
+      "title": "Operating Systems",
+      "credits": 3.0,
+      "prerequisites": ["CSE 221"],
+      "gateway_for": []
+    },
+    {
+      "course": "CSE 331",
+      "title": "Computer Networks",
+      "credits": 3.0,
+      "prerequisites": ["CSE 221"],
+      "gateway_for": []
+    },
+    {
+      "course": "CSE 301",
+      "title": "Theory of Computation",
+      "credits": 3.0,
+      "prerequisites": ["CSE 241", "CSE 103"],
+      "gateway_for": ["CSE 421"]
+    },
+    {
+      "course": "CSE 421",
+      "title": "Compiler Design",
+      "credits": 3.0,
+      "prerequisites": ["CSE 301", "CSE 241"],
+      "gateway_for": []
+    },
+    {
+      "course": "CSE 411",
+      "title": "Artificial Intelligence",
+      "credits": 3.0,
+      "prerequisites": ["CSE 241"],
+      "gateway_for": []
+    },
+    {
+      "course": "CSE 400",
+      "title": "Final Year Capstone Project & Thesis",
+      "credits": 4.5,
+      "prerequisites": ["Completed at least 105 graded credits with CGPA >= 2.00"],
+      "gateway_for": ["Graduation Clearance"]
+    }
+  ]
+}

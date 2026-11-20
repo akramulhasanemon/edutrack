@@ -9,8 +9,8 @@ if not exist ".venv\Scripts\pyinstaller.exe" (
     .venv\Scripts\python.exe -m pip install pyinstaller
 )
 
-echo [INFO] Building EduTrack.exe...
-.venv\Scripts\pyinstaller.exe --noconfirm --clean --onefile --windowed --name "EduTrack" --icon "assets/edutrack-icon.ico" --add-data "assets;assets" --add-data "web_ui;web_ui" --add-data "database/schema.sql;database" --collect-all customtkinter --collect-all reportlab --collect-all webview main.py
+echo [INFO] Building EduTrack.exe with Per-Monitor DPI awareness manifest...
+.venv\Scripts\pyinstaller.exe --noconfirm --clean --onefile --windowed --name "EduTrack" --icon "assets/edutrack-icon.ico" --manifest "EduTrack.manifest" --add-data "assets;assets" --add-data "web_ui;web_ui" --add-data "database/schema.sql;database" --collect-all customtkinter --collect-all reportlab --collect-all webview --collect-all sklearn main.py
 
 echo.
 if exist "dist\EduTrack.exe" (

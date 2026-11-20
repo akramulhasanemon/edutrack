@@ -45,3 +45,8 @@ dist/
 # Generated reports & exports
 *.pdf
 
+# Large Offline Model weights & binaries
+models/*.gguf
+bin/
+
+
