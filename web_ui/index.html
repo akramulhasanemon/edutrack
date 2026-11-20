@@ -2097,12 +2097,6 @@ body.dark-mode .ai-act-btn:hover {
     <div class="topbar">
       <div><div class="tb-bc" id="bc">EduTrack › Student Workspace › Dashboard</div><div class="tb-t" id="pt">Your academic journey</div></div>
       <div class="tb-r">
-        <!-- UI Scale & Font Controller -->
-        <div class="zoom-ctrl" title="Interface Scale: Click A- / A+ or use Ctrl + Wheel">
-          <button class="zoom-btn" onclick="adjustZoom(-0.05)" title="Decrease text size (Ctrl + -)">A−</button>
-          <span class="zoom-val" id="zoom-val" onclick="resetZoom()" title="Click to reset scale">110%</span>
-          <button class="zoom-btn" onclick="adjustZoom(0.05)" title="Increase text size (Ctrl + +)">A+</button>
-        </div>
         <button class="theme-pill-btn" onclick="toggleTheme()" id="topbar-theme-btn" title="Toggle Light / Dark Mode">
           <span class="theme-icon"></span> <span class="theme-text">Light</span>
         </button>
@@ -2593,14 +2587,14 @@ body.dark-mode .ai-act-btn:hover {
           <div class="gc full">
             <div class="gc-h"><div class="gc-t">Credit Completion Progress</div><div class="gc-s">142 CR Degree Program</div></div>
             <div class="an-nr">
-              <div class="an-n"><div class="an-nv" style="color:var(--sky)">24</div><div class="an-nl">Completed</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--sky2)">18</div><div class="an-nl">In Progress</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--sky3)">100</div><div class="an-nl">Remaining</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--ok)">3.22</div><div class="an-nl">CGPA</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--deepest)">3.85</div><div class="an-nl">Goal</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-done" style="color:var(--sky)">24</div><div class="an-nl">Completed</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-prog" style="color:var(--sky2)">18</div><div class="an-nl">In Progress</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-rem" style="color:var(--sky3)">118</div><div class="an-nl">Remaining</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-cgpa" style="color:var(--ok)">3.22</div><div class="an-nl">CGPA</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-goal" style="color:var(--deepest)">3.85</div><div class="an-nl">Goal</div></div>
             </div>
-            <div style="height:10px;background:rgba(14,165,233,.12);border-radius:5px;overflow:hidden;"><div style="height:100%;width:29%;background:linear-gradient(90deg,var(--deepest),var(--deep),var(--sky2));border-radius:5px;"></div></div>
-            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;"><span>0 CR</span><span style="color:var(--deep);font-weight:600;">29% Complete · 42/142 CR</span><span>142 CR</span></div>
+            <div style="height:10px;background:rgba(14,165,233,.12);border-radius:5px;overflow:hidden;"><div id="an-prog-bar" style="height:100%;width:17%;background:linear-gradient(90deg,var(--deepest),var(--deep),var(--sky2));border-radius:5px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;"><span>0 CR</span><span id="an-prog-label" style="color:var(--deep);font-weight:600;">17% Complete · 24/142 CR</span><span id="an-prog-tot">142 CR</span></div>
           </div>
         </div>
       </div>
@@ -3050,6 +3044,15 @@ function populateStudentDashboard(data) {
   var setId = document.getElementById('set-id'); if (setId) setId.value = sid;
   var setName = document.getElementById('set-name'); if (setName) setName.value = sname;
   var setGoal = document.getElementById('set-goal'); if (setGoal) setGoal.value = goalStr;
+
+  // Analytics Credit Progress
+  var anDone = document.getElementById('an-cr-done'); if (anDone) anDone.textContent = data.completed_credits || 24;
+  var anRem = document.getElementById('an-cr-rem'); if (anRem) anRem.textContent = data.remaining_credits || 118;
+  var anCgpa = document.getElementById('an-cr-cgpa'); if (anCgpa) anCgpa.textContent = cgpaStr;
+  var anGoal = document.getElementById('an-cr-goal'); if (anGoal) anGoal.textContent = goalStr;
+  var anBar = document.getElementById('an-prog-bar'); if (anBar) anBar.style.width = progPct + '%';
+  var anLbl = document.getElementById('an-prog-label'); if (anLbl) anLbl.textContent = progPct + '% Complete · ' + (data.completed_credits || 24) + '/' + (data.program_credits || 142) + ' CR';
+  var anTot = document.getElementById('an-prog-tot'); if (anTot) anTot.textContent = (data.program_credits || 142) + ' CR';
 
   // Render dynamic attendance & schedule
   renderAttendanceAndSchedule(data);
@@ -4388,13 +4391,21 @@ function initAn(){
   var gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(14,165,233,.08)';
   var g={color:gridColor,drawBorder:false};
 
+  var anLabels = (activeStudentData && activeStudentData.trend_labels && activeStudentData.trend_labels.length > 0)
+    ? activeStudentData.trend_labels.map(function(l){ return l.replace('Semester ', 'S'); })
+    : ['S1','S2','S3'];
+  var anData = (activeStudentData && activeStudentData.trend_gpas && activeStudentData.trend_gpas.length > 0)
+    ? activeStudentData.trend_gpas
+    : [3.25,3.08,3.38];
+  var bgColors = ['rgba(14,165,233,.65)','rgba(14,165,233,.75)','rgba(3,105,161,.75)','rgba(3,105,161,.85)','rgba(56,189,248,.65)'];
+
   anTEl._chartInstance = new Chart(anTEl,{
     type:'bar',
     data:{
-      labels:['S1','S2','S3','S4','S5','S6 P'],
+      labels: anLabels,
       datasets:[{
-        data:[3.25,3.08,3.38,3.52,3.72,3.88],
-        backgroundColor:['rgba(14,165,233,.45)','rgba(14,165,233,.5)','rgba(3,105,161,.55)','rgba(3,105,161,.7)','rgba(3,105,161,.5)','rgba(14,165,233,.3)'],
+        data: anData,
+        backgroundColor: bgColors.slice(0, anLabels.length),
         borderRadius:7,
         borderSkipped:false
       }]
@@ -4402,17 +4413,33 @@ function initAn(){
     options:{
       responsive:true,
       plugins:{legend:{display:false}},
-      scales:{x:{grid:g},y:{grid:g,min:2.5,max:4.1}}
+      scales:{x:{grid:g},y:{grid:g,min:2.0,max:4.0}}
     }
   });
+
+  var distLabels = [];
+  var distCounts = [];
+  var distColors = ['#0369a1','#0284c7','#0ea5e9','#38bdf8','#7dd3fc','#a5f3fc','#bae6fd','#e0f2fe','#fdba74','#f87171'];
+  if (activeStudentData && activeStudentData.grade_distribution) {
+    for (var k in activeStudentData.grade_distribution) {
+      if (activeStudentData.grade_distribution[k] > 0) {
+        distLabels.push(k);
+        distCounts.push(activeStudentData.grade_distribution[k]);
+      }
+    }
+  }
+  if (distLabels.length === 0) {
+    distLabels = ['A', 'A-', 'B+', 'B', 'C+'];
+    distCounts = [1, 2, 2, 2, 1];
+  }
 
   anDEl._chartInstance = new Chart(anDEl,{
     type:'doughnut',
     data:{
-      labels:['A+','A','A-','B+','B','B-'],
+      labels: distLabels,
       datasets:[{
-        data:[2,3,4,5,3,1],
-        backgroundColor:['#0369a1','#0284c7','#0ea5e9','#38bdf8','#7dd3fc','#bae6fd'],
+        data: distCounts,
+        backgroundColor: distColors.slice(0, distLabels.length),
         borderWidth:0
       }]
     },
@@ -4479,6 +4506,13 @@ function initCharts(){
   var gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(226, 232, 240, 0.8)';
   var g = {color:gridColor,drawBorder:false};
 
+  var cGpa = (activeStudentData && activeStudentData.cgpa) ? activeStudentData.cgpa : 3.22;
+  var remGpa = Math.max(0, 4.0 - cGpa);
+  var crDone = (activeStudentData && activeStudentData.completed_credits) ? activeStudentData.completed_credits : 24;
+  var crTot = (activeStudentData && activeStudentData.program_credits) ? activeStudentData.program_credits : 142;
+  var pctDone = Math.round((crDone / crTot) * 100);
+  var tgtGoal = (activeStudentData && activeStudentData.target_cgpa) ? activeStudentData.target_cgpa : 3.85;
+
   // Ring 1 Doughnut
   var rg1El = document.getElementById('rg1');
   if(rg1El) {
@@ -4487,7 +4521,7 @@ function initCharts(){
       type:'doughnut',
       data:{
         datasets:[{
-          data:[3.22,.78],
+          data:[cGpa, remGpa],
           backgroundColor:[isDark ? '#38bdf8' : '#0369a1', isDark ? 'rgba(56,189,248,.15)' : 'rgba(14,165,233,.14)'],
           borderWidth:0,hoverOffset:0
         }]
@@ -4515,7 +4549,7 @@ function initCharts(){
       type:'doughnut',
       data:{
         datasets:[{
-          data:[17,83],
+          data:[pctDone, Math.max(0, 100 - pctDone)],
           backgroundColor:['#0ea5e9', isDark ? 'rgba(14,165,233,.12)' : 'rgba(14,165,233,.1)'],
           borderWidth:0,hoverOffset:0
         }]
@@ -4539,12 +4573,18 @@ function initCharts(){
   var trendEl = document.getElementById('trend');
   if(trendEl) {
     if(trendEl._chartInstance) trendEl._chartInstance.destroy();
+    var trLabels = (activeStudentData && activeStudentData.trend_labels && activeStudentData.trend_labels.length > 0)
+      ? activeStudentData.trend_labels.map(function(l){ return l.replace('Semester ', 'S'); })
+      : ['S1','S2','S3'];
+    var trData = (activeStudentData && activeStudentData.trend_gpas && activeStudentData.trend_gpas.length > 0)
+      ? activeStudentData.trend_gpas
+      : [3.25,3.08,3.38];
     trendEl._chartInstance = new Chart(trendEl,{
       type:'line',
       data:{
-        labels:['S1','S2','S3'],
+        labels: trLabels,
         datasets:[{
-          data:[3.25,3.08,3.38],
+          data: trData,
           borderColor: isDark ? '#38bdf8' : '#0369a1',
           backgroundColor: isDark ? 'rgba(56,189,248,.12)' : 'rgba(14,165,233,.08)',
           borderWidth:2.5,
@@ -4564,7 +4604,7 @@ function initCharts(){
           easing:'easeOutCubic'
         },
         plugins:{legend:{display:false}},
-        scales:{x:{grid:g},y:{grid:g,min:2.5,max:4}}
+        scales:{x:{grid:g},y:{grid:g,min:2.0,max:4.0}}
       }
     });
   }
@@ -4573,14 +4613,20 @@ function initCharts(){
   var trajEl = document.getElementById('traj');
   if(trajEl) {
     if(trajEl._chartInstance) trajEl._chartInstance.destroy();
+    var tLabels = (activeStudentData && activeStudentData.trend_labels && activeStudentData.trend_labels.length > 0)
+      ? activeStudentData.trend_labels.map(function(l){ return l.replace('Semester ', 'S'); }).concat(['S4 (Proj)','S5 (Proj)','S6 (Proj)'])
+      : ['S1','S2','S3','S4','S5','S6 (Proj)'];
+    var tData = (activeStudentData && activeStudentData.trend_gpas && activeStudentData.trend_gpas.length > 0)
+      ? activeStudentData.trend_gpas.concat([3.55, 3.72, tgtGoal])
+      : [2.4,2.6,2.9,3.52,3.72,3.88];
     trajEl._chartInstance = new Chart(trajEl,{
       type:'line',
       data:{
-        labels:['S1','S2','S3','S4','S5','S6 (Proj)'],
+        labels: tLabels,
         datasets:[
           {
             label:'GPA Trajectory',
-            data:[2.4,2.6,2.9,3.52,3.72,3.88],
+            data: tData,
             borderColor: isDark ? '#38bdf8' : '#0369a1',
             backgroundColor: isDark ? 'rgba(56,189,248,.14)' : 'rgba(14,165,233,.09)',
             borderWidth:2.5,
@@ -4592,8 +4638,8 @@ function initCharts(){
             fill:true
           },
           {
-            label:"Target Goal (3.88)",
-            data:[3.88,3.88,3.88,3.88,3.88,3.88],
+            label:"Target Goal (" + tgtGoal.toFixed(2) + ")",
+            data: Array(tLabels.length).fill(tgtGoal),
             borderColor:'rgba(245,158,11,.8)',
             borderWidth:1.5,
             borderDash:[6,4],
