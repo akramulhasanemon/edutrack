@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/banner.svg" width="100%" alt="EduTrack Banner" />
+<img src="./assets/banner.gif" width="100%" alt="EduTrack Banner" />
 
 <br/>
 
