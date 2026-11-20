@@ -49,4 +49,10 @@ dist/
 models/*.gguf
 bin/
 
+# Local custom standalone projects
+developer_portfolio/
+medical_website/
+run_all_projects.bat
+
+
 
