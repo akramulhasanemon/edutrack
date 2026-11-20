@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0:050D1A,25:0E294B,50:1E40AF,75:2563EB,100:38BDF8&height=220&section=header&text=EduTrack&fontSize=48&fontAlignY=36&fontColor=ffffff&desc=Academic%20Intelligence%2C%20Trajectory%20Modeling%20%26%20Workspace&descAlignY=58&descSize=18&descAlign=50" width="100%" alt="EduTrack Banner" />
+<img src="./assets/banner.svg" width="100%" alt="EduTrack Banner" />
 
 <br/>
 
