@@ -2685,26 +2685,38 @@ body.dark-mode .ai-act-btn:hover {
 
       <!-- FACULTY DASHBOARD -->
       <div class="section" id="sec-fdash">
-        <div class="f-bnr"><div class="fbsec">Welcome, Faculty Member</div><div class="fbh">Faculty Control Panel</div><div class="fbs">Search your assigned sections, review class cohorts, and manage student grades.</div></div>
+        <div class="f-bnr"><div class="fbsec">Welcome, Faculty Member</div><div class="fbh" id="fac-welcome-title">Faculty Control Panel</div><div class="fbs">Search your assigned sections, review class cohorts, and manage student grades.</div></div>
         <div class="fst">
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><div class="gsc-lbl">Total Students</div><div class="gsc-val">1</div><div class="gsc-sub">Assigned sections cohort</div></div>
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div><div class="gsc-lbl">Batch Avg CGPA</div><div class="gsc-val">3.22</div><div class="gsc-sub">Cohort academic average</div></div>
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div><div class="gsc-lbl">Students at Risk</div><div class="gsc-val" style="color:var(--ok)">0</div><div class="gsc-sub">Grade &lt; 2.50</div></div>
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></div><div class="gsc-lbl">Honor Roll ≥3.75</div><div class="gsc-val">0</div><div class="gsc-sub">Top tier performers</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><div class="gsc-lbl">Total Students</div><div class="gsc-val" id="fac-stat-total">1</div><div class="gsc-sub">Assigned sections cohort</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div><div class="gsc-lbl">Batch Avg CGPA</div><div class="gsc-val" id="fac-stat-avg">3.22</div><div class="gsc-sub">Cohort academic average</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div><div class="gsc-lbl">Students at Risk</div><div class="gsc-val" id="fac-stat-risk" style="color:var(--ok)">0</div><div class="gsc-sub">Grade &lt; 2.50</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></div><div class="gsc-lbl">Honor Roll ≥3.75</div><div class="gsc-val" id="fac-stat-honor">0</div><div class="gsc-sub">Top tier performers</div></div>
         </div>
         <div class="gc">
-          <div class="gc-h"><div><div class="gc-t">Student Roster</div><div class="gc-s">Assigned Sections Only</div></div><span style="font-size:11px;color:var(--muted)">Showing 1 of 1 students</span></div>
+          <div class="gc-h"><div><div class="gc-t">Student Roster</div><div class="gc-s">Assigned Sections Only</div></div><span style="font-size:11px;color:var(--muted)" id="fac-roster-count">Showing 1 of 1 students</span></div>
           <div class="s-bar"><input class="s-inp" id="faculty-search-inp" placeholder="Search student ID, name, section, CGPA, or status…" onkeyup="filterFacultyRoster()"></div>
           <table class="rtbl" id="faculty-roster-table">
             <thead><tr><th>Student ID</th><th>Name</th><th>Section</th><th>CGPA</th><th>Status</th><th>Action</th></tr></thead>
-            <tbody><tr><td style="color:var(--sky);font-weight:600">20255103311</td><td style="font-weight:600">Mahabub Shaddhow</td><td>06</td><td style="color:var(--ok);font-weight:700">3.22</td><td><span class="sbdg ok">● On Track</span></td><td><button class="btn-xs" onclick="alert('Viewing full record for Mahabub Shaddhow (20255103311)')">View →</button></td></tr></tbody>
+            <tbody id="fac-roster-tbody">
+              <tr><td style="color:var(--sky);font-weight:600">20255103311</td><td style="font-weight:600">Mahabub Shaddhow</td><td>06</td><td style="color:var(--ok);font-weight:700">3.22</td><td><span class="sbdg ok">● On Track</span></td><td><button class="btn-xs" onclick="openFacultyGradeModal('20255103311', 'Mahabub Shaddhow', '06')">Manage Grades →</button></td></tr>
+            </tbody>
           </table>
         </div>
       </div>
 
       <!-- FACULTY SECTIONS -->
       <div class="section" id="sec-fsec">
-        <div class="gc"><div class="gc-h"><div class="gc-t">Section Assignments</div></div><table class="rtbl"><thead><tr><th>Section</th><th>Course</th><th>Students</th><th>Schedule</th><th>Room</th></tr></thead><tbody><tr><td>06</td><td>MAT101 — Differential and Integral Calculus</td><td>1</td><td>Thu 11:00–12:30</td><td>Room 402</td></tr><tr><td>06</td><td>CSE101 — Introduction to Programming</td><td>1</td><td>Tue/Thu 14:00</td><td>Lab 203</td></tr></tbody></table></div>
+        <div class="gc">
+          <div class="gc-h"><div><div class="gc-t">Section Assignments &amp; Schedule</div><div class="gc-s">Assigned Teaching Loads &amp; Class Hours</div></div></div>
+          <table class="rtbl" id="faculty-sections-table">
+            <thead><tr><th>Section</th><th>Course</th><th>Schedule</th><th>Room</th><th>Status</th></tr></thead>
+            <tbody id="fac-sections-tbody">
+              <tr><td>06</td><td>MAT101 — Differential and Integral Calculus</td><td>Mon / Thu 11:00–12:30</td><td>Room 402</td><td><span class="sbdg ok">Active</span></td></tr>
+              <tr><td>06</td><td>CSE101 — Introduction to Computer Science</td><td>Mon / Wed 09:00–10:30</td><td>Room 501</td><td><span class="sbdg ok">Active</span></td></tr>
+              <tr><td>06</td><td>CSE103 — Structured Programming Language</td><td>Tue 10:00–11:30</td><td>Lab 2</td><td><span class="sbdg ok">Active</span></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>
@@ -2896,6 +2908,61 @@ body.dark-mode .ai-act-btn:hover {
   </div>
 </div>
 
+<!-- FACULTY GRADE MANAGEMENT MODAL -->
+<div id="faculty-grade-modal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeFacultyGradeModal()">
+  <div class="modal-card" style="max-width:720px;width:95%;">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="sb-ico" style="width:34px;height:34px;font-size:14px;background:linear-gradient(135deg,var(--deepest),var(--sky));">GR</div>
+        <div>
+          <div style="font-size:15px;font-weight:800;color:var(--ink);" id="fgm-student-title">Manage Student Grades</div>
+          <div style="font-size:11px;color:var(--muted);" id="fgm-student-sub">Student ID: 20255103311 · Section: 06</div>
+        </div>
+      </div>
+      <button onclick="closeFacultyGradeModal()" class="btn-xs" style="font-size:14px;padding:4px 10px;cursor:pointer;" title="Close">&times;</button>
+    </div>
+    <div class="modal-body" style="max-height:70vh;overflow-y:auto;padding:1.4rem;display:flex;flex-direction:column;gap:14px;">
+      <div id="fgm-toast" style="display:none;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:600;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#22c55e;"></div>
+      <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.6px;">Current CGPA</div>
+          <div style="font-size:22px;font-weight:800;color:var(--deep);" id="fgm-curr-cgpa">3.22</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.6px;">Academic Standing</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ok);" id="fgm-curr-standing">Good Standing</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.6px;">Completed Credits</div>
+          <div style="font-size:16px;font-weight:800;color:var(--sky);" id="fgm-curr-credits">24 / 142 CR</div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <span>Enrolled Courses &amp; Grade Adjustment</span>
+          <span style="font-size:11px;color:var(--muted);">Select letter grade &amp; click Save</span>
+        </div>
+        <table class="rtbl" id="fgm-courses-table">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Sem</th>
+              <th>Credits</th>
+              <th>Current</th>
+              <th>New Grade</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="fgm-courses-tbody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════════════════
 // SPLASH CONTROLLER
@@ -2930,6 +2997,8 @@ var currentAiLang='en';
 var isDark = false;
 var currentStudentId = '20255103311';
 var activeStudentData = null;
+var currentFacultyId = 'FACULTY001';
+var activeFacultyData = null;
 
 function populateStudentDashboard(data) {
   if (!data) return;
@@ -3349,21 +3418,37 @@ async function doLogin(){
     try {
       var res = await window.pywebview.api.authenticate(id, pw, role);
       if (res && res.success) {
-        currentStudentId = (res.user && res.user.user_id) ? res.user.user_id : id;
-        if (res.student_data) {
-          populateStudentDashboard(res.student_data);
-        } else if (window.pywebview.api.get_student_data && role === 'student') {
-          var sData = await window.pywebview.api.get_student_data(currentStudentId);
-          if (sData) populateStudentDashboard(sData);
-        }
-        if (res.user && res.user.display_name) {
-          var un = document.getElementById('u-nm');
-          if(un) un.textContent = res.user.display_name;
-          var dw = document.getElementById('dash-welcome-name');
-          if(dw) dw.textContent = 'Welcome back, ' + res.user.display_name;
-          var inits = res.user.display_name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
-          var ua = document.getElementById('u-av'); if(ua) ua.textContent = inits;
-          var da = document.getElementById('dash-av'); if(da) da.textContent = inits;
+        if (role === 'student') {
+          currentStudentId = (res.user && res.user.user_id) ? res.user.user_id : id;
+          if (res.student_data) {
+            populateStudentDashboard(res.student_data);
+          } else if (window.pywebview.api.get_student_data) {
+            var sData = await window.pywebview.api.get_student_data(currentStudentId);
+            if (sData) populateStudentDashboard(sData);
+          }
+          if (res.user && res.user.display_name) {
+            var un = document.getElementById('u-nm');
+            if(un) un.textContent = res.user.display_name;
+            var dw = document.getElementById('dash-welcome-name');
+            if(dw) dw.textContent = 'Welcome back, ' + res.user.display_name;
+            var inits = res.user.display_name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+            var ua = document.getElementById('u-av'); if(ua) ua.textContent = inits;
+            var da = document.getElementById('dash-av'); if(da) da.textContent = inits;
+          }
+        } else if (role === 'faculty') {
+          currentFacultyId = (res.user && res.user.user_id) ? res.user.user_id : id;
+          if (res.faculty_data) {
+            populateFacultyDashboard(res.faculty_data);
+          } else if (window.pywebview.api.get_faculty_data) {
+            var fData = await window.pywebview.api.get_faculty_data(currentFacultyId);
+            if (fData) populateFacultyDashboard(fData);
+          }
+          var facName = (res.user && res.user.display_name) ? res.user.display_name : 'Faculty Member';
+          var unF = document.getElementById('u-nm'); if(unF) unF.textContent = facName;
+          var initsF = facName.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase() || 'FM';
+          var uaF = document.getElementById('u-av'); if(uaF) uaF.textContent = initsF;
+          var urF = document.getElementById('u-rl'); if(urF) urF.textContent = 'Faculty / ' + currentFacultyId;
+          var fw = document.getElementById('fac-welcome-title'); if(fw) fw.textContent = 'Faculty Control Panel · ' + currentFacultyId;
         }
       }
     } catch(err){
@@ -3441,6 +3526,10 @@ function go(id){
 
   if(id==='dashboard'){
     runPortalAnimations();
+  } else if((id==='fdash' || id==='fsec') && window.pywebview && window.pywebview.api && window.pywebview.api.get_faculty_data){
+    window.pywebview.api.get_faculty_data(currentFacultyId).then(function(fData){
+      if(fData) populateFacultyDashboard(fData);
+    }).catch(function(e){ console.error(e); });
   } else if(id==='cgpa'&&document.getElementById('cc').children.length===0){
     addC('MAT101', 'A', 3);
     addC('CSE101', 'A-', 3);
@@ -4016,6 +4105,189 @@ async function saveSettings() {
     }
   }
   alert('Preferences saved successfully!');
+}
+
+function populateFacultyDashboard(data) {
+  if (!data) return;
+  activeFacultyData = data;
+
+  var totEl = document.getElementById('fac-stat-total');
+  if (totEl) totEl.textContent = data.total_students || 0;
+
+  var avgEl = document.getElementById('fac-stat-avg');
+  if (avgEl) avgEl.textContent = Number(data.batch_avg_cgpa || 0).toFixed(2);
+
+  var riskEl = document.getElementById('fac-stat-risk');
+  if (riskEl) {
+    riskEl.textContent = data.at_risk_count || 0;
+    riskEl.style.color = (data.at_risk_count > 0) ? 'var(--danger)' : 'var(--ok)';
+  }
+
+  var honorEl = document.getElementById('fac-stat-honor');
+  if (honorEl) honorEl.textContent = data.honor_roll_count || 0;
+
+  var countEl = document.getElementById('fac-roster-count');
+  if (countEl) countEl.textContent = 'Showing ' + (data.students ? data.students.length : 0) + ' of ' + (data.total_students || 0) + ' students';
+
+  // Render Roster Table
+  var tbody = document.getElementById('fac-roster-tbody');
+  if (tbody && data.students) {
+    if (data.students.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:18px;">No students assigned to your sections yet.</td></tr>';
+    } else {
+      var rowsHtml = '';
+      data.students.forEach(function(s) {
+        var cgpa = Number(s.current_cgpa || s.cgpa || 0);
+        var badgeCls = 'ok';
+        var badgeText = '● On Track';
+        if (cgpa >= 3.75) {
+          badgeCls = 'ok';
+          badgeText = '★ Honours';
+        } else if (cgpa < 2.50) {
+          badgeCls = 'danger';
+          badgeText = '▲ At Risk';
+        }
+        var sNameEsc = (s.name || '').replace(/'/g, "\\'");
+        rowsHtml += '<tr>' +
+          '<td style="color:var(--sky);font-weight:600">' + (s.student_id || '') + '</td>' +
+          '<td style="font-weight:600">' + (s.name || '') + '</td>' +
+          '<td>' + (s.section || '') + '</td>' +
+          '<td style="color:' + (cgpa >= 3.0 ? 'var(--ok)' : (cgpa < 2.5 ? 'var(--danger)' : 'var(--warn)')) + ';font-weight:700">' + cgpa.toFixed(2) + '</td>' +
+          '<td><span class="sbdg ' + badgeCls + '">' + badgeText + '</span></td>' +
+          '<td><button class="btn-xs" onclick="openFacultyGradeModal(\'' + s.student_id + '\', \'' + sNameEsc + '\', \'' + (s.section || '') + '\')">Manage Grades →</button></td>' +
+        '</tr>';
+      });
+      tbody.innerHTML = rowsHtml;
+    }
+  }
+
+  // Render Section Assignments Table
+  var secTbody = document.getElementById('fac-sections-tbody');
+  if (secTbody && data.routines && data.routines.length > 0) {
+    var secRowsHtml = '';
+    data.routines.forEach(function(r) {
+      secRowsHtml += '<tr>' +
+        '<td><strong>' + (data.sections && data.sections[0] ? data.sections[0] : '06') + '</strong></td>' +
+        '<td><strong>' + (r.course_code || '') + '</strong> — ' + (r.course_title || '') + '</td>' +
+        '<td>' + (r.day || '') + ' ' + (r.time || '') + '</td>' +
+        '<td>' + (r.room || '') + '</td>' +
+        '<td><span class="sbdg ok">Active</span></td>' +
+      '</tr>';
+    });
+    secTbody.innerHTML = secRowsHtml;
+  }
+}
+
+async function openFacultyGradeModal(studentId, studentName, section) {
+  var modal = document.getElementById('faculty-grade-modal');
+  if (!modal) return;
+
+  var titleEl = document.getElementById('fgm-student-title');
+  if (titleEl) titleEl.textContent = 'Manage Grades: ' + (studentName || studentId);
+  var subEl = document.getElementById('fgm-student-sub');
+  if (subEl) subEl.textContent = 'Student ID: ' + studentId + ' · Section: ' + section;
+
+  var toast = document.getElementById('fgm-toast');
+  if (toast) toast.style.display = 'none';
+
+  modal.style.display = 'flex';
+
+  var tbody = document.getElementById('fgm-courses-tbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--muted);">Loading student course records...</td></tr>';
+
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.get_student_data) {
+    try {
+      var sData = await window.pywebview.api.get_student_data(studentId);
+      if (sData) {
+        var cgpaEl = document.getElementById('fgm-curr-cgpa');
+        if (cgpaEl) cgpaEl.textContent = Number(sData.cgpa || 0).toFixed(2);
+        var stEl = document.getElementById('fgm-curr-standing');
+        if (stEl) {
+          stEl.textContent = sData.standing_title || 'Good Standing';
+          stEl.className = sData.standing_class ? ('sbdg ' + sData.standing_class) : '';
+        }
+        var crEl = document.getElementById('fgm-curr-credits');
+        if (crEl) crEl.textContent = (sData.completed_credits || 0) + ' / ' + (sData.program_credits || 142) + ' CR';
+
+        if (tbody && sData.enrollments && sData.enrollments.length > 0) {
+          var rows = '';
+          var gradeOptions = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'F'];
+          sData.enrollments.forEach(function(c) {
+            var currGrade = (c.letter_grade || '').trim().toUpperCase();
+            var optHtml = '';
+            gradeOptions.forEach(function(g) {
+              optHtml += '<option value="' + g + '"' + (g === currGrade ? ' selected' : '') + '>' + g + '</option>';
+            });
+
+            rows += '<tr>' +
+              '<td><strong>' + (c.course_code || '') + '</strong><br><span style="font-size:10.5px;color:var(--muted);">' + (c.course_title || '') + '</span></td>' +
+              '<td>S' + (c.semester_no || '1') + '</td>' +
+              '<td>' + (c.credit_hours || 3.0) + '</td>' +
+              '<td><span class="sbdg ' + (currGrade === 'F' ? 'danger' : 'ok') + '">' + (currGrade || 'N/A') + '</span></td>' +
+              '<td>' +
+                '<select class="s-inp" id="fgm-sel-' + c.course_code + '" style="padding:4px 8px;font-size:12px;width:75px;">' +
+                  optHtml +
+                '</select>' +
+              '</td>' +
+              '<td>' +
+                '<button class="btn-xs" onclick="saveFacultyGrade(\'' + studentId + '\', \'' + c.course_code + '\', \'' + c.semester_no + '\')">Save</button>' +
+              '</td>' +
+            '</tr>';
+          });
+          tbody.innerHTML = rows;
+        }
+      }
+    } catch(err) {
+      console.error('Error fetching student details for modal:', err);
+    }
+  }
+}
+
+function closeFacultyGradeModal() {
+  var modal = document.getElementById('faculty-grade-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function saveFacultyGrade(studentId, courseCode, semesterNo) {
+  var sel = document.getElementById('fgm-sel-' + courseCode);
+  if (!sel) return;
+  var newGrade = sel.value;
+
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.update_student_grade) {
+    try {
+      var res = await window.pywebview.api.update_student_grade(studentId, courseCode, semesterNo, newGrade);
+      if (res && res.success) {
+        var toast = document.getElementById('fgm-toast');
+        if (toast) {
+          toast.textContent = '✓ Grade for ' + courseCode + ' updated to ' + newGrade + ' successfully!';
+          toast.style.display = 'block';
+          setTimeout(function() { if (toast) toast.style.display = 'none'; }, 4000);
+        }
+        // Refresh student details in modal
+        var sData = await window.pywebview.api.get_student_data(studentId);
+        if (sData) {
+          var cgpaEl = document.getElementById('fgm-curr-cgpa');
+          if (cgpaEl) cgpaEl.textContent = Number(sData.cgpa || 0).toFixed(2);
+          var stEl = document.getElementById('fgm-curr-standing');
+          if (stEl) stEl.textContent = sData.standing_title || 'Good Standing';
+          // Also update activeStudentData if current student
+          if (currentStudentId === studentId) {
+            populateStudentDashboard(sData);
+          }
+        }
+        // Refresh faculty batch stats & roster
+        if (window.pywebview.api.get_faculty_data) {
+          var fData = await window.pywebview.api.get_faculty_data(currentFacultyId);
+          if (fData) populateFacultyDashboard(fData);
+        }
+      } else {
+        alert('Failed to update grade: ' + (res ? res.error : 'Unknown error'));
+      }
+    } catch(err) {
+      console.error('Save grade error:', err);
+      alert('Error updating grade: ' + err);
+    }
+  }
 }
 
 function filterFacultyRoster() {

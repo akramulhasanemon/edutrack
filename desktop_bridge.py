@@ -212,14 +212,23 @@ class DesktopBridgeAPI:
 
         # Compute batch average CGPA
         student_cgpas = [
-            s.get("cgpa") for s in students if s.get("cgpa") is not None and s.get("cgpa") > 0
+            (s.get("current_cgpa") or s.get("cgpa"))
+            for s in students
+            if (s.get("current_cgpa") or s.get("cgpa")) is not None
+            and (s.get("current_cgpa") or s.get("cgpa")) > 0
         ]
         batch_avg = (
             round(sum(student_cgpas) / len(student_cgpas), 2)
             if student_cgpas
-            else 3.22
+            else 0.0
         )
-        at_risk_count = sum(1 for s in students if (s.get("cgpa") or 4.0) < 2.5)
+        at_risk_count = sum(
+            1 for s in students if (s.get("current_cgpa") or s.get("cgpa") or 4.0) < 2.5
+        )
+        honor_roll_count = sum(
+            1 for s in students if (s.get("current_cgpa") or s.get("cgpa") or 0.0) >= 3.75
+        )
+        routines = AcademicCRUD.get_routines()
 
         return {
             "faculty_id": faculty_id,
@@ -229,6 +238,8 @@ class DesktopBridgeAPI:
             "total_students": len(students),
             "batch_avg_cgpa": batch_avg,
             "at_risk_count": at_risk_count,
+            "honor_roll_count": honor_roll_count,
+            "routines": routines,
         }
 
     def update_student_grade(
@@ -240,14 +251,17 @@ class DesktopBridgeAPI:
     ) -> dict[str, Any]:
         """Update student enrollment grade in SQLite."""
         gp = grade_point_for_letter(letter_grade)
-        if gp is None:
+        if gp is None and letter_grade != "":
             return {"success": False, "error": f"Invalid letter grade: {letter_grade}"}
 
         faculty_id = self._current_user["user_id"] if self._current_user else "FACULTY001"
-        ok = AcademicCRUD.update_faculty_student_grade(
-            faculty_id, student_id, course_code, semester_no, gp, letter_grade
-        )
-        return {"success": ok}
+        try:
+            AcademicCRUD.update_faculty_student_grade(
+                faculty_id, student_id, course_code, semester_no, letter_grade
+            )
+            return {"success": True}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
 
     # -------------------------------------------------------------------------
     # CGPA Calculation & Forecasting
