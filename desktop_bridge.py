@@ -212,14 +212,23 @@ class DesktopBridgeAPI:
 
         # Compute batch average CGPA
         student_cgpas = [
-            s.get("cgpa") for s in students if s.get("cgpa") is not None and s.get("cgpa") > 0
+            (s.get("current_cgpa") or s.get("cgpa"))
+            for s in students
+            if (s.get("current_cgpa") or s.get("cgpa")) is not None
+            and (s.get("current_cgpa") or s.get("cgpa")) > 0
         ]
         batch_avg = (
             round(sum(student_cgpas) / len(student_cgpas), 2)
             if student_cgpas
-            else 3.22
+            else 0.0
         )
-        at_risk_count = sum(1 for s in students if (s.get("cgpa") or 4.0) < 2.5)
+        at_risk_count = sum(
+            1 for s in students if (s.get("current_cgpa") or s.get("cgpa") or 4.0) < 2.5
+        )
+        honor_roll_count = sum(
+            1 for s in students if (s.get("current_cgpa") or s.get("cgpa") or 0.0) >= 3.75
+        )
+        routines = AcademicCRUD.get_routines()
 
         return {
             "faculty_id": faculty_id,
@@ -229,6 +238,8 @@ class DesktopBridgeAPI:
             "total_students": len(students),
             "batch_avg_cgpa": batch_avg,
             "at_risk_count": at_risk_count,
+            "honor_roll_count": honor_roll_count,
+            "routines": routines,
         }
 
     def update_student_grade(
@@ -240,14 +251,17 @@ class DesktopBridgeAPI:
     ) -> dict[str, Any]:
         """Update student enrollment grade in SQLite."""
         gp = grade_point_for_letter(letter_grade)
-        if gp is None:
+        if gp is None and letter_grade != "":
             return {"success": False, "error": f"Invalid letter grade: {letter_grade}"}
 
         faculty_id = self._current_user["user_id"] if self._current_user else "FACULTY001"
-        ok = AcademicCRUD.update_faculty_student_grade(
-            faculty_id, student_id, course_code, semester_no, gp, letter_grade
-        )
-        return {"success": ok}
+        try:
+            AcademicCRUD.update_faculty_student_grade(
+                faculty_id, student_id, course_code, semester_no, letter_grade
+            )
+            return {"success": True}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
 
     # -------------------------------------------------------------------------
     # CGPA Calculation & Forecasting
@@ -418,7 +432,7 @@ class DesktopBridgeAPI:
     # -------------------------------------------------------------------------
     def save_settings(self, settings_payload: dict[str, Any]) -> dict[str, Any]:
         """Save student or faculty preferences."""
-        uid = self._current_user["user_id"] if self._current_user else "20255103311"
+        uid = settings_payload.get("user_id") or (self._current_user["user_id"] if self._current_user else "20255103311")
         try:
             target_cgpa = float(settings_payload.get("target_cgpa", 3.85))
             display_name = str(settings_payload.get("display_name", "")).strip()
@@ -438,5 +452,50 @@ class DesktopBridgeAPI:
             self._advisor_engine = AIAdvisorEngine(api_key=gemini_key or None)
 
             return {"success": True, "message": "Settings saved successfully."}
+        except Exception as exc:
+            return {"success": False, "error": str(exc)}
+
+    def update_settings(
+        self,
+        user_id: str = "",
+        display_name: str = "",
+        target_cgpa: float = 3.85,
+        gemini_api_key: str = "",
+    ) -> dict[str, Any]:
+        """Convenience alias for save_settings supporting positional or named arguments."""
+        uid = user_id or (self._current_user["user_id"] if self._current_user else "20255103311")
+        return self.save_settings({
+            "user_id": uid,
+            "display_name": display_name,
+            "target_cgpa": target_cgpa,
+            "gemini_api_key": gemini_api_key,
+        })
+
+    # -------------------------------------------------------------------------
+    # Attendance Tracking & Clearance
+    # -------------------------------------------------------------------------
+    def update_attendance_record(
+        self,
+        student_id: str = "",
+        course_code: str = "",
+        attended_classes: int = 0,
+        total_classes: int = 0,
+    ) -> dict[str, Any]:
+        """Update attendance record in SQLite database and return recalculated status."""
+        uid = student_id or (self._current_user["user_id"] if self._current_user else "20255103311")
+        try:
+            tot = max(0, int(total_classes))
+            att = max(0, min(int(attended_classes), tot))
+            AcademicCRUD.save_attendance(uid, course_code, tot, att)
+            records = AcademicCRUD.get_attendance(uid)
+            total_att = sum(r.get("total_classes", 0) for r in records)
+            attended = sum(r.get("attended_classes", 0) for r in records)
+            overall = round((attended / total_att) * 100, 1) if total_att > 0 else 0.0
+            return {
+                "success": True,
+                "attendance": records,
+                "overall_attendance": overall,
+                "message": f"Updated attendance for {course_code}."
+            }
         except Exception as exc:
             return {"success": False, "error": str(exc)}

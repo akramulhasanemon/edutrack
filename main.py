@@ -21,8 +21,15 @@ def main() -> None:
 
     if "--legacy" in sys.argv:
         print("Notice: Launching legacy interface as requested by --legacy flag...")
-        import legacy_main
-        sys.exit(0)
+        try:
+            import tkinter as tk
+            from UI.main_window import EduTrackDashboard
+            root = tk.Tk()
+            app = EduTrackDashboard(root)
+            root.mainloop()
+            sys.exit(0)
+        except Exception as exc:
+            print(f"Notice: Legacy interface unavailable ({exc}). Continuing with modern interface...")
 
     try:
         import desktop_app

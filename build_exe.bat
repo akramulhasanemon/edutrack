@@ -10,7 +10,7 @@ if not exist ".venv\Scripts\pyinstaller.exe" (
 )
 
 echo [INFO] Building EduTrack.exe with Per-Monitor DPI awareness manifest...
-.venv\Scripts\pyinstaller.exe --noconfirm --clean --onefile --windowed --name "EduTrack" --icon "assets/edutrack-icon.ico" --manifest "EduTrack.manifest" --add-data "assets;assets" --add-data "web_ui;web_ui" --add-data "database/schema.sql;database" --collect-all customtkinter --collect-all reportlab --collect-all webview --collect-all sklearn main.py
+.venv\Scripts\pyinstaller.exe --noconfirm --clean --onefile --windowed --name "EduTrack" --icon "assets/edutrack-icon.ico" --manifest "EduTrack.manifest" --add-data "assets;assets" --add-data "web_ui;web_ui" --add-data "data;data" --add-data "database;database" --add-data "edutrack.db;." --collect-all customtkinter --collect-all reportlab --collect-all webview --collect-all sklearn main.py
 
 echo.
 if exist "dist\EduTrack.exe" (

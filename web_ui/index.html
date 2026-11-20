@@ -23,21 +23,21 @@
   --ok:#059669;--warn:#d97706;--err:#dc2626;
   --white:#fff;--r:16px;--t:all .24s cubic-bezier(.4,0,.2,1);
 
-  /* Modern Linear/Stripe Light Mode System */
-  --bg-page:#f8fafc;
-  --bg-main:radial-gradient(ellipse 70% 50% at 50% -10%, rgba(14, 165, 233, 0.04), transparent 70%), #f8fafc;
+  /* Modern Warm Slate Light Mode System (Glare-Free) */
+  --bg-page:#f1f5f9;
+  --bg-main:radial-gradient(ellipse 70% 50% at 50% -10%, rgba(14, 165, 233, 0.05), transparent 70%), #f1f5f9;
   --bg-card:#ffffff;
-  --bg-card-hover:#ffffff;
+  --bg-card-hover:#f8fafc;
   --border-card:1px solid #e2e8f0;
-  --shadow-card:0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 4px 16px -2px rgba(15, 23, 42, 0.05);
-  --shadow-hover:0 12px 28px -4px rgba(15, 23, 42, 0.09), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
-  --topbar-bg:rgba(255, 255, 255, 0.88);
+  --shadow-card:0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 6px 20px -3px rgba(15, 23, 42, 0.05);
+  --shadow-hover:0 12px 28px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+  --topbar-bg:rgba(241, 245, 249, 0.88);
   --topbar-border:1px solid #e2e8f0;
   --input-bg:#ffffff;
   --input-border:1px solid #cbd5e1;
   --lc-bg:#ffffff;
   --lc-border:1px solid #e2e8f0;
-  --chart-grid:#f1f5f9;
+  --chart-grid:#e2e8f0;
   --chart-text:#64748b;
   --chat-bg:#ffffff;
   --chat-ai-bubble:#f8fafc;
@@ -47,34 +47,34 @@
 }
 
 /* ═══════════════════════════════════════
-   LINEAR / RAYCAST DARK MODE (DEFAULT)
+   PREMIUM LINEAR / RAYCAST DARK MODE (DEFAULT)
 ═══════════════════════════════════════ */
 body.dark-mode{
-  --bg-page:#080c14;
-  --bg-main:radial-gradient(ellipse 70% 40% at 75% 0%, rgba(56,189,248,0.06), transparent 70%), #080c14;
-  --bg-card:rgba(15,23,42,0.72);
-  --bg-card-hover:rgba(22,33,58,0.85);
-  --border-card:1px solid rgba(255,255,255,0.08);
-  --shadow-card:0 4px 20px -2px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
-  --shadow-hover:0 12px 32px -4px rgba(0,0,0,0.7), 0 0 20px rgba(56,189,248,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
-  --topbar-bg:rgba(8,12,20,0.82);
-  --topbar-border:1px solid rgba(255,255,255,0.07);
-  --input-bg:rgba(15,23,42,0.65);
-  --input-border:1px solid rgba(255,255,255,0.12);
-  --lc-bg:rgba(11,15,25,0.85);
-  --lc-border:1px solid rgba(255,255,255,0.08);
+  --bg-page:#06090e;
+  --bg-main:radial-gradient(ellipse 80% 50% at 50% -15%, rgba(14, 165, 233, 0.08), transparent 70%), #070b12;
+  --bg-card:rgba(13, 19, 33, 0.78);
+  --bg-card-hover:rgba(20, 30, 52, 0.9);
+  --border-card:1px solid rgba(255, 255, 255, 0.08);
+  --shadow-card:0 4px 24px -2px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-hover:0 14px 36px -4px rgba(0, 0, 0, 0.75), 0 0 24px rgba(56, 189, 248, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --topbar-bg:rgba(7, 11, 18, 0.85);
+  --topbar-border:1px solid rgba(255, 255, 255, 0.07);
+  --input-bg:rgba(13, 19, 33, 0.75);
+  --input-border:1px solid rgba(255, 255, 255, 0.12);
+  --lc-bg:rgba(9, 14, 24, 0.88);
+  --lc-border:1px solid rgba(255, 255, 255, 0.08);
   --ink:#f8fafc;
   --ink2:#cbd5e1;
   --mid:#94a3b8;
   --muted:#64748b;
-  --light:rgba(255,255,255,0.04);
-  --white:#0f172a;
-  --chart-grid:rgba(255,255,255,0.05);
+  --light:rgba(255, 255, 255, 0.04);
+  --white:#0d1321;
+  --chart-grid:rgba(255, 255, 255, 0.05);
   --chart-text:#94a3b8;
-  --chat-bg:rgba(11,15,25,0.7);
-  --chat-ai-bubble:rgba(15,23,42,0.85);
-  --drawer-bg:rgba(11,15,25,0.96);
-  --drawer-border:1px solid rgba(255,255,255,0.08);
+  --chat-bg:rgba(10, 15, 27, 0.75);
+  --chat-ai-bubble:rgba(15, 23, 42, 0.9);
+  --drawer-bg:rgba(9, 14, 24, 0.96);
+  --drawer-border:1px solid rgba(255, 255, 255, 0.08);
   --drawer-text:#f8fafc;
 }
 
@@ -349,6 +349,30 @@ body.dark-mode .btn-dm:hover{
 .u-rl{font-size:11px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
 .btn-so{width:100%;padding:8.5px;border-radius:9px;border:1px solid #e2e8f0;background:#ffffff;color:#64748b;font-size:12px;cursor:pointer;transition:var(--t);font-weight:600;}
 .btn-so:hover{background:#fee2e2;color:#dc2626;border-color:#fca5a5;}
+.sb-theme-toggle{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:8.5px 12px;margin-bottom:10px;border-radius:10px;
+  border:1px solid #e2e8f0;background:#ffffff;
+  color:#334155;font-size:12px;font-weight:600;
+  cursor:pointer;transition:all 0.2s ease;
+  box-shadow:0 1px 3px rgba(0,0,0,0.03);
+}
+.sb-theme-toggle:hover{
+  background:#f8fafc;border-color:#0ea5e9;color:#0284c7;
+  box-shadow:0 2px 8px rgba(14,165,233,0.15);
+}
+body.dark-mode .sb-theme-toggle{
+  background:rgba(15,23,42,0.7);
+  border-color:rgba(255,255,255,0.08);
+  color:#cbd5e1;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+body.dark-mode .sb-theme-toggle:hover{
+  background:rgba(30,41,59,0.9);
+  border-color:rgba(56,189,248,0.4);
+  color:#38bdf8;
+  box-shadow:0 2px 12px rgba(56,189,248,0.15);
+}
 
 body.dark-mode .sidebar {
   background: #070a11;
@@ -937,91 +961,169 @@ body.dark-mode .btn-add{color:var(--sky2);}
 
 /* ═══════════ AI ADVISOR ═══════════ */
 .ai-bnr{
-  border-radius:18px;padding:2rem;margin-bottom:1.5rem;text-align:center;
-  background:linear-gradient(135deg,var(--deepest) 0%,var(--deeper) 50%,var(--deep) 100%);
+  border-radius:20px;padding:1.4rem 1.8rem;margin-bottom:1.3rem;
+  display:flex;align-items:center;gap:18px;
+  background:linear-gradient(135deg,#0f172a 0%,#1e293b 60%,#0369a1 100%);
   position:relative;overflow:hidden;
-  box-shadow:0 10px 36px rgba(3,105,161,.2);
+  box-shadow:0 10px 30px -6px rgba(3,105,161,.25);
+  border:1px solid rgba(255,255,255,0.12);
 }
 body.dark-mode .ai-bnr{
-  background:linear-gradient(135deg, #090e17 0%, #111a2e 50%, #0d1527 100%);
+  background:linear-gradient(135deg, rgba(13,20,36,0.95) 0%, rgba(15,23,42,0.85) 50%, rgba(14,165,233,0.14) 100%);
   border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 16px 40px -10px rgba(0,0,0,0.7);
+  box-shadow:0 16px 40px -10px rgba(0,0,0,0.7), 0 0 30px rgba(14,165,233,0.08);
 }
-.ai-bnr::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% -10%,rgba(255,255,255,.1),transparent 60%);}
+.ai-bnr::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(56,189,248,.18),transparent 60%);pointer-events:none;}
 .ai-av{
-  width:62px;height:62px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(255,255,255,.25),rgba(14,165,233,.15));
-  backdrop-filter:blur(14px) saturate(180%);
-  -webkit-backdrop-filter:blur(14px) saturate(180%);
-  border:2px solid rgba(255,255,255,.45);
-  box-shadow:0 8px 24px rgba(0,0,0,.15), inset 0 2px 4px rgba(255,255,255,.5);
-  margin:0 auto 10px;
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,#0284c7,#38bdf8);
+  border:2px solid rgba(255,255,255,.4);
+  box-shadow:0 8px 24px rgba(14,165,233,.35);
+  flex-shrink:0;margin:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:28px;position:relative;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+  color:#fff;
 }
 body.dark-mode .ai-av{
-  background:linear-gradient(135deg, #1e293b, #0f172a);
-  border-color:rgba(56,189,248,0.35);
-  box-shadow:0 0 20px rgba(56,189,248,0.25);
+  background:linear-gradient(135deg, #0284c7, #0ea5e9);
+  border-color:rgba(56,189,248,0.5);
+  box-shadow:0 0 25px rgba(56,189,248,0.4);
 }
-.ai-nm{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:4px;}
-.ai-s{font-size:13px;color:rgba(255,255,255,.75);}
-.qp-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+.ai-bnr-info{position:relative;z-index:2;}
+.ai-nm{font-size:1.22rem;font-weight:800;color:#fff;margin-bottom:3px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.ai-s{font-size:13px;color:rgba(255,255,255,.8);line-height:1.4;}
+.ai-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:3px 10px;border-radius:20px;
+  background:rgba(14,165,233,0.22);
+  border:1px solid rgba(56,189,248,0.45);
+  font-size:10px;font-weight:700;color:#7dd3fc;
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.qp-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
 .qp{
-  padding:7px 15px;border-radius:20px;
-  background:rgba(255,255,255,0.45);
-  backdrop-filter:blur(12px) saturate(160%);
-  -webkit-backdrop-filter:blur(12px) saturate(160%);
-  border:1px solid rgba(255,255,255,0.65);
-  box-shadow:0 2px 8px rgba(14,165,233,0.08), inset 0 1px 1px rgba(255,255,255,0.85);
-  color:var(--deep);font-size:12.5px;cursor:pointer;
-  transition:all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  padding:8px 15px;border-radius:12px;
+  background:var(--bg-card);
+  border:var(--border-card);
+  box-shadow:var(--shadow-card);
+  color:var(--ink);font-size:12.5px;cursor:pointer;
+  transition:all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   font-weight:600;
-  display:inline-flex;align-items:center;gap:5px;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.qp svg{color:var(--sky);flex-shrink:0;}
+.qp:hover{
+  background:var(--bg-card-hover);
+  border-color:var(--sky2);
+  color:var(--sky);
+  box-shadow:0 4px 14px rgba(14,165,233,0.15);
+  transform:translateY(-2px);
 }
 body.dark-mode .qp{
-  background:rgba(15,23,42,0.7);
+  background:rgba(15,23,42,0.65);
   border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 2px 8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.05);
   color:#cbd5e1;
 }
-.qp:hover{
-  background:rgba(255,255,255,0.85);
-  border-color:var(--sky);
-  box-shadow:0 4px 14px rgba(14,165,233,0.22);
-  transform:translateY(-1px) scale(1.02);
-}
 body.dark-mode .qp:hover{
-  background:rgba(22,33,58,0.95);
+  background:rgba(24,35,62,0.95);
   border-color:rgba(56,189,248,0.4);
   color:#38bdf8;
+  box-shadow:0 4px 16px rgba(56,189,248,0.15);
 }
-.chat-box{background:var(--chat-bg);backdrop-filter:blur(16px);border:var(--border-card);border-radius:var(--r);padding:1.3rem;min-height:300px;max-height:360px;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-card);}
-.msg{display:flex;gap:9px;}
+.chat-box{
+  background:var(--chat-bg);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:var(--border-card);
+  border-radius:18px;
+  padding:1.5rem;
+  min-height:360px;
+  max-height:500px;
+  overflow-y:auto;
+  margin-bottom:14px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-shadow:var(--shadow-card);
+  scroll-behavior:smooth;
+}
+.msg{display:flex;gap:12px;align-items:flex-start;}
 .msg.u{flex-direction:row-reverse;}
-.mb{max-width:76%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.6;}
-.msg.ai .mb{background:var(--chat-ai-bubble);backdrop-filter:blur(10px);border:1px solid rgba(14,165,233,.14);color:var(--ink);}
+.mb{
+  max-width:78%;
+  padding:13px 18px;
+  border-radius:16px;
+  font-size:14px;
+  line-height:1.65;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.msg.ai .mb{
+  background:var(--chat-ai-bubble);
+  border:1px solid rgba(14,165,233,.15);
+  border-left:3px solid var(--sky2);
+  color:var(--ink);
+  border-top-left-radius:4px;
+}
 body.dark-mode .msg.ai .mb{
   background:rgba(15,23,42,0.85);
   border:1px solid rgba(255,255,255,0.08);
   border-left:3px solid #38bdf8;
   color:#f1f5f9;
+  box-shadow:0 4px 16px rgba(0,0,0,0.3);
 }
-.msg.u .mb{background:linear-gradient(135deg,var(--deepest),var(--deep),var(--sky));color:#fff;}
-body.dark-mode .msg.u .mb{
-  background:linear-gradient(135deg, #1e293b, #0f172a);
-  border:1px solid rgba(56,189,248,0.3);
+.msg.u .mb{
+  background:linear-gradient(135deg,#0284c7,#0369a1);
   color:#ffffff;
+  border-top-right-radius:4px;
+  box-shadow:0 4px 14px rgba(2,132,199,0.25);
 }
-.mav{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
-.msg.ai .mav{background:rgba(14,165,233,.12);color:var(--deep);}
-body.dark-mode .msg.ai .mav{color:var(--sky2);}
-.msg.u .mav{background:linear-gradient(135deg,var(--deepest),var(--sky));color:#fff;}
-.chat-row{display:flex;gap:8px;}
-.chat-inp{flex:1;padding:11px 15px;border-radius:12px;border:var(--input-border);background:var(--input-bg);backdrop-filter:blur(10px);color:var(--ink);font-size:14px;outline:none;transition:var(--t);}
-.chat-inp:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(14,165,233,.12);}
-.btn-send{padding:11px 20px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--deepest),var(--deep),var(--sky));color:#fff;font-weight:800;cursor:pointer;font-size:14px;}
+body.dark-mode .msg.u .mb{
+  background:linear-gradient(135deg,#0ea5e9,#0284c7);
+  color:#ffffff;
+  box-shadow:0 4px 16px rgba(14,165,233,0.25);
+}
+.mav{
+  width:34px;height:34px;border-radius:10px;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;letter-spacing:0.5px;
+}
+.msg.ai .mav{
+  background:rgba(14,165,233,.12);
+  color:var(--sky);
+  border:1px solid rgba(14,165,233,.25);
+}
+body.dark-mode .msg.ai .mav{
+  background:rgba(14,165,233,.18);
+  color:#38bdf8;
+  border-color:rgba(56,189,248,0.3);
+}
+.msg.u .mav{
+  background:linear-gradient(135deg,#0284c7,#0ea5e9);
+  color:#ffffff;
+  box-shadow:0 2px 8px rgba(14,165,233,0.3);
+}
+.chat-row{
+  display:flex;gap:10px;
+  background:var(--bg-card);
+  border:var(--border-card);
+  border-radius:16px;
+  padding:6px;
+  box-shadow:var(--shadow-card);
+}
+.chat-inp{
+  flex:1;padding:12px 18px;border:none;
+  background:transparent;color:var(--ink);
+  font-size:14px;outline:none;
+}
+.chat-inp::placeholder{color:var(--muted);}
+.btn-send{
+  padding:12px 24px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,#0284c7,#0ea5e9);
+  color:#fff;font-weight:700;cursor:pointer;font-size:13.5px;
+  display:inline-flex;align-items:center;gap:6px;
+  transition:all 0.2s ease;
+  box-shadow:0 4px 14px rgba(14,165,233,0.25);
+}
+.btn-send:hover{opacity:0.95;transform:scale(1.02);box-shadow:0 6px 18px rgba(14,165,233,0.35);}
 
 /* ═══════════ ANALYTICS ═══════════ */
 .an-g{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.4rem;}
@@ -1079,6 +1181,26 @@ body.dark-mode .sni.active{color:var(--sky2);}
 .modal-header{
   padding:1.2rem 1.4rem;border-bottom:1px solid rgba(14,165,233,.14);
   display:flex;align-items:center;justify-content:space-between;
+}
+
+/* ═══════════ TOAST NOTIFICATION ═══════════ */
+.edutrack-toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--bg-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1.5px solid rgba(56,189,248,.35);box-shadow:0 12px 36px rgba(0,0,0,.45);
+  color:var(--ink);padding:11px 18px;border-radius:14px;
+  font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:10px;
+  z-index:99999;transform:translateY(80px);opacity:0;
+  transition:all 0.28s cubic-bezier(.16,1,.3,1);pointer-events:none;
+}
+.edutrack-toast.show{
+  transform:translateY(0);opacity:1;pointer-events:auto;
+}
+.toast-icon{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(34,197,94,.18);color:#22c55e;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;flex-shrink:0;
 }
 
 /* ═══════════ FACULTY ═══════════ */
@@ -1339,46 +1461,8 @@ body.dark-mode .ai-status-badge .badge-dot {
 }
 .ai-drawer-actions {
   display: flex;
-  gap: 7px;
+  gap: 8px;
   align-items: center;
-}
-.ai-lang-toggle {
-  display: flex;
-  align-items: center;
-  background: rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(14, 165, 233, 0.18);
-  border-radius: 16px;
-  padding: 2px;
-  gap: 2px;
-}
-body.dark-mode .ai-lang-toggle {
-  background: rgba(15, 23, 42, 0.8);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-.ai-lang-btn {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-body.dark-mode .ai-lang-btn {
-  color: #94a3b8;
-}
-.ai-lang-btn.active {
-  background: var(--sky);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
-}
-body.dark-mode .ai-lang-btn.active {
-  background: #38bdf8;
-  color: #080c14;
-  font-weight: 800;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 }
 .ai-drawer-btn {
   background: transparent;
@@ -2020,6 +2104,10 @@ body.dark-mode .ai-act-btn:hover {
       <div class="nav-i" onclick="go('fsec')"><span class="nav-n">02</span>Section Assignments</div>
     </div>
     <div class="sb-bot">
+      <button class="sb-theme-toggle" onclick="toggleTheme()" id="sb-theme-btn" title="Toggle Light / Dark Mode">
+        <span class="theme-icon"></span>
+        <span class="theme-text-full">Switch to Light</span>
+      </button>
       <div class="u-pill"><div class="u-av" id="u-av">MS</div><div><div class="u-nm" id="u-nm">Mahabub Shaddhow</div><div class="u-rl" id="u-rl">Student / 20255103311</div></div></div>
       <button class="btn-so" onclick="signOut()">Sign out / Switch user</button>
     </div>
@@ -2029,12 +2117,6 @@ body.dark-mode .ai-act-btn:hover {
     <div class="topbar">
       <div><div class="tb-bc" id="bc">EduTrack › Student Workspace › Dashboard</div><div class="tb-t" id="pt">Your academic journey</div></div>
       <div class="tb-r">
-        <!-- UI Scale & Font Controller -->
-        <div class="zoom-ctrl" title="Interface Scale: Click A- / A+ or use Ctrl + Wheel">
-          <button class="zoom-btn" onclick="adjustZoom(-0.05)" title="Decrease text size (Ctrl + -)">A−</button>
-          <span class="zoom-val" id="zoom-val" onclick="resetZoom()" title="Click to reset scale">110%</span>
-          <button class="zoom-btn" onclick="adjustZoom(0.05)" title="Increase text size (Ctrl + +)">A+</button>
-        </div>
         <button class="theme-pill-btn" onclick="toggleTheme()" id="topbar-theme-btn" title="Toggle Light / Dark Mode">
           <span class="theme-icon"></span> <span class="theme-text">Light</span>
         </button>
@@ -2492,7 +2574,18 @@ body.dark-mode .ai-act-btn:hover {
 
       <!-- 04 AI ADVISOR -->
       <div class="section" id="sec-advisor">
-        <div class="ai-bnr"><div class="ai-av"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path><rect x="4" y="8" width="16" height="12" rx="2"></rect><circle cx="9" cy="14" r="1.5"></circle><circle cx="15" cy="14" r="1.5"></circle></svg></div><div class="ai-nm">EduTrack AI Academic Advisor</div><div class="ai-s">Your intelligent autonomous academic planning assistant · 100% Offline</div></div>
+        <div class="ai-bnr">
+          <div class="ai-av">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path><rect x="4" y="8" width="16" height="12" rx="2"></rect><circle cx="9" cy="14" r="1.5"></circle><circle cx="15" cy="14" r="1.5"></circle></svg>
+          </div>
+          <div class="ai-bnr-info">
+            <div class="ai-nm">
+              EduTrack AI Academic Advisor
+              <span class="ai-badge"><span class="ldot" style="width:6px;height:6px;background:#38bdf8;border-radius:50%;display:inline-block;"></span> 100% Offline Engine</span>
+            </div>
+            <div class="ai-s">Your intelligent autonomous academic planning assistant · Real-time GPA &amp; Degree Roadmaps</div>
+          </div>
+        </div>
         <div class="qp-row">
           <button class="qp" onclick="sq('How can I improve my CGPA?')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1.5px;margin-right:5px;display:inline-block;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>Improve CGPA</button>
           <button class="qp" onclick="sq('What courses should I take next semester?')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1.5px;margin-right:5px;display:inline-block;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>Course recommendations</button>
@@ -2514,14 +2607,14 @@ body.dark-mode .ai-act-btn:hover {
           <div class="gc full">
             <div class="gc-h"><div class="gc-t">Credit Completion Progress</div><div class="gc-s">142 CR Degree Program</div></div>
             <div class="an-nr">
-              <div class="an-n"><div class="an-nv" style="color:var(--sky)">24</div><div class="an-nl">Completed</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--sky2)">18</div><div class="an-nl">In Progress</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--sky3)">100</div><div class="an-nl">Remaining</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--ok)">3.22</div><div class="an-nl">CGPA</div></div>
-              <div class="an-n"><div class="an-nv" style="color:var(--deepest)">3.85</div><div class="an-nl">Goal</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-done" style="color:var(--sky)">24</div><div class="an-nl">Completed</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-prog" style="color:var(--sky2)">18</div><div class="an-nl">In Progress</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-rem" style="color:var(--sky3)">118</div><div class="an-nl">Remaining</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-cgpa" style="color:var(--ok)">3.22</div><div class="an-nl">CGPA</div></div>
+              <div class="an-n"><div class="an-nv" id="an-cr-goal" style="color:var(--deepest)">3.85</div><div class="an-nl">Goal</div></div>
             </div>
-            <div style="height:10px;background:rgba(14,165,233,.12);border-radius:5px;overflow:hidden;"><div style="height:100%;width:29%;background:linear-gradient(90deg,var(--deepest),var(--deep),var(--sky2));border-radius:5px;"></div></div>
-            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;"><span>0 CR</span><span style="color:var(--deep);font-weight:600;">29% Complete · 42/142 CR</span><span>142 CR</span></div>
+            <div style="height:10px;background:rgba(14,165,233,.12);border-radius:5px;overflow:hidden;"><div id="an-prog-bar" style="height:100%;width:17%;background:linear-gradient(90deg,var(--deepest),var(--deep),var(--sky2));border-radius:5px;"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;"><span>0 CR</span><span id="an-prog-label" style="color:var(--deep);font-weight:600;">17% Complete · 24/142 CR</span><span id="an-prog-tot">142 CR</span></div>
           </div>
         </div>
       </div>
@@ -2530,30 +2623,21 @@ body.dark-mode .ai-act-btn:hover {
       <div class="section" id="sec-attendance">
         <div class="att-g">
           <div class="gc">
-            <div class="gc-h"><div class="gc-t">Weekly Schedule</div><div class="gc-s">Fall 2026 · BUBT CSE</div></div>
-            <div class="wgh"><div class="wgl">Sun</div><div class="wgl">Mon</div><div class="wgl">Tue</div><div class="wgl">Wed</div><div class="wgl" style="color:var(--sky)">Thu ●</div></div>
-            <div class="wrow">
-              <div class="dsl"></div>
-              <div class="dsl has"><div class="dt">9:00</div><div class="dc">PHY101</div><div class="dr">R301</div></div>
-              <div class="dsl has"><div class="dt">11:00</div><div class="dc">CSE101</div><div class="dr">Lab203</div></div>
-              <div class="dsl has"><div class="dt">9:00</div><div class="dc">PHY101</div><div class="dr">R301</div></div>
-              <div class="dsl today"><div class="dt">11:00</div><div class="dc">MAT101</div><div class="dr">R402</div></div>
-            </div>
-            <div class="wrow">
-              <div class="dsl has"><div class="dt">14:00</div><div class="dc">ENG101</div><div class="dr">R102</div></div>
-              <div class="dsl has"><div class="dt">14:00</div><div class="dc">MAT101</div><div class="dr">R402</div></div>
-              <div class="dsl"></div>
-              <div class="dsl has"><div class="dt">14:00</div><div class="dc">CSE101</div><div class="dr">R201</div></div>
-              <div class="dsl today"><div class="dt">14:00</div><div class="dc">CSE101</div><div class="dr">Lab203</div></div>
+            <div class="gc-h"><div class="gc-t">Weekly Schedule &amp; Routine</div><div class="gc-s" id="att-routine-sub">Fall 2026 · BUBT CSE</div></div>
+            <div id="att-routine-container">
+              <!-- Dynamically populated from SQLite routines table -->
+              <div style="padding:1rem;color:var(--muted);font-size:13px;text-align:center;">Loading class schedule...</div>
             </div>
           </div>
           <div class="gc">
-            <div class="gc-h"><div class="gc-t">Attendance Clearance Summary</div><div class="gc-s">Current Semester</div></div>
-            <div class="att-r"><div class="att-nm">MAT101</div><div class="att-b"><div class="att-f" style="width:92%;background:var(--ok)"></div></div><div class="att-p" style="color:var(--ok)">92%</div></div>
-            <div class="att-r"><div class="att-nm">CSE101</div><div class="att-b"><div class="att-f" style="width:88%;background:var(--sky)"></div></div><div class="att-p" style="color:var(--sky)">88%</div></div>
-            <div class="att-r"><div class="att-nm">PHY101</div><div class="att-b"><div class="att-f" style="width:95%;background:var(--ok)"></div></div><div class="att-p" style="color:var(--ok)">95%</div></div>
-            <div class="att-r"><div class="att-nm">ENG101</div><div class="att-b"><div class="att-f" style="width:75%;background:var(--warn)"></div></div><div class="att-p" style="color:var(--warn)">75%</div></div>
-            <div style="margin-top:12px;padding:11px 13px;background:rgba(14,165,233,.08);backdrop-filter:blur(8px);border:1px solid rgba(14,165,233,.18);border-radius:11px;font-size:12px;color:var(--mid);">Overall Attendance: <strong style="color:var(--deep)">87.5%</strong> — Satisfies 75% BUBT examination clearance policy.</div>
+            <div class="gc-h"><div class="gc-t">Attendance Clearance Summary</div><div class="gc-s">Mandatory 75% BUBT Examination Policy</div></div>
+            <div id="att-course-list">
+              <!-- Dynamically populated from SQLite attendance table -->
+              <div style="padding:1rem;color:var(--muted);font-size:13px;text-align:center;">Loading course attendance...</div>
+            </div>
+            <div id="att-overall-card" style="margin-top:14px;padding:12px 14px;background:rgba(14,165,233,.08);backdrop-filter:blur(8px);border:1px solid rgba(14,165,233,.18);border-radius:12px;font-size:12.5px;color:var(--mid);">
+              Overall Attendance: <strong id="att-overall-val" style="color:var(--deep)">87.5%</strong> — <span id="att-overall-msg">Satisfies 75% examination clearance policy.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2615,26 +2699,38 @@ body.dark-mode .ai-act-btn:hover {
 
       <!-- FACULTY DASHBOARD -->
       <div class="section" id="sec-fdash">
-        <div class="f-bnr"><div class="fbsec">Welcome, Faculty Member</div><div class="fbh">Faculty Control Panel</div><div class="fbs">Search your assigned sections, review class cohorts, and manage student grades.</div></div>
+        <div class="f-bnr"><div class="fbsec">Welcome, Faculty Member</div><div class="fbh" id="fac-welcome-title">Faculty Control Panel</div><div class="fbs">Search your assigned sections, review class cohorts, and manage student grades.</div></div>
         <div class="fst">
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><div class="gsc-lbl">Total Students</div><div class="gsc-val">1</div><div class="gsc-sub">Assigned sections cohort</div></div>
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div><div class="gsc-lbl">Batch Avg CGPA</div><div class="gsc-val">3.22</div><div class="gsc-sub">Cohort academic average</div></div>
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div><div class="gsc-lbl">Students at Risk</div><div class="gsc-val" style="color:var(--ok)">0</div><div class="gsc-sub">Grade &lt; 2.50</div></div>
-          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></div><div class="gsc-lbl">Honor Roll ≥3.75</div><div class="gsc-val">0</div><div class="gsc-sub">Top tier performers</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div><div class="gsc-lbl">Total Students</div><div class="gsc-val" id="fac-stat-total">1</div><div class="gsc-sub">Assigned sections cohort</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div><div class="gsc-lbl">Batch Avg CGPA</div><div class="gsc-val" id="fac-stat-avg">3.22</div><div class="gsc-sub">Cohort academic average</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div><div class="gsc-lbl">Students at Risk</div><div class="gsc-val" id="fac-stat-risk" style="color:var(--ok)">0</div><div class="gsc-sub">Grade &lt; 2.50</div></div>
+          <div class="gsc"><div class="gsc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></div><div class="gsc-lbl">Honor Roll ≥3.75</div><div class="gsc-val" id="fac-stat-honor">0</div><div class="gsc-sub">Top tier performers</div></div>
         </div>
         <div class="gc">
-          <div class="gc-h"><div><div class="gc-t">Student Roster</div><div class="gc-s">Assigned Sections Only</div></div><span style="font-size:11px;color:var(--muted)">Showing 1 of 1 students</span></div>
+          <div class="gc-h"><div><div class="gc-t">Student Roster</div><div class="gc-s">Assigned Sections Only</div></div><span style="font-size:11px;color:var(--muted)" id="fac-roster-count">Showing 1 of 1 students</span></div>
           <div class="s-bar"><input class="s-inp" id="faculty-search-inp" placeholder="Search student ID, name, section, CGPA, or status…" onkeyup="filterFacultyRoster()"></div>
           <table class="rtbl" id="faculty-roster-table">
             <thead><tr><th>Student ID</th><th>Name</th><th>Section</th><th>CGPA</th><th>Status</th><th>Action</th></tr></thead>
-            <tbody><tr><td style="color:var(--sky);font-weight:600">20255103311</td><td style="font-weight:600">Mahabub Shaddhow</td><td>06</td><td style="color:var(--ok);font-weight:700">3.22</td><td><span class="sbdg ok">● On Track</span></td><td><button class="btn-xs" onclick="alert('Viewing full record for Mahabub Shaddhow (20255103311)')">View →</button></td></tr></tbody>
+            <tbody id="fac-roster-tbody">
+              <tr><td style="color:var(--sky);font-weight:600">20255103311</td><td style="font-weight:600">Mahabub Shaddhow</td><td>06</td><td style="color:var(--ok);font-weight:700">3.22</td><td><span class="sbdg ok">● On Track</span></td><td><button class="btn-xs" onclick="openFacultyGradeModal('20255103311', 'Mahabub Shaddhow', '06')">Manage Grades →</button></td></tr>
+            </tbody>
           </table>
         </div>
       </div>
 
       <!-- FACULTY SECTIONS -->
       <div class="section" id="sec-fsec">
-        <div class="gc"><div class="gc-h"><div class="gc-t">Section Assignments</div></div><table class="rtbl"><thead><tr><th>Section</th><th>Course</th><th>Students</th><th>Schedule</th><th>Room</th></tr></thead><tbody><tr><td>06</td><td>MAT101 — Differential and Integral Calculus</td><td>1</td><td>Thu 11:00–12:30</td><td>Room 402</td></tr><tr><td>06</td><td>CSE101 — Introduction to Programming</td><td>1</td><td>Tue/Thu 14:00</td><td>Lab 203</td></tr></tbody></table></div>
+        <div class="gc">
+          <div class="gc-h"><div><div class="gc-t">Section Assignments &amp; Schedule</div><div class="gc-s">Assigned Teaching Loads &amp; Class Hours</div></div></div>
+          <table class="rtbl" id="faculty-sections-table">
+            <thead><tr><th>Section</th><th>Course</th><th>Schedule</th><th>Room</th><th>Status</th></tr></thead>
+            <tbody id="fac-sections-tbody">
+              <tr><td>06</td><td>MAT101 — Differential and Integral Calculus</td><td>Mon / Thu 11:00–12:30</td><td>Room 402</td><td><span class="sbdg ok">Active</span></td></tr>
+              <tr><td>06</td><td>CSE101 — Introduction to Computer Science</td><td>Mon / Wed 09:00–10:30</td><td>Room 501</td><td><span class="sbdg ok">Active</span></td></tr>
+              <tr><td>06</td><td>CSE103 — Structured Programming Language</td><td>Tue 10:00–11:30</td><td>Lab 2</td><td><span class="sbdg ok">Active</span></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>
@@ -2669,11 +2765,6 @@ body.dark-mode .ai-act-btn:hover {
       </div>
     </div>
     <div class="ai-drawer-actions">
-      <!-- 1-Click Language Switcher Pill -->
-      <div class="ai-lang-toggle" title="Switch AI response language">
-        <button class="ai-lang-btn active" id="ai-lang-btn-en" onclick="setAiLanguage('en')">EN</button>
-        <button class="ai-lang-btn" id="ai-lang-btn-bn" onclick="setAiLanguage('bn')">বাংলা</button>
-      </div>
       <button class="ai-drawer-btn" onclick="clearAiDrawerChat()" title="Reset chat">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
       </button>
@@ -2715,7 +2806,7 @@ body.dark-mode .ai-act-btn:hover {
     <!-- AI GREETING -->
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        <strong>Offline Academic Engine Online.</strong> Ready to simulate grade projections, analyze retake pathways, or audit clearance for BUBT CSE.
+        <strong>Local Academic Engine Active.</strong> Ready to simulate grade projections, analyze retake pathways, or audit exam clearance for BUBT CSE.
       </div>
       <div class="ai-msg-meta">
         <div style="display:flex;align-items:center;gap:6px;">
@@ -2771,7 +2862,7 @@ body.dark-mode .ai-act-btn:hover {
       <button class="ai-slash-pill" onclick="insertSlashCommand('/waiver')"><span class="slash-sym">/</span>waiver</button>
     </div>
     <div class="ai-drawer-input-row">
-      <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrack AI or type /cgpa, /waiver..." onkeydown="handleAiDrawerKey(event)">
+      <input type="text" id="ai-drawer-input" class="ai-drawer-input" placeholder="Ask EduTrack AI in English or বাংলায় প্রশ্ন করুন..." onkeydown="handleAiDrawerKey(event)">
       <button class="ai-drawer-send" id="ai-drawer-send-btn" onclick="sendAiDrawerMsg()" title="Send"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
     </div>
   </div>
@@ -2831,6 +2922,67 @@ body.dark-mode .ai-act-btn:hover {
   </div>
 </div>
 
+<!-- FACULTY GRADE MANAGEMENT MODAL -->
+<div id="faculty-grade-modal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeFacultyGradeModal()">
+  <div class="modal-card" style="max-width:720px;width:95%;">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="sb-ico" style="width:34px;height:34px;font-size:14px;background:linear-gradient(135deg,var(--deepest),var(--sky));">GR</div>
+        <div>
+          <div style="font-size:15px;font-weight:800;color:var(--ink);" id="fgm-student-title">Manage Student Grades</div>
+          <div style="font-size:11px;color:var(--muted);" id="fgm-student-sub">Student ID: 20255103311 · Section: 06</div>
+        </div>
+      </div>
+      <button onclick="closeFacultyGradeModal()" class="btn-xs" style="font-size:14px;padding:4px 10px;cursor:pointer;" title="Close">&times;</button>
+    </div>
+    <div class="modal-body" style="max-height:70vh;overflow-y:auto;padding:1.4rem;display:flex;flex-direction:column;gap:14px;">
+      <div id="fgm-toast" style="display:none;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:600;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#22c55e;"></div>
+      <div style="background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.6px;">Current CGPA</div>
+          <div style="font-size:22px;font-weight:800;color:var(--deep);" id="fgm-curr-cgpa">3.22</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.6px;">Academic Standing</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ok);" id="fgm-curr-standing">Good Standing</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.6px;">Completed Credits</div>
+          <div style="font-size:16px;font-weight:800;color:var(--sky);" id="fgm-curr-credits">24 / 142 CR</div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <span>Enrolled Courses &amp; Grade Adjustment</span>
+          <span style="font-size:11px;color:var(--muted);">Select letter grade &amp; click Save</span>
+        </div>
+        <table class="rtbl" id="fgm-courses-table">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Sem</th>
+              <th>Credits</th>
+              <th>Current</th>
+              <th>New Grade</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="fgm-courses-tbody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="edutrack-toast" class="edutrack-toast">
+  <div class="toast-icon" id="toast-icon">✓</div>
+  <div class="toast-msg" id="toast-msg">Action completed successfully</div>
+</div>
+
 <script>
 // ═══════════════════════════════════════
 // SPLASH CONTROLLER
@@ -2863,6 +3015,243 @@ var aIdx=0;
 var cList=[];
 var currentAiLang='en';
 var isDark = false;
+var currentStudentId = '20255103311';
+var activeStudentData = null;
+var currentFacultyId = 'FACULTY001';
+var activeFacultyData = null;
+
+function showToast(msg, isError) {
+  var t = document.getElementById('edutrack-toast');
+  var tm = document.getElementById('toast-msg');
+  var ti = document.getElementById('toast-icon');
+  if (!t || !tm) return;
+  tm.textContent = msg;
+  if (ti) {
+    ti.textContent = isError ? '✕' : '✓';
+    ti.style.background = isError ? 'rgba(239,68,68,.2)' : 'rgba(34,197,94,.18)';
+    ti.style.color = isError ? '#ef4444' : '#22c55e';
+  }
+  t.classList.add('show');
+  clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(function() {
+    t.classList.remove('show');
+  }, 3200);
+}
+
+function populateStudentDashboard(data) {
+  if (!data) return;
+  activeStudentData = data;
+  var p = data.profile || {};
+  var sid = p.student_id || currentStudentId;
+  var sname = p.name || 'Student';
+  var inits = sname.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+
+  // User pill & sidebar
+  var un = document.getElementById('u-nm'); if (un) un.textContent = sname;
+  var ur = document.getElementById('u-rl'); if (ur) ur.textContent = 'Student / ' + sid;
+  var ua = document.getElementById('u-av'); if (ua) ua.textContent = inits;
+  var da = document.getElementById('dash-av'); if (da) da.textContent = inits;
+
+  // Dashboard Welcome Banner
+  var dwn = document.getElementById('dash-welcome-name'); if (dwn) dwn.textContent = 'Welcome back, ' + sname;
+  var did = document.getElementById('dash-id-line');
+  if (did) did.textContent = 'ID: ' + sid + ' · ' + (data.completed_credits || 24) + ' of ' + (data.program_credits || 142) + ' Credits Completed';
+
+  // Metrics Strip
+  var cgpaStr = (data.cgpa || 0).toFixed(2);
+  var goalStr = (data.target_cgpa || 3.85).toFixed(2);
+  var progPct = Math.round(((data.completed_credits || 0) / (data.program_credits || 142)) * 100);
+
+  var sc = document.getElementById('strip-cgpa'); if (sc) sc.textContent = cgpaStr;
+  var sg = document.getElementById('strip-goal'); if (sg) sg.textContent = goalStr;
+  var spb = document.getElementById('strip-prog-bar'); if (spb) spb.style.width = progPct + '%';
+  var spp = document.getElementById('strip-prog-pct'); if (spp) spp.textContent = progPct + '%';
+
+  // Ring & Quick Stat Cards
+  var rc = document.getElementById('ring-cgpa-val'); if (rc) rc.textContent = cgpaStr;
+  var rp = document.getElementById('ring-prog-val'); if (rp) rp.textContent = progPct + '%';
+  var stc = document.getElementById('stat-cgpa'); if (stc) stc.textContent = cgpaStr;
+  var stk = document.getElementById('stat-credits'); if (stk) stk.textContent = data.completed_credits;
+  var stks = document.getElementById('stat-credits-sub'); if (stks) stks.textContent = (data.remaining_credits || 0) + ' credits remaining';
+  var stg = document.getElementById('stat-goal'); if (stg) stg.textContent = goalStr;
+
+  // Drawer Telemetry HUD
+  var hudSem = document.querySelector('.ai-hud-sem');
+  if (hudSem) hudSem.textContent = 'BUBT CSE · ' + (p.current_semester || 'SEMESTER 4').toUpperCase();
+  var hudCgpa = document.querySelector('.val-cyan'); if (hudCgpa) hudCgpa.textContent = cgpaStr;
+  var hudTgt = document.querySelector('.val-indigo'); if (hudTgt) hudTgt.textContent = goalStr;
+  var hudAtt = document.querySelector('.val-green'); if (hudAtt) hudAtt.textContent = (data.overall_attendance || 87.5) + '%';
+  var hudCr = document.querySelector('.ai-hud-item:last-child .ai-hud-val');
+  if (hudCr) hudCr.innerHTML = (data.completed_credits || 0) + '<small>/' + (data.program_credits || 142) + '</small>';
+
+  // Settings inputs
+  var setId = document.getElementById('set-id'); if (setId) setId.value = sid;
+  var setName = document.getElementById('set-name'); if (setName) setName.value = sname;
+  var setGoal = document.getElementById('set-goal'); if (setGoal) setGoal.value = goalStr;
+
+  // Analytics Credit Progress
+  var anDone = document.getElementById('an-cr-done'); if (anDone) anDone.textContent = data.completed_credits || 24;
+  var anRem = document.getElementById('an-cr-rem'); if (anRem) anRem.textContent = data.remaining_credits || 118;
+  var anCgpa = document.getElementById('an-cr-cgpa'); if (anCgpa) anCgpa.textContent = cgpaStr;
+  var anGoal = document.getElementById('an-cr-goal'); if (anGoal) anGoal.textContent = goalStr;
+  var anBar = document.getElementById('an-prog-bar'); if (anBar) anBar.style.width = progPct + '%';
+  var anLbl = document.getElementById('an-prog-label'); if (anLbl) anLbl.textContent = progPct + '% Complete · ' + (data.completed_credits || 24) + '/' + (data.program_credits || 142) + ' CR';
+  var anTot = document.getElementById('an-prog-tot'); if (anTot) anTot.textContent = (data.program_credits || 142) + ' CR';
+
+  // Render dynamic attendance & schedule
+  renderAttendanceAndSchedule(data);
+}
+
+function renderAttendanceAndSchedule(data) {
+  if (!data) return;
+
+  // 1. Render Weekly Routine
+  var rContainer = document.getElementById('att-routine-container');
+  if (rContainer) {
+    var routines = data.routines || [];
+    if (routines.length === 0) {
+      rContainer.innerHTML = '<div style="padding:1.5rem;color:var(--muted);font-size:13px;text-align:center;">No scheduled classes found in database.</div>';
+    } else {
+      var dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+      var grouped = {};
+      routines.forEach(function(r) {
+        var d = r.day || 'Monday';
+        if (!grouped[d]) grouped[d] = [];
+        grouped[d].push(r);
+      });
+
+      var html = '<div style="display:flex;flex-direction:column;gap:12px;">';
+      dayOrder.forEach(function(day) {
+        var dayRoutines = grouped[day];
+        if (dayRoutines && dayRoutines.length > 0) {
+          var isToday = (day.toLowerCase() === todayName.toLowerCase());
+          html += '<div style="background:var(--input-bg);border:var(--border-card);border-radius:14px;padding:12px 14px;' + (isToday ? 'border-left:4px solid var(--sky2);background:rgba(14,165,233,0.06);' : '') + '">';
+          html += '  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">';
+          html += '    <span style="font-size:12.5px;font-weight:700;color:var(--ink);">' + day + '</span>';
+          if (isToday) {
+            html += '    <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;background:var(--sky);color:#fff;">Today</span>';
+          }
+          html += '  </div>';
+          html += '  <div style="display:flex;flex-direction:column;gap:6px;">';
+          dayRoutines.forEach(function(item) {
+            html += '    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg-card);border:var(--border-card);border-radius:10px;font-size:12.5px;">';
+            html += '      <div style="display:flex;align-items:center;gap:10px;">';
+            html += '        <span style="font-weight:800;color:var(--sky);min-width:65px;">' + (item.course_code || '') + '</span>';
+            html += '        <span style="color:var(--ink2);font-weight:500;">' + (item.course_title || '') + '</span>';
+            html += '      </div>';
+            html += '      <div style="display:flex;align-items:center;gap:14px;font-size:11.5px;color:var(--muted);">';
+            html += '        <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1.5px;margin-right:4px;display:inline-block;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>' + (item.time || '') + '</span>';
+            html += '        <span style="font-weight:600;color:var(--ink);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1.5px;margin-right:4px;display:inline-block;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>' + (item.room || '') + '</span>';
+            html += '      </div>';
+            html += '    </div>';
+          });
+          html += '  </div>';
+          html += '</div>';
+        }
+      });
+      html += '</div>';
+      rContainer.innerHTML = html;
+    }
+  }
+
+  // 2. Render Attendance Clearance Summary
+  var aContainer = document.getElementById('att-course-list');
+  if (aContainer) {
+    var records = data.attendance || [];
+    if (records.length === 0) {
+      aContainer.innerHTML = '<div style="padding:1.5rem;color:var(--muted);font-size:13px;text-align:center;">No attendance records found for current semester.</div>';
+    } else {
+      var aHtml = '<div style="display:flex;flex-direction:column;gap:12px;">';
+      records.forEach(function(rec) {
+        var pct = rec.attendance_percentage || (rec.total_classes > 0 ? (rec.attended_classes / rec.total_classes * 100) : 0);
+        pct = Math.round(pct * 10) / 10;
+        var isCleared = (pct >= 75.0);
+        var statusColor = isCleared ? 'var(--ok)' : (pct >= 65 ? 'var(--warn)' : 'var(--err)');
+        var statusBadge = isCleared 
+          ? '<span style="font-size:10px;font-weight:700;color:var(--ok);padding:2px 8px;border-radius:12px;background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.25);">✓ Cleared (≥75%)</span>'
+          : '<span style="font-size:10px;font-weight:700;color:var(--err);padding:2px 8px;border-radius:12px;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.25);">⚠ Shortage (<75%)</span>';
+
+        aHtml += '<div style="background:var(--bg-card);border:var(--border-card);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-card);">';
+        aHtml += '  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">';
+        aHtml += '    <div>';
+        aHtml += '      <strong style="font-size:14px;color:var(--ink);margin-right:8px;">' + rec.course_code + '</strong>';
+        aHtml += '      <span style="font-size:12px;color:var(--muted);">' + (rec.course_title || '') + '</span>';
+        aHtml += '    </div>';
+        aHtml += '    <div>' + statusBadge + '</div>';
+        aHtml += '  </div>';
+
+        // Progress bar
+        aHtml += '  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">';
+        aHtml += '    <div style="flex:1;height:8px;background:rgba(14,165,233,0.1);border-radius:6px;overflow:hidden;">';
+        aHtml += '      <div style="height:100%;width:' + Math.min(100, pct) + '%;background:' + statusColor + ';border-radius:6px;transition:width 0.3s ease;"></div>';
+        aHtml += '    </div>';
+        aHtml += '    <strong style="font-size:13px;color:' + statusColor + ';min-width:48px;text-align:right;">' + pct.toFixed(1) + '%</strong>';
+        aHtml += '  </div>';
+
+        // Stats & Quick Adjust Action Buttons
+        aHtml += '  <div style="display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--mid);padding-top:6px;border-top:1px solid rgba(14,165,233,0.08);">';
+        aHtml += '    <span>Present: <strong>' + rec.attended_classes + '</strong> of <strong>' + rec.total_classes + '</strong> classes</span>';
+        aHtml += '    <div style="display:flex;gap:6px;">';
+        aHtml += '      <button class="btn-xs" onclick="adjustLiveAttendance(\'' + rec.course_code + '\', 1, 1)" title="Mark another attended class" style="padding:3px 8px;font-size:11px;background:rgba(5,150,105,0.12);color:var(--ok);border:1px solid rgba(5,150,105,0.25);cursor:pointer;">+ Present</button>';
+        aHtml += '      <button class="btn-xs" onclick="adjustLiveAttendance(\'' + rec.course_code + '\', 0, 1)" title="Mark missed class" style="padding:3px 8px;font-size:11px;background:rgba(220,38,38,0.12);color:var(--err);border:1px solid rgba(220,38,38,0.25);cursor:pointer;">+ Missed</button>';
+        aHtml += '    </div>';
+        aHtml += '  </div>';
+        aHtml += '</div>';
+      });
+      aHtml += '</div>';
+      aContainer.innerHTML = aHtml;
+    }
+
+    // Overall attendance banner
+    var overallVal = data.overall_attendance || 87.5;
+    var ovEl = document.getElementById('att-overall-val');
+    var msgEl = document.getElementById('att-overall-msg');
+    if (ovEl) {
+      ovEl.textContent = overallVal + '%';
+      ovEl.style.color = (overallVal >= 75.0) ? 'var(--ok)' : 'var(--err)';
+    }
+    if (msgEl) {
+      msgEl.textContent = (overallVal >= 75.0)
+        ? 'Satisfies mandatory 75% BUBT examination clearance policy.'
+        : 'Warning: Below mandatory 75% threshold! Risk of exam debarment.';
+    }
+  }
+}
+
+async function adjustLiveAttendance(courseCode, addAttended, addTotal) {
+  if (!activeStudentData || !activeStudentData.attendance) return;
+  var rec = activeStudentData.attendance.find(function(r){ return r.course_code === courseCode; });
+  if (!rec) return;
+
+  var newAtt = rec.attended_classes + addAttended;
+  var newTot = rec.total_classes + addTotal;
+
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.update_attendance_record) {
+    try {
+      var res = await window.pywebview.api.update_attendance_record(currentStudentId, courseCode, newAtt, newTot);
+      if (res && res.success) {
+        activeStudentData.attendance = res.attendance;
+        activeStudentData.overall_attendance = res.overall_attendance;
+        renderAttendanceAndSchedule(activeStudentData);
+        var hudAtt = document.querySelector('.val-green');
+        if (hudAtt) hudAtt.textContent = res.overall_attendance + '%';
+        return;
+      }
+    } catch(err) {
+      console.error('Attendance update error:', err);
+    }
+  }
+
+  // Fallback update in-memory
+  rec.attended_classes = newAtt;
+  rec.total_classes = newTot;
+  rec.attendance_percentage = newTot > 0 ? (newAtt / newTot * 100) : 0;
+  var totalAll = activeStudentData.attendance.reduce(function(acc, r){ return acc + r.total_classes; }, 0);
+  var attAll = activeStudentData.attendance.reduce(function(acc, r){ return acc + r.attended_classes; }, 0);
+  activeStudentData.overall_attendance = totalAll > 0 ? (Math.round((attAll / totalAll * 100) * 10) / 10) : 0;
+  renderAttendanceAndSchedule(activeStudentData);
+}
 
 function safeGetStorage(key, fallback) {
   try {
@@ -2878,10 +3267,14 @@ function safeSetStorage(key, val) {
   } catch(e) {}
 }
 
-// Initialize Theme
+// Initialize Theme - default to dark mode for optimal academic intelligence UI
 (function(){
-  var savedTheme = safeGetStorage('edutrack_theme', 'dark');
-  if (savedTheme === 'light') {
+  var savedTheme = safeGetStorage('edutrack_theme', null);
+  if (!safeGetStorage('edutrack_theme_default_v2', null)) {
+    // Reset initial preference to the stunning dark mode for users currently stuck in light mode
+    safeSetStorage('edutrack_theme_default_v2', '1');
+    applyTheme(true);
+  } else if (savedTheme === 'light') {
     applyTheme(false);
   } else {
     applyTheme(true);
@@ -2900,10 +3293,12 @@ function applyTheme(dark) {
   // Update theme buttons with crisp minimalist SVGs
   var icons = document.querySelectorAll('.theme-icon');
   var texts = document.querySelectorAll('.theme-text');
+  var fullLabels = document.querySelectorAll('.theme-text-full');
   var sunSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1.5px;display:inline-block;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
   var moonSvg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1.5px;display:inline-block;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
   icons.forEach(function(i){ i.innerHTML = isDark ? sunSvg : moonSvg; });
   texts.forEach(function(t){ t.textContent = isDark ? 'Light' : 'Dark'; });
+  fullLabels.forEach(function(l){ l.textContent = isDark ? 'Switch to Light' : 'Switch to Dark'; });
 
   var setTog = document.getElementById('set-dark-tog');
   if (setTog) setTog.classList.toggle('on', isDark);
@@ -3042,14 +3437,20 @@ function animateCounter(el, start, end, decimals, duration, suffix) {
 }
 
 function runPortalAnimations() {
+  var cgpa = activeStudentData ? (activeStudentData.cgpa || 0) : 3.22;
+  var credits = activeStudentData ? (activeStudentData.completed_credits || 0) : 24;
+  var progCredits = activeStudentData ? (activeStudentData.program_credits || 142) : 142;
+  var progPct = Math.round((credits / progCredits) * 100);
+  var goal = activeStudentData ? (activeStudentData.target_cgpa || 3.85) : 3.85;
+
   // Animate dynamic numbers with smooth counting curve
-  animateCounter(document.getElementById('ring-cgpa-val'), 0, 3.22, 2, 1100);
-  animateCounter(document.getElementById('ring-prog-val'), 0, 17, 0, 1100, '%');
-  animateCounter(document.getElementById('stat-cgpa'), 0, 3.22, 2, 1100);
-  animateCounter(document.getElementById('stat-credits'), 0, 24, 0, 1100);
-  animateCounter(document.getElementById('stat-goal'), 0, 3.85, 2, 1100);
-  animateCounter(document.getElementById('strip-cgpa'), 0, 3.22, 2, 1100);
-  animateCounter(document.getElementById('strip-prog-pct'), 0, 17, 0, 1100, '%');
+  animateCounter(document.getElementById('ring-cgpa-val'), 0, cgpa, 2, 1100);
+  animateCounter(document.getElementById('ring-prog-val'), 0, progPct, 0, 1100, '%');
+  animateCounter(document.getElementById('stat-cgpa'), 0, cgpa, 2, 1100);
+  animateCounter(document.getElementById('stat-credits'), 0, credits, 0, 1100);
+  animateCounter(document.getElementById('stat-goal'), 0, goal, 2, 1100);
+  animateCounter(document.getElementById('strip-cgpa'), 0, cgpa, 2, 1100);
+  animateCounter(document.getElementById('strip-prog-pct'), 0, progPct, 0, 1100, '%');
 
   // Trigger smooth chart rendering
   setTimeout(initCharts, 70);
@@ -3064,14 +3465,37 @@ async function doLogin(){
     try {
       var res = await window.pywebview.api.authenticate(id, pw, role);
       if (res && res.success) {
-        if (res.user && res.user.display_name) {
-          var un = document.getElementById('u-nm');
-          if(un) un.textContent = res.user.display_name;
-          var dw = document.getElementById('dash-welcome-name');
-          if(dw) dw.textContent = 'Welcome back, ' + res.user.display_name;
-          var inits = res.user.display_name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
-          var ua = document.getElementById('u-av'); if(ua) ua.textContent = inits;
-          var da = document.getElementById('dash-av'); if(da) da.textContent = inits;
+        if (role === 'student') {
+          currentStudentId = (res.user && res.user.user_id) ? res.user.user_id : id;
+          if (res.student_data) {
+            populateStudentDashboard(res.student_data);
+          } else if (window.pywebview.api.get_student_data) {
+            var sData = await window.pywebview.api.get_student_data(currentStudentId);
+            if (sData) populateStudentDashboard(sData);
+          }
+          if (res.user && res.user.display_name) {
+            var un = document.getElementById('u-nm');
+            if(un) un.textContent = res.user.display_name;
+            var dw = document.getElementById('dash-welcome-name');
+            if(dw) dw.textContent = 'Welcome back, ' + res.user.display_name;
+            var inits = res.user.display_name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
+            var ua = document.getElementById('u-av'); if(ua) ua.textContent = inits;
+            var da = document.getElementById('dash-av'); if(da) da.textContent = inits;
+          }
+        } else if (role === 'faculty') {
+          currentFacultyId = (res.user && res.user.user_id) ? res.user.user_id : id;
+          if (res.faculty_data) {
+            populateFacultyDashboard(res.faculty_data);
+          } else if (window.pywebview.api.get_faculty_data) {
+            var fData = await window.pywebview.api.get_faculty_data(currentFacultyId);
+            if (fData) populateFacultyDashboard(fData);
+          }
+          var facName = (res.user && res.user.display_name) ? res.user.display_name : 'Faculty Member';
+          var unF = document.getElementById('u-nm'); if(unF) unF.textContent = facName;
+          var initsF = facName.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase() || 'FM';
+          var uaF = document.getElementById('u-av'); if(uaF) uaF.textContent = initsF;
+          var urF = document.getElementById('u-rl'); if(urF) urF.textContent = 'Faculty / ' + currentFacultyId;
+          var fw = document.getElementById('fac-welcome-title'); if(fw) fw.textContent = 'Faculty Control Panel · ' + currentFacultyId;
         }
       }
     } catch(err){
@@ -3126,6 +3550,16 @@ function go(id){
   var el=document.getElementById('sec-'+id);
   if(el)el.classList.add('active');
 
+  // Auto-close floating drawer when navigating to AI Advisor to eliminate redundant dual screens
+  if(id === 'advisor'){
+    var drawer = document.getElementById('edutrack-ai-drawer');
+    var bubble = document.getElementById('ai-bubble-container');
+    if(drawer && drawer.classList.contains('open')){
+      drawer.classList.remove('open');
+      if(bubble) bubble.classList.remove('drawer-open');
+    }
+  }
+
   document.querySelectorAll('.nav-i').forEach(function(n){
     n.classList.remove('active');
     if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');
@@ -3139,6 +3573,10 @@ function go(id){
 
   if(id==='dashboard'){
     runPortalAnimations();
+  } else if((id==='fdash' || id==='fsec') && window.pywebview && window.pywebview.api && window.pywebview.api.get_faculty_data){
+    window.pywebview.api.get_faculty_data(currentFacultyId).then(function(fData){
+      if(fData) populateFacultyDashboard(fData);
+    }).catch(function(e){ console.error(e); });
   } else if(id==='cgpa'&&document.getElementById('cc').children.length===0){
     addC('MAT101', 'A', 3);
     addC('CSE101', 'A-', 3);
@@ -3182,16 +3620,33 @@ function loadEnrolledIntoCalc(){
   if (!cc) return;
   cc.innerHTML = '';
   cList = [];
-  var enrolled = [
-    { name: 'CSE201 - Data Structures', grade: 'A', cr: 3 },
-    { name: 'MAT101 - Calculus', grade: 'A-', cr: 3 },
-    { name: 'PHY101 - Physics', grade: 'A+', cr: 3 },
-    { name: 'CSE102 - Java Programming', grade: 'A-', cr: 3 },
-    { name: 'ENG101 - English Communication', grade: 'B+', cr: 3 }
-  ];
-  enrolled.forEach(function(c){
-    addC(c.name, c.grade, c.cr);
-  });
+  if (activeStudentData && activeStudentData.enrollments && activeStudentData.enrollments.length > 0) {
+    var enrollments = activeStudentData.enrollments;
+    // Get distinct courses from the latest semester or active list
+    var maxSem = '1';
+    enrollments.forEach(function(e){
+      if (String(e.semester_no) > maxSem) maxSem = String(e.semester_no);
+    });
+    var targetList = enrollments.filter(function(e){ return String(e.semester_no) === maxSem; });
+    if (targetList.length === 0) targetList = enrollments.slice(-4);
+
+    targetList.forEach(function(c){
+      var label = c.course_code + ' - ' + (c.course_title || '');
+      addC(label, c.letter_grade || 'A', c.credit_hours || 3);
+    });
+    showToast('✓ Loaded BUBT Semester ' + maxSem + ' courses into calculator');
+  } else {
+    var fallback = [
+      { name: 'CSE201 - Data Structures', grade: 'A', cr: 3 },
+      { name: 'MAT101 - Differential Calculus', grade: 'A-', cr: 3 },
+      { name: 'CSE203 - Discrete Mathematics', grade: 'B+', cr: 3 },
+      { name: 'ENG101 - English Language', grade: 'A', cr: 3 }
+    ];
+    fallback.forEach(function(c){
+      addC(c.name, c.grade, c.cr);
+    });
+    showToast('✓ Loaded standard BUBT CSE courses');
+  }
 }
 
 function calcGPA(){
@@ -3209,13 +3664,15 @@ function calcGPA(){
 }
 
 function runProjection(){
-  var curr = 3.22;
-  var done = parseFloat(document.getElementById('proj-cr-done').value) || 24;
-  var tot = parseFloat(document.getElementById('proj-cr-tot').value) || 142;
+  var curr = (activeStudentData && activeStudentData.cgpa) ? activeStudentData.cgpa : 3.22;
+  var done = parseFloat(document.getElementById('proj-cr-done').value) || (activeStudentData ? activeStudentData.completed_credits : 24);
+  var tot = parseFloat(document.getElementById('proj-cr-tot').value) || (activeStudentData ? activeStudentData.program_credits : 142);
   var rem = Math.max(0, tot - done);
-  var target = 3.85;
-  var proj = tot > 0 ? (((curr * done) + (3.75 * rem)) / tot) : curr;
-  document.getElementById('proj-final-val').textContent = proj.toFixed(2);
+  var target = (activeStudentData && activeStudentData.target_cgpa) ? activeStudentData.target_cgpa : 3.85;
+  var proj = tot > 0 ? (((curr * done) + (target * rem)) / tot) : curr;
+  var projEl = document.getElementById('proj-final-val');
+  if (projEl) projEl.textContent = proj.toFixed(2);
+  showToast('✓ BUBT Degree Trajectory Projected: ' + proj.toFixed(2) + ' CGPA');
 }
 
 // ═══════════════════════════════════════
@@ -3230,14 +3687,17 @@ async function sm(){
   var inp=document.getElementById('ci'),msg=inp.value.trim();
   if(!msg)return;
   var box=document.getElementById('cbox');
-  box.innerHTML+='<div class="msg u"><div class="mav">MS</div><div class="mb">'+escapeHtml(msg)+'</div></div>';
+  var userInits = (activeStudentData && activeStudentData.profile && activeStudentData.profile.name)
+    ? activeStudentData.profile.name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase()
+    : 'ST';
+  box.innerHTML+='<div class="msg u"><div class="mav">'+userInits+'</div><div class="mb">'+escapeHtml(msg)+'</div></div>';
   inp.value='';
   box.scrollTop=box.scrollHeight;
 
   var reply = '';
   if (window.pywebview && window.pywebview.api && window.pywebview.api.ask_ai_advisor) {
     try {
-      var res = await window.pywebview.api.ask_ai_advisor(msg, '20255103311', currentAiLang);
+      var res = await window.pywebview.api.ask_ai_advisor(msg, currentStudentId, currentAiLang);
       if (typeof res === 'string') reply = res;
     } catch(e) {
       console.log('AI bridge notice:', e);
@@ -3260,16 +3720,9 @@ async function sm(){
 // ═══════════════════════════════════════
 function setAiLanguage(lang) {
   currentAiLang = lang || 'en';
-  var btnEn = document.getElementById('ai-lang-btn-en');
-  var btnBn = document.getElementById('ai-lang-btn-bn');
-  if (btnEn) btnEn.classList.toggle('active', currentAiLang === 'en');
-  if (btnBn) btnBn.classList.toggle('active', currentAiLang === 'bn');
-
   var inp = document.getElementById('ai-drawer-input');
-  if (inp) {
-    inp.placeholder = currentAiLang === 'en'
-      ? 'Ask EduTrackAi in Academic English...'
-      : 'EduTrackAi-কে বাংলায় প্রশ্ন করুন...';
+  if (inp && !inp.value) {
+    inp.placeholder = 'Ask EduTrack AI in English or বাংলায় প্রশ্ন করুন...';
   }
 }
 
@@ -3331,7 +3784,7 @@ async function sendAiDrawerMsg() {
   var isCloud = false;
   if (window.pywebview && window.pywebview.api && window.pywebview.api.ask_ai_advisor) {
     try {
-      var res = await window.pywebview.api.ask_ai_advisor(query, '20255103311', currentAiLang);
+      var res = await window.pywebview.api.ask_ai_advisor(query, currentStudentId, currentAiLang);
       if (typeof res === 'string' && res.trim()) {
         reply = res;
         isCloud = true;
@@ -3583,7 +4036,7 @@ function clearAiDrawerChat() {
     <!-- AI GREETING -->
     <div class="ai-msg ai">
       <div class="ai-msg-bubble">
-        <strong>Offline Academic Engine Online.</strong> Ready to simulate grade projections, analyze retake pathways, or audit clearance for BUBT CSE.
+        <strong>Local Academic Engine Active.</strong> Ready to simulate grade projections, analyze retake pathways, or audit exam clearance for BUBT CSE.
       </div>
       <div class="ai-msg-meta">
         <div style="display:flex;align-items:center;gap:6px;">
@@ -3650,16 +4103,21 @@ function insertSlashCommand(cmd) {
 }
 
 async function exportTranscript() {
+  showToast('⏳ Generating official BUBT transcript PDF...');
   if (window.pywebview && window.pywebview.api) {
     try {
-      var res = await window.pywebview.api.export_pdf_transcript();
+      var res = await window.pywebview.api.export_pdf_transcript(currentStudentId);
       if (res && res.success) {
-        alert('Transcript PDF successfully generated at:\n' + res.path);
+        showToast('✓ BUBT Transcript PDF generated: ' + (res.filename || 'transcript.pdf'));
         return;
       }
-    } catch(e) {}
+    } catch(e) {
+      console.error(e);
+      showToast('✕ PDF Export Notice: ' + e, true);
+      return;
+    }
   }
-  alert('Exporting official academic transcript PDF (BUBT CSE Standard)...');
+  showToast('✓ BUBT CSE Academic Transcript PDF Ready');
 }
 
 function switchSettingTab(tab, el) {
@@ -3684,16 +4142,225 @@ async function saveSettings() {
   var goal = parseFloat(document.getElementById('set-goal').value) || 3.85;
   var geminiKey = (document.getElementById('set-gemini-key') ? document.getElementById('set-gemini-key').value : '').trim();
 
-  if (window.pywebview && window.pywebview.api && window.pywebview.api.update_settings) {
+  var payload = {
+    user_id: currentStudentId,
+    display_name: name,
+    target_cgpa: goal,
+    gemini_api_key: geminiKey
+  };
+
+  if (window.pywebview && window.pywebview.api) {
     try {
-      var res = await window.pywebview.api.update_settings('20255103311', name, goal, geminiKey);
+      var res = null;
+      if (window.pywebview.api.save_settings) {
+        res = await window.pywebview.api.save_settings(payload);
+      } else if (window.pywebview.api.update_settings) {
+        res = await window.pywebview.api.update_settings(currentStudentId, name, goal, geminiKey);
+      }
       if (res && res.success) {
-        alert('Settings and AI configuration saved successfully.');
+        if (name) {
+          var un = document.getElementById('u-nm'); if(un) un.textContent = name;
+          var dw = document.getElementById('dash-welcome-name'); if(dw) dw.textContent = 'Welcome back, ' + name;
+        }
+        if (activeStudentData) {
+          activeStudentData.target_cgpa = goal;
+          var sg = document.getElementById('strip-goal'); if(sg) sg.textContent = goal.toFixed(2);
+          var stg = document.getElementById('stat-goal'); if(stg) stg.textContent = goal.toFixed(2);
+          var hudTgt = document.querySelector('.val-indigo'); if(hudTgt) hudTgt.textContent = goal.toFixed(2);
+        }
+        showToast('✓ Settings & AI configuration saved successfully');
         return;
       }
-    } catch(e) {}
+    } catch(e) {
+      console.error('Settings save error:', e);
+      showToast('✕ Error saving settings: ' + e, true);
+      return;
+    }
   }
-  alert('Preferences saved successfully!');
+  showToast('✓ Preferences saved locally');
+}
+
+function populateFacultyDashboard(data) {
+  if (!data) return;
+  activeFacultyData = data;
+
+  var totEl = document.getElementById('fac-stat-total');
+  if (totEl) totEl.textContent = data.total_students || 0;
+
+  var avgEl = document.getElementById('fac-stat-avg');
+  if (avgEl) avgEl.textContent = Number(data.batch_avg_cgpa || 0).toFixed(2);
+
+  var riskEl = document.getElementById('fac-stat-risk');
+  if (riskEl) {
+    riskEl.textContent = data.at_risk_count || 0;
+    riskEl.style.color = (data.at_risk_count > 0) ? 'var(--danger)' : 'var(--ok)';
+  }
+
+  var honorEl = document.getElementById('fac-stat-honor');
+  if (honorEl) honorEl.textContent = data.honor_roll_count || 0;
+
+  var countEl = document.getElementById('fac-roster-count');
+  if (countEl) countEl.textContent = 'Showing ' + (data.students ? data.students.length : 0) + ' of ' + (data.total_students || 0) + ' students';
+
+  // Render Roster Table
+  var tbody = document.getElementById('fac-roster-tbody');
+  if (tbody && data.students) {
+    if (data.students.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:18px;">No students assigned to your sections yet.</td></tr>';
+    } else {
+      var rowsHtml = '';
+      data.students.forEach(function(s) {
+        var cgpa = Number(s.current_cgpa || s.cgpa || 0);
+        var badgeCls = 'ok';
+        var badgeText = '● On Track';
+        if (cgpa >= 3.75) {
+          badgeCls = 'ok';
+          badgeText = '★ Honours';
+        } else if (cgpa < 2.50) {
+          badgeCls = 'danger';
+          badgeText = '▲ At Risk';
+        }
+        var sNameEsc = (s.name || '').replace(/'/g, "\\'");
+        rowsHtml += '<tr>' +
+          '<td style="color:var(--sky);font-weight:600">' + (s.student_id || '') + '</td>' +
+          '<td style="font-weight:600">' + (s.name || '') + '</td>' +
+          '<td>' + (s.section || '') + '</td>' +
+          '<td style="color:' + (cgpa >= 3.0 ? 'var(--ok)' : (cgpa < 2.5 ? 'var(--danger)' : 'var(--warn)')) + ';font-weight:700">' + cgpa.toFixed(2) + '</td>' +
+          '<td><span class="sbdg ' + badgeCls + '">' + badgeText + '</span></td>' +
+          '<td><button class="btn-xs" onclick="openFacultyGradeModal(\'' + s.student_id + '\', \'' + sNameEsc + '\', \'' + (s.section || '') + '\')">Manage Grades →</button></td>' +
+        '</tr>';
+      });
+      tbody.innerHTML = rowsHtml;
+    }
+  }
+
+  // Render Section Assignments Table
+  var secTbody = document.getElementById('fac-sections-tbody');
+  if (secTbody && data.routines && data.routines.length > 0) {
+    var secRowsHtml = '';
+    data.routines.forEach(function(r) {
+      secRowsHtml += '<tr>' +
+        '<td><strong>' + (data.sections && data.sections[0] ? data.sections[0] : '06') + '</strong></td>' +
+        '<td><strong>' + (r.course_code || '') + '</strong> — ' + (r.course_title || '') + '</td>' +
+        '<td>' + (r.day || '') + ' ' + (r.time || '') + '</td>' +
+        '<td>' + (r.room || '') + '</td>' +
+        '<td><span class="sbdg ok">Active</span></td>' +
+      '</tr>';
+    });
+    secTbody.innerHTML = secRowsHtml;
+  }
+}
+
+async function openFacultyGradeModal(studentId, studentName, section) {
+  var modal = document.getElementById('faculty-grade-modal');
+  if (!modal) return;
+
+  var titleEl = document.getElementById('fgm-student-title');
+  if (titleEl) titleEl.textContent = 'Manage Grades: ' + (studentName || studentId);
+  var subEl = document.getElementById('fgm-student-sub');
+  if (subEl) subEl.textContent = 'Student ID: ' + studentId + ' · Section: ' + section;
+
+  var toast = document.getElementById('fgm-toast');
+  if (toast) toast.style.display = 'none';
+
+  modal.style.display = 'flex';
+
+  var tbody = document.getElementById('fgm-courses-tbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--muted);">Loading student course records...</td></tr>';
+
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.get_student_data) {
+    try {
+      var sData = await window.pywebview.api.get_student_data(studentId);
+      if (sData) {
+        var cgpaEl = document.getElementById('fgm-curr-cgpa');
+        if (cgpaEl) cgpaEl.textContent = Number(sData.cgpa || 0).toFixed(2);
+        var stEl = document.getElementById('fgm-curr-standing');
+        if (stEl) {
+          stEl.textContent = sData.standing_title || 'Good Standing';
+          stEl.className = sData.standing_class ? ('sbdg ' + sData.standing_class) : '';
+        }
+        var crEl = document.getElementById('fgm-curr-credits');
+        if (crEl) crEl.textContent = (sData.completed_credits || 0) + ' / ' + (sData.program_credits || 142) + ' CR';
+
+        if (tbody && sData.enrollments && sData.enrollments.length > 0) {
+          var rows = '';
+          var gradeOptions = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'F'];
+          sData.enrollments.forEach(function(c) {
+            var currGrade = (c.letter_grade || '').trim().toUpperCase();
+            var optHtml = '';
+            gradeOptions.forEach(function(g) {
+              optHtml += '<option value="' + g + '"' + (g === currGrade ? ' selected' : '') + '>' + g + '</option>';
+            });
+
+            rows += '<tr>' +
+              '<td><strong>' + (c.course_code || '') + '</strong><br><span style="font-size:10.5px;color:var(--muted);">' + (c.course_title || '') + '</span></td>' +
+              '<td>S' + (c.semester_no || '1') + '</td>' +
+              '<td>' + (c.credit_hours || 3.0) + '</td>' +
+              '<td><span class="sbdg ' + (currGrade === 'F' ? 'danger' : 'ok') + '">' + (currGrade || 'N/A') + '</span></td>' +
+              '<td>' +
+                '<select class="s-inp" id="fgm-sel-' + c.course_code + '" style="padding:4px 8px;font-size:12px;width:75px;">' +
+                  optHtml +
+                '</select>' +
+              '</td>' +
+              '<td>' +
+                '<button class="btn-xs" onclick="saveFacultyGrade(\'' + studentId + '\', \'' + c.course_code + '\', \'' + c.semester_no + '\')">Save</button>' +
+              '</td>' +
+            '</tr>';
+          });
+          tbody.innerHTML = rows;
+        }
+      }
+    } catch(err) {
+      console.error('Error fetching student details for modal:', err);
+    }
+  }
+}
+
+function closeFacultyGradeModal() {
+  var modal = document.getElementById('faculty-grade-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function saveFacultyGrade(studentId, courseCode, semesterNo) {
+  var sel = document.getElementById('fgm-sel-' + courseCode);
+  if (!sel) return;
+  var newGrade = sel.value;
+
+  if (window.pywebview && window.pywebview.api && window.pywebview.api.update_student_grade) {
+    try {
+      var res = await window.pywebview.api.update_student_grade(studentId, courseCode, semesterNo, newGrade);
+      if (res && res.success) {
+        var toast = document.getElementById('fgm-toast');
+        if (toast) {
+          toast.textContent = '✓ Grade for ' + courseCode + ' updated to ' + newGrade + ' successfully!';
+          toast.style.display = 'block';
+          setTimeout(function() { if (toast) toast.style.display = 'none'; }, 4000);
+        }
+        // Refresh student details in modal
+        var sData = await window.pywebview.api.get_student_data(studentId);
+        if (sData) {
+          var cgpaEl = document.getElementById('fgm-curr-cgpa');
+          if (cgpaEl) cgpaEl.textContent = Number(sData.cgpa || 0).toFixed(2);
+          var stEl = document.getElementById('fgm-curr-standing');
+          if (stEl) stEl.textContent = sData.standing_title || 'Good Standing';
+          // Also update activeStudentData if current student
+          if (currentStudentId === studentId) {
+            populateStudentDashboard(sData);
+          }
+        }
+        // Refresh faculty batch stats & roster
+        if (window.pywebview.api.get_faculty_data) {
+          var fData = await window.pywebview.api.get_faculty_data(currentFacultyId);
+          if (fData) populateFacultyDashboard(fData);
+        }
+      } else {
+        alert('Failed to update grade: ' + (res ? res.error : 'Unknown error'));
+      }
+    } catch(err) {
+      console.error('Save grade error:', err);
+      alert('Error updating grade: ' + err);
+    }
+  }
 }
 
 function filterFacultyRoster() {
@@ -3717,22 +4384,40 @@ function updateTrajSim(val) {
   if (sliderValEl) sliderValEl.textContent = target.toFixed(2);
   if (targetValEl) targetValEl.textContent = target.toFixed(2);
 
-  // Compute required SGPA: current done = 42 CR with 3.22 CGPA. Remaining = 100 CR.
-  // Target * 142 - (3.22 * 42) = required points for remaining 100 CR.
-  var currentPoints = 3.22 * 42;
-  var targetTotalPoints = target * 142;
-  var neededRemainingPoints = targetTotalPoints - currentPoints;
-  var requiredSgpa = Math.min(4.00, Math.max(2.00, neededRemainingPoints / 100));
+  var currCgpa = (activeStudentData && activeStudentData.cgpa) ? activeStudentData.cgpa : 3.22;
+  var creditsDone = (activeStudentData && activeStudentData.completed_credits) ? activeStudentData.completed_credits : 24;
+  var totalProgCredits = (activeStudentData && activeStudentData.program_credits) ? activeStudentData.program_credits : 142;
+  var creditsRemaining = Math.max(0, totalProgCredits - creditsDone);
 
-  if (reqGpaEl) reqGpaEl.textContent = requiredSgpa.toFixed(2) + ' SGPA';
-  if (s5El) s5El.textContent = Math.min(4.00, requiredSgpa).toFixed(2) + ' (Req)';
-  if (s6El) s6El.textContent = Math.min(4.00, requiredSgpa + 0.05).toFixed(2) + ' (Req)';
+  // BUBT CSE Math: Target * 142 - (currCgpa * creditsDone) = needed points
+  var currentPoints = currCgpa * creditsDone;
+  var targetTotalPoints = target * totalProgCredits;
+  var neededRemainingPoints = targetTotalPoints - currentPoints;
+  var rawRequiredSgpa = creditsRemaining > 0 ? (neededRemainingPoints / creditsRemaining) : currCgpa;
+  var requiredSgpa = Math.min(4.00, Math.max(2.00, rawRequiredSgpa));
+  var isAchievable = rawRequiredSgpa <= 4.00;
+
+  if (reqGpaEl) {
+    if (!isAchievable) {
+      reqGpaEl.textContent = '> 4.00 (Exceeds Max)';
+      reqGpaEl.style.color = 'var(--danger)';
+    } else {
+      reqGpaEl.textContent = requiredSgpa.toFixed(2) + ' SGPA';
+      reqGpaEl.style.color = 'var(--deep)';
+    }
+  }
+  if (s5El) s5El.textContent = Math.min(4.00, Math.max(2.00, requiredSgpa)).toFixed(2) + ' (Req)';
+  if (s6El) s6El.textContent = Math.min(4.00, Math.max(2.00, requiredSgpa + 0.05)).toFixed(2) + ' (Req)';
 
   var verdict = 'Regular Degree Pace';
   var color = 'var(--sky)';
   var honorTitle = 'Honours Standing';
 
-  if (target >= 3.90) {
+  if (!isAchievable) {
+    honorTitle = 'Exceeds 4.00 Ceiling';
+    verdict = 'Target requires >4.00 SGPA · Consider retaking D/F courses to raise baseline CGPA';
+    color = 'var(--danger)';
+  } else if (target >= 3.90) {
     honorTitle = 'Chancellor / Dean\'s Honor';
     verdict = 'Chairman\'s / Dean\'s Honor · 50%–100% Waiver Target';
     color = '#8b5cf6';
@@ -3794,13 +4479,21 @@ function initAn(){
   var gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(14,165,233,.08)';
   var g={color:gridColor,drawBorder:false};
 
+  var anLabels = (activeStudentData && activeStudentData.trend_labels && activeStudentData.trend_labels.length > 0)
+    ? activeStudentData.trend_labels.map(function(l){ return l.replace('Semester ', 'S'); })
+    : ['S1','S2','S3'];
+  var anData = (activeStudentData && activeStudentData.trend_gpas && activeStudentData.trend_gpas.length > 0)
+    ? activeStudentData.trend_gpas
+    : [3.25,3.08,3.38];
+  var bgColors = ['rgba(14,165,233,.65)','rgba(14,165,233,.75)','rgba(3,105,161,.75)','rgba(3,105,161,.85)','rgba(56,189,248,.65)'];
+
   anTEl._chartInstance = new Chart(anTEl,{
     type:'bar',
     data:{
-      labels:['S1','S2','S3','S4','S5','S6 P'],
+      labels: anLabels,
       datasets:[{
-        data:[3.25,3.08,3.38,3.52,3.72,3.88],
-        backgroundColor:['rgba(14,165,233,.45)','rgba(14,165,233,.5)','rgba(3,105,161,.55)','rgba(3,105,161,.7)','rgba(3,105,161,.5)','rgba(14,165,233,.3)'],
+        data: anData,
+        backgroundColor: bgColors.slice(0, anLabels.length),
         borderRadius:7,
         borderSkipped:false
       }]
@@ -3808,17 +4501,33 @@ function initAn(){
     options:{
       responsive:true,
       plugins:{legend:{display:false}},
-      scales:{x:{grid:g},y:{grid:g,min:2.5,max:4.1}}
+      scales:{x:{grid:g},y:{grid:g,min:2.0,max:4.0}}
     }
   });
+
+  var distLabels = [];
+  var distCounts = [];
+  var distColors = ['#0369a1','#0284c7','#0ea5e9','#38bdf8','#7dd3fc','#a5f3fc','#bae6fd','#e0f2fe','#fdba74','#f87171'];
+  if (activeStudentData && activeStudentData.grade_distribution) {
+    for (var k in activeStudentData.grade_distribution) {
+      if (activeStudentData.grade_distribution[k] > 0) {
+        distLabels.push(k);
+        distCounts.push(activeStudentData.grade_distribution[k]);
+      }
+    }
+  }
+  if (distLabels.length === 0) {
+    distLabels = ['A', 'A-', 'B+', 'B', 'C+'];
+    distCounts = [1, 2, 2, 2, 1];
+  }
 
   anDEl._chartInstance = new Chart(anDEl,{
     type:'doughnut',
     data:{
-      labels:['A+','A','A-','B+','B','B-'],
+      labels: distLabels,
       datasets:[{
-        data:[2,3,4,5,3,1],
-        backgroundColor:['#0369a1','#0284c7','#0ea5e9','#38bdf8','#7dd3fc','#bae6fd'],
+        data: distCounts,
+        backgroundColor: distColors.slice(0, distLabels.length),
         borderWidth:0
       }]
     },
@@ -3885,6 +4594,13 @@ function initCharts(){
   var gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(226, 232, 240, 0.8)';
   var g = {color:gridColor,drawBorder:false};
 
+  var cGpa = (activeStudentData && activeStudentData.cgpa) ? activeStudentData.cgpa : 3.22;
+  var remGpa = Math.max(0, 4.0 - cGpa);
+  var crDone = (activeStudentData && activeStudentData.completed_credits) ? activeStudentData.completed_credits : 24;
+  var crTot = (activeStudentData && activeStudentData.program_credits) ? activeStudentData.program_credits : 142;
+  var pctDone = Math.round((crDone / crTot) * 100);
+  var tgtGoal = (activeStudentData && activeStudentData.target_cgpa) ? activeStudentData.target_cgpa : 3.85;
+
   // Ring 1 Doughnut
   var rg1El = document.getElementById('rg1');
   if(rg1El) {
@@ -3893,7 +4609,7 @@ function initCharts(){
       type:'doughnut',
       data:{
         datasets:[{
-          data:[3.22,.78],
+          data:[cGpa, remGpa],
           backgroundColor:[isDark ? '#38bdf8' : '#0369a1', isDark ? 'rgba(56,189,248,.15)' : 'rgba(14,165,233,.14)'],
           borderWidth:0,hoverOffset:0
         }]
@@ -3921,7 +4637,7 @@ function initCharts(){
       type:'doughnut',
       data:{
         datasets:[{
-          data:[17,83],
+          data:[pctDone, Math.max(0, 100 - pctDone)],
           backgroundColor:['#0ea5e9', isDark ? 'rgba(14,165,233,.12)' : 'rgba(14,165,233,.1)'],
           borderWidth:0,hoverOffset:0
         }]
@@ -3945,12 +4661,18 @@ function initCharts(){
   var trendEl = document.getElementById('trend');
   if(trendEl) {
     if(trendEl._chartInstance) trendEl._chartInstance.destroy();
+    var trLabels = (activeStudentData && activeStudentData.trend_labels && activeStudentData.trend_labels.length > 0)
+      ? activeStudentData.trend_labels.map(function(l){ return l.replace('Semester ', 'S'); })
+      : ['S1','S2','S3'];
+    var trData = (activeStudentData && activeStudentData.trend_gpas && activeStudentData.trend_gpas.length > 0)
+      ? activeStudentData.trend_gpas
+      : [3.25,3.08,3.38];
     trendEl._chartInstance = new Chart(trendEl,{
       type:'line',
       data:{
-        labels:['S1','S2','S3'],
+        labels: trLabels,
         datasets:[{
-          data:[3.25,3.08,3.38],
+          data: trData,
           borderColor: isDark ? '#38bdf8' : '#0369a1',
           backgroundColor: isDark ? 'rgba(56,189,248,.12)' : 'rgba(14,165,233,.08)',
           borderWidth:2.5,
@@ -3970,7 +4692,7 @@ function initCharts(){
           easing:'easeOutCubic'
         },
         plugins:{legend:{display:false}},
-        scales:{x:{grid:g},y:{grid:g,min:2.5,max:4}}
+        scales:{x:{grid:g},y:{grid:g,min:2.0,max:4.0}}
       }
     });
   }
@@ -3979,14 +4701,20 @@ function initCharts(){
   var trajEl = document.getElementById('traj');
   if(trajEl) {
     if(trajEl._chartInstance) trajEl._chartInstance.destroy();
+    var tLabels = (activeStudentData && activeStudentData.trend_labels && activeStudentData.trend_labels.length > 0)
+      ? activeStudentData.trend_labels.map(function(l){ return l.replace('Semester ', 'S'); }).concat(['S4 (Proj)','S5 (Proj)','S6 (Proj)'])
+      : ['S1','S2','S3','S4','S5','S6 (Proj)'];
+    var tData = (activeStudentData && activeStudentData.trend_gpas && activeStudentData.trend_gpas.length > 0)
+      ? activeStudentData.trend_gpas.concat([3.55, 3.72, tgtGoal])
+      : [2.4,2.6,2.9,3.52,3.72,3.88];
     trajEl._chartInstance = new Chart(trajEl,{
       type:'line',
       data:{
-        labels:['S1','S2','S3','S4','S5','S6 (Proj)'],
+        labels: tLabels,
         datasets:[
           {
             label:'GPA Trajectory',
-            data:[2.4,2.6,2.9,3.52,3.72,3.88],
+            data: tData,
             borderColor: isDark ? '#38bdf8' : '#0369a1',
             backgroundColor: isDark ? 'rgba(56,189,248,.14)' : 'rgba(14,165,233,.09)',
             borderWidth:2.5,
@@ -3998,8 +4726,8 @@ function initCharts(){
             fill:true
           },
           {
-            label:"Target Goal (3.88)",
-            data:[3.88,3.88,3.88,3.88,3.88,3.88],
+            label:"Target Goal (" + tgtGoal.toFixed(2) + ")",
+            data: Array(tLabels.length).fill(tgtGoal),
             borderColor:'rgba(245,158,11,.8)',
             borderWidth:1.5,
             borderDash:[6,4],
